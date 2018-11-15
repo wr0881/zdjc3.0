@@ -1,0 +1,245 @@
+//header 头部
+.home-header {
+    position: relative;
+    min-width: 1200px;
+    height: 90px;
+    background: #fff;
+}
+
+// .home-header-content {
+//     margin: auto;
+//     width: 1200px;
+//     height: 100%;
+// }
+.home-header-content {
+    padding: 0px 40px;
+}
+
+.home-header-logo {
+    float: left;
+    margin-top: 24px;
+    width: 180px;
+    height: 42px;
+}
+
+.home-header-login img {
+    width: auto;
+    height: 100%;
+}
+
+.home-header-operate {
+    float: left;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    margin-left: 48px;
+}
+
+.yunfuwu {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    width: 424px;
+    height: 303px;
+    text-align: left;
+}
+
+.yunfuwu>div {
+    width: 176px;
+}
+
+.yunfuwu-title {
+    padding: 24px 0px 12px 0px;
+    font-size: 16px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(18, 21, 33, 1);
+}
+
+.yunfuwu-content {
+    float: left;
+    min-width: 50%;
+}
+
+.yunfuwu-content>div {
+    padding: 12px 0px;
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(60, 68, 99, 1);
+}
+
+.yunfuwu-content>div:hover {
+    color: #5D3AB3;
+    text-decoration: underline;
+}
+
+.zhichi {
+    padding: 23px 24x;
+    width: 128px;
+}
+
+.zhichi>div {
+    padding: 12px 0px;
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(60, 68, 99, 1);
+}
+
+.zhichi>div:hover {
+    color: #5D3AB3;
+    text-decoration: underline;
+}
+
+.home-header-content span {
+    font-size: 16px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(18, 21, 33, 1);
+}
+
+.home-header-login>div {
+    float: right;
+    height: 90px;
+    text-align: center;
+}
+
+.home-user {
+    position: relative;
+    padding: 25px 4px;
+    width: 144px;
+    height: 90px;
+}
+
+.user-avatar {
+    float: left;
+    width: 40px;
+    height: 40px;
+    border: 1px dashed #000;
+}
+
+.user-name {
+    float: left;
+    margin-left: 10px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(18, 21, 33, 1);
+}
+
+.user-type {
+    float: left;
+    margin-left: 10px;
+    margin-top: 4px;
+    padding: 0px 5px;
+    height: 17px;
+    line-height: 17px;
+    background: rgba(255, 186, 71, 1);
+    border-radius: 2px;
+    font-size: 12px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 1);
+}
+
+.user-icon {
+    float: right;
+    width: 8px;
+    height: 8px;
+    border: 1px dashed #000;
+}
+
+.user-content {
+    padding: 24px;
+    width: 160px;
+    text-align: left;
+}
+
+.user-content-item>div {
+    padding: 12px 0px;
+    line-height: 20px;
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(60, 68, 99, 1);
+}
+
+.user-content>div:first-child {
+    padding-bottom: 12px;
+    line-height: 22px;
+    font-size: 16px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(18, 21, 33, 1);
+    border-bottom: 1px solid #ECEAF3;
+}
+
+.user-content>div:last-child {
+    padding-top: 12px;
+    line-height: 20px;
+    font-size: 14px;
+    font-family: PingFangSC-Semibold;
+    font-weight: 600;
+    color: rgba(18, 21, 33, 1);
+    border-top: 1px solid #ECEAF3;
+}
+
+.user-content-item>div:hover {
+    color: #5D3AB3;
+    text-decoration: underline;
+}
+
+.version {
+    position: relative;
+    padding: 33px 20px;
+}
+
+.version-content {
+    height: 24px;
+    line-height: 24px;
+    border-radius: 3px;
+    border: 1px solid #7D85A6;
+}
+
+.version-title {
+    display: inline-block;
+    padding-left: 6px;
+    vertical-align: top;
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(18, 21, 33, 1);
+}
+
+.version-icon {
+    display: inline-block;
+    margin: 0px 6px;
+    width: 12px;
+    height: 12px;
+    border: 1px dashed #000;
+}
+
+//panel
+.panel {
+    position: relative;
+    min-width: 128px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.panel:hover {
+    background: #ECEAF3;
+    border-bottom: 3px solid #4611CD;
+}
+
+.panel-content {
+    position: absolute;
+    top: 90px;
+    left: 0px;
+    z-index: 9999;
+    background: #fff;
+    box-shadow: 0px 2px 8px 0px rgba(60, 68, 99, 0.16);
+}

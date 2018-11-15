@@ -1,0 +1,125 @@
+//sass定义
+.text-overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+//组件定义
+.overview {
+    padding: 24px 0px;
+    height: 100%;
+}
+
+.overview-dec {
+    display: flex;
+    height: 286px;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.overview-dec>div:nth-child(1) {
+    flex: 1 1 896px;
+    margin-right: 16px;
+}
+
+.overview-dec>div:nth-child(2) {
+    flex: 1 1 318px;
+    margin-right: 16px;
+}
+
+.overview-dec>div:nth-child(3) {
+    flex: 1 1 318px;
+}
+
+.resource-overview-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.resource-overview-item {
+    // width: 40px;
+    // height: 87px;
+    padding-bottom: 16px;
+    text-align: left;
+    border-bottom: 4px solid;
+}
+
+.resource-overview-item-num {
+    font-size: 32px;
+    font-family: DINAlternate-Bold;
+    font-weight: bold;
+    color: #121521;
+}
+
+.resource-overview-item-type {
+    margin-top: 8px;
+    font-size: 16px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: #3C4463;
+}
+
+.overview-alarm-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.overview-alarm-item {
+    @extend .text-overflow-ellipsis;
+    position: relative;
+    margin-top: 20px;
+    padding: 0 20px 0 38px;
+    height: 22px;
+    line-height: 22px;
+}
+
+.overview-alarm-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 24px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #EA4C48;
+    border-radius: 50%;
+}
+
+.overview-coming-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+
+.overview-coming-item {
+    @extend .text-overflow-ellipsis;
+    position: relative;
+    margin-top: 20px;
+    padding: 0 20px 0 38px;
+    height: 22px;
+    line-height: 22px;
+}
+
+.overview-coming-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 24px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #32D184;
+    border-radius: 50%;
+}
+
+.overview-project {
+    margin-top: 16px;
+    height: 800px;
+}
