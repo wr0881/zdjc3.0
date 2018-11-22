@@ -1,0 +1,33 @@
+.breadcrumb {
+    padding: 24px 0px;
+    font-size: 14px;
+    color: #3C4463;
+}
+
+.detail-content-title{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    height: 62px;
+    background-color: #FAFBFF;
+    box-shadow:0px 1px 0px 0px #ECEAF3;
+}
+
+.detail-content-title-item{
+    width: 122px;
+    height: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.detail-content-title-item>div:first-child{
+    margin: 8px auto 4px;
+    width: 24px;
+    height: 24px;
+    border: 1px dashed #000;
+}
+
+.detail-content-title-item-active{
+    color: #5D3AB3;
+    border-bottom: 2px solid #5D3AB3;
+}

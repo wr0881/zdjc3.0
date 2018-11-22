@@ -12,20 +12,13 @@ $card-title-height:68px;
     white-space: nowrap;
 }
 
-.icon {
-    @extend .vertical-center;
-    width: 24px;
-    height: 24px;
-    border: 1px dashed #000;
-}
-
 //组件定义
 .card {
     height: 100%;
     background-color: #fff;
     border-radius: 8px;
     border: 1px solid #ECEAF3;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .card-title {
@@ -42,12 +35,16 @@ $card-title-height:68px;
     height: 100%;
 }
 
+.card-title-icon-content{
+    @extend .vertical-center;
+    border: 1px dashed #000;
+}
+
 .card-title-text {
     @extend .text-overflow-ellipsis;
     height: $card-title-height;
     line-height: $card-title-height;
     font-size: 22px;
-    font-family: PingFangSC-Regular;
     font-weight: 400;
     color: #121521;
 }

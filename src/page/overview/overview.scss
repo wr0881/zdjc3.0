@@ -51,7 +51,6 @@
 
 .resource-overview-item-num {
     font-size: 32px;
-    font-family: DINAlternate-Bold;
     font-weight: bold;
     color: #121521;
 }
@@ -59,7 +58,6 @@
 .resource-overview-item-type {
     margin-top: 8px;
     font-size: 16px;
-    font-family: PingFangSC-Regular;
     font-weight: 400;
     color: #3C4463;
 }
@@ -97,7 +95,6 @@
     overflow: auto;
 }
 
-
 .overview-coming-item {
     @extend .text-overflow-ellipsis;
     position: relative;
@@ -121,5 +118,43 @@
 
 .overview-project {
     margin-top: 16px;
-    height: 800px;
+}
+
+.overview-project-content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    padding: 0 16px;
+}
+
+.overview-project-item {
+    margin-top: 16px;
+    width: calc(50% - 8px);
+    height: 448px;
+}
+
+.overview-project-item:nth-child(2n) {
+    margin-left: 16px;
+}
+
+.overview-item-content {
+    padding: 0 24px;
+}
+
+.overview-item-title {
+    margin-top: 20px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(18, 21, 33, 1);
+}
+
+.overview-item-dec {
+    margin-top: 15px;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(18, 21, 33, 1);
+    border: 1px dashed #000;
 }

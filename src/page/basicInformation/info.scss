@@ -1,0 +1,23 @@
+.basicInformation {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+.basicInformation-wrapper {
+    flex: 0 0 33.33333%;
+    padding: 24px;
+    height: 240px;
+    border: 1px solid #ECEAF3;
+}
+
+.basicInformation-title {
+    margin-bottom: 12px;
+    font-size: 20px;
+    color: #121521;
+}
+
+.basicInformation-dec {
+    font-size: 16px;
+    color: #3C4463;
+}

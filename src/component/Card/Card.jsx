@@ -12,7 +12,7 @@ class Card extends Component {
             <div className={`card ${className ? className : ''}`} style={style}>
                 <div className="card-title">
                     <div className="card-title-icon">
-                        {icon}
+                        <div className="card-title-icon-content">{icon}</div>
                     </div>
                     <div className="card-title-text">{text}</div>
                 </div>
