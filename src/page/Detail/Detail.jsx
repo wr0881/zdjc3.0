@@ -3,6 +3,7 @@ import Card from 'component/Card/Card';
 import BasicInformation from 'page/basicInformation/info';
 import PeopleInformation from 'page/peopleInformation/info';
 import DeviceInformation from 'page/deviceInformation/info';
+import BluePrint from 'page/blueprint/blueprint';
 import './Detail.scss';
 
 class Detail extends Component {
@@ -44,7 +45,7 @@ class Detail extends Component {
                             {/* 2,设备信息 */}
                             {title_index === 2 ? <DeviceInformation /> : null}
                             {/* 3,项目图纸 */}
-                            {title_index === 3 ? <Content title='项目图纸' /> : null}
+                            {title_index === 3 ? <BluePrint /> : null}
                             {/* 4,bim */}
                             {title_index === 4 ? <Content title='bim' /> : null}
                             {/* 5,数据监控 */}

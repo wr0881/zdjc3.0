@@ -1,0 +1,38 @@
+.blueprint{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    margin: 24px;
+    background-color: #F4F7FC;
+    border-radius:4px;
+    border:1px solid #ECEAF3;
+}
+
+.blueprint-operate{
+    flex: 0 0 132px;
+    padding: 12px 0px 0px 0px;
+    // width: 132px;
+    border-right:1px solid #ECEAF3;
+}
+
+.blueprint-img{
+    flex: 1 1 auto;
+    height: 500px;
+    padding: 16px;
+    overflow: auto;
+    // background-color: #000;
+}
+
+//antd 样式
+.blueprint-operate li.ant-tree-treenode-disabled>.ant-tree-node-content-wrapper span,
+.blueprint-operate li.ant-tree-treenode-disabled>span:not(.ant-tree-switcher){
+    font-size: 16px;
+    font-weight: 600;
+    color: #3C4463;
+    cursor: default;
+}
+
+.blueprint-operate .ant-tree li .ant-tree-node-content-wrapper.ant-tree-node-selected {
+    color: #5D3AB3;
+    background-color: inherit;
+}
