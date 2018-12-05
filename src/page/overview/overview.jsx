@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Card from 'component/Card/Card';
+import Chart from './chart';
 import './overview.scss';
 
 class overview extends Component {
@@ -86,38 +87,72 @@ class overview extends Component {
                                     <div className="overview-item-title">项目描述</div>
                                     <div className="overview-item-dec">项目地位于深圳市高新技术产业园南区,地处高新区核心地带。项目东临沙河西路、西至科技南路、南临高新南十道、北至白石路。基坑占地面积约4万平米，基坑深度约13.7米。拟建地下室3层。基坑工程的支护安全等级为一级。</div>
                                     <div className="overview-item-chart-wrapper">
-                                        <div className="overview-item-chart-dec"></div>
-                                        <div className="overview-item-chart"></div>
+                                        <div className="overview-item-chart-dec">
+                                            <div>544</div>
+                                            <div>总预警(次)</div>
+                                        </div>
+                                        <div className="overview-item-chart">
+                                            <Chart />
+                                        </div>
                                     </div>
                                 </div>
                             </Card>
                             <Card
                                 icon={<div style={{ width: '8px', height: '8px' }}></div>}
-                                text='地铁二号线'
+                                text='地铁三号线'
                                 className='overview-project-item'
                             >
-                                2
+                                <div className="overview-item-content">
+                                    <div className="overview-item-title">项目描述</div>
+                                    <div className="overview-item-dec">项目地位于深圳市高新技术产业园南区,地处高新区核心地带。项目东临沙河西路、西至科技南路、南临高新南十道、北至白石路。基坑占地面积约4万平米，基坑深度约13.7米。拟建地下室3层。基坑工程的支护安全等级为一级。</div>
+                                    <div className="overview-item-chart-wrapper">
+                                        <div className="overview-item-chart-dec">
+                                            <div>544</div>
+                                            <div>总预警(次)</div>
+                                        </div>
+                                        <div className="overview-item-chart">
+                                            <Chart />
+                                        </div>
+                                    </div>
+                                </div>
                             </Card>
                             <Card
                                 icon={<div style={{ width: '8px', height: '8px' }}></div>}
-                                text='地铁二号线'
+                                text='地铁四号线'
                                 className='overview-project-item'
                             >
-                                3
+                                <div className="overview-item-content">
+                                    <div className="overview-item-title">项目描述</div>
+                                    <div className="overview-item-dec">项目地位于深圳市高新技术产业园南区,地处高新区核心地带。项目东临沙河西路、西至科技南路、南临高新南十道、北至白石路。基坑占地面积约4万平米，基坑深度约13.7米。拟建地下室3层。基坑工程的支护安全等级为一级。</div>
+                                    <div className="overview-item-chart-wrapper">
+                                        <div className="overview-item-chart-dec">
+                                            <div>544</div>
+                                            <div>总预警(次)</div>
+                                        </div>
+                                        <div className="overview-item-chart">
+                                            <Chart />
+                                        </div>
+                                    </div>
+                                </div>
                             </Card>
                             <Card
                                 icon={<div style={{ width: '8px', height: '8px' }}></div>}
-                                text='地铁二号线'
+                                text='地铁五号线'
                                 className='overview-project-item'
                             >
-                                4
-                            </Card>
-                            <Card
-                                icon={<div style={{ width: '8px', height: '8px' }}></div>}
-                                text='地铁二号线'
-                                className='overview-project-item'
-                            >
-                                4
+                                <div className="overview-item-content">
+                                    <div className="overview-item-title">项目描述</div>
+                                    <div className="overview-item-dec">项目地位于深圳市高新技术产业园南区,地处高新区核心地带。项目东临沙河西路、西至科技南路、南临高新南十道、北至白石路。基坑占地面积约4万平米，基坑深度约13.7米。拟建地下室3层。基坑工程的支护安全等级为一级。</div>
+                                    <div className="overview-item-chart-wrapper">
+                                        <div className="overview-item-chart-dec">
+                                            <div>544</div>
+                                            <div>总预警(次)</div>
+                                        </div>
+                                        <div className="overview-item-chart">
+                                            <Chart />
+                                        </div>
+                                    </div>
+                                </div>
                             </Card>
                         </div>
                     </Card>

@@ -4,6 +4,7 @@ import BasicInformation from 'page/basicInformation/info';
 import PeopleInformation from 'page/peopleInformation/info';
 import DeviceInformation from 'page/deviceInformation/info';
 import BluePrint from 'page/blueprint/blueprint';
+import DataMonitor from 'page/dataMonitor/dataMonitor';
 import './Detail.scss';
 
 class Detail extends Component {
@@ -17,7 +18,13 @@ class Detail extends Component {
         const { title_index } = this.state;
         return (
             <div className="detail">
-                <div className="breadcrumb">项目管理 / 地铁六号线运行监测项目</div>
+                <div className="breadcrumb">
+                    <span style={{ cursor: 'pointer' }}
+                        onClick={_ => { this.props.history.push('/project/manage') }}
+                    >项目管理</span>
+                    &nbsp;/
+                    地铁六号线运行监测项目
+                </div>
                 <Card
                     icon={<div style={{ width: '24px', height: '24px' }}></div>}
                     text='地铁六号线运行监测项目'
@@ -49,7 +56,7 @@ class Detail extends Component {
                             {/* 4,bim */}
                             {title_index === 4 ? <Content title='bim' /> : null}
                             {/* 5,数据监控 */}
-                            {title_index === 5 ? <Content title='数据监控' /> : null}
+                            {title_index === 5 ? <DataMonitor /> : null}
                             {/* 6,视频监控 */}
                             {title_index === 6 ? <Content title='视频监控' /> : null}
                             {/* 7,项目告警 */}

@@ -6,17 +6,26 @@
     margin: 0px 24px 33px;
 }
 
-.manage-operate-wrapper{
+.manage-operate-wrapper {
     padding-top: 20px;
     height: 100px;
 }
 
-.manage-export-btn{
+.manage-export-btn {
     float: left;
 }
 
-.manage-search-input{
+.manage-search-input {
     float: right;
+}
+
+.k-select {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.k-select:hover {
+    color: #5D3AB3;
 }
 
 //插件样式

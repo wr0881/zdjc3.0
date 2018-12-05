@@ -5,9 +5,10 @@
     background-color: #858DC9;
     color: #fff;
     border-radius: 4px;
+    cursor: pointer;
 }
 
-.typeitem-active {
+.typeitem:hover {
     background-color: #7456BE;
     color: #fff;
 }

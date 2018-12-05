@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class ProjectAlarm extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            alarm: {
+                sensorErrorCount: '--',
+                terminalErrorCount: '--',
+                projectAlarmCount: '--',
+                speedChangeErrorCount: '--',
+                singleChangeErrorCount: '--',
+                totalChangeErrorCount: '--'
+            }
+        }
     }
     render() {
+        const { alarm } = this.state;
         return (
             <div className="projecttype">
                 <div className="projecttype-title">
@@ -18,16 +29,27 @@ class ProjectAlarm extends Component {
                 </div>
                 <div className="projecttype-content-wrapper">
                     <div className="projectalarm-content">
-                        <ProjectAlarmItem num='4' name='传感器异常'/>
-                        <ProjectAlarmItem num='0' name='终端异常' />
-                        <ProjectAlarmItem num='2' name='项目告警' />
-                        <ProjectAlarmItem num='-13.345' name='异常变化量' color='#3C4463' />
-                        <ProjectAlarmItem num='1.321' name='单次变化量' color='#3C4463' />
-                        <ProjectAlarmItem num='18.235' name='累计变化量' color='#3C4463' />
+                        <ProjectAlarmItem num={alarm.sensorErrorCount} name='传感器异常' />
+                        <ProjectAlarmItem num={alarm.terminalErrorCount} name='终端异常' />
+                        <ProjectAlarmItem num={alarm.projectAlarmCount} name='项目告警' />
+                        <ProjectAlarmItem num={alarm.levelOneCount} name='一级告警数' color='#3C4463' />
+                        <ProjectAlarmItem num={alarm.levelTwoCount} name='二级告警数' color='#3C4463' />
+                        <ProjectAlarmItem num={alarm.levelThreeCount} name='三级告警数' color='#3C4463' />
                     </div>
                 </div>
             </div>
         );
+    }
+    componentDidMount() {
+        this.getAlarm();
+    }
+    getAlarm() {
+        axios.get('/alarm/queryAlarmErrorCounts').then(res => {
+            const { code, data } = res.data;
+            if (code === 0) {
+                this.setState({ alarm: data });
+            }
+        })
     }
 }
 

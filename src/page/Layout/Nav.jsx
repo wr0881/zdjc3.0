@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 class Nav extends Component {
     constructor(props) {
@@ -10,14 +11,24 @@ class Nav extends Component {
         return (
             <div className={className}>
                 <div className="nav-title">地铁自动化监测</div>
-                <div className="nav-item nav-item-active">
-                    <div className="nav-item-icon"></div>
-                    <div className="nav-item-title">概览</div>
-                </div>
-                <div className="nav-item">
-                    <div className="nav-item-icon"></div>
-                    <div className="nav-item-title">项目管理</div>
-                </div>
+                <NavLink
+                    to='/project/overview'
+                    activeClassName='nav-item-active'
+                >
+                    <div className="nav-item">
+                        <div className="nav-item-icon"></div>
+                        <div className="nav-item-title">概览</div>
+                    </div>
+                </NavLink>
+                <NavLink
+                    to='/project/manage'
+                    activeClassName='nav-item-active'
+                >
+                    <div className="nav-item">
+                        <div className="nav-item-icon"></div>
+                        <div className="nav-item-title">项目管理</div>
+                    </div>
+                </NavLink>
                 <div className="nav-item">
                     <div className="nav-item-icon"></div>
                     <div className="nav-item-title">视频监控</div>

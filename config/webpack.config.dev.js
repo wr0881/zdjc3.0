@@ -153,6 +153,7 @@ module.exports = {
       'common': path.join(__dirname, '../', 'src/common'),
       'component': path.join(__dirname, '../', 'src/component'),
       'page': path.join(__dirname, '../', 'src/page'),
+      'store': path.join(__dirname, '../', 'src/store'),
     },
     plugins: [
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding

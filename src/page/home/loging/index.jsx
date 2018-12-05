@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Auth from 'component/Auth/Auth';
 import Header from 'component/header/header';
 import ProjectType from './projecttype';
 import ProjectAlarm from './projectalarm';
@@ -13,6 +14,7 @@ class Loging extends Component {
     render() {
         return (
             <div className="loging">
+                <Auth />
                 <Header />
                 <div className="loging-wrapper">
                     <div className="loging-content">
