@@ -1,7 +1,7 @@
 import { observable } from 'mobx';
 
 class User {
-    @observable isLogin = true;
+    @observable isLogin = false;
     @observable userName = '';
 }
 

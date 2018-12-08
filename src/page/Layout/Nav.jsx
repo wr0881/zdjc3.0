@@ -33,10 +33,15 @@ class Nav extends Component {
                     <div className="nav-item-icon"></div>
                     <div className="nav-item-title">视频监控</div>
                 </div>
-                <div className="nav-item">
-                    <div className="nav-item-icon"></div>
-                    <div className="nav-item-title">BIM</div>
-                </div>
+                <NavLink
+                    to='/project/bim'
+                    activeClassName='nav-item-active'
+                >
+                    <div className="nav-item">
+                        <div className="nav-item-icon"></div>
+                        <div className="nav-item-title">BIM</div>
+                    </div>
+                </NavLink>
             </div>
         );
     }

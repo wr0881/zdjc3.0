@@ -1,8 +1,13 @@
 @import './reset.scss';
-
 * {
     box-sizing: border-box;
     user-select: none;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    vertical-align: top;
 }
 
 // @font-face{

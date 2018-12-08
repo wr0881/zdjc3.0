@@ -23,7 +23,13 @@ class Chart extends Component {
 
         const option = {
             color: ['#FE9E84', '#FF9A3A', '#EB4E4A'],
-            grid: { top: '50', bottom: '25', left: '30', right: '0' },
+            grid: {
+                top: '30',
+                bottom: '0',
+                left: '0',
+                right: '0',
+                containLabel: true
+            },
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {

@@ -1,7 +1,6 @@
 .loging-wrapper {
     min-height: calc(100vh - 90px);
     background-color: #F4F7FC;
-    border-top: 1px solid rgb(236, 234, 243);
     box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.08);
 }
 
@@ -36,45 +35,42 @@
     border-radius: 8px;
 }
 
-.projecttype-title {
+.projecttype-title-wrapper {
+    position: relative;
     padding: 19px 24px;
     height: 68px;
     background: #FAFBFF;
     border-bottom: 1px solid #ECEAF3;
 }
 
-.projecttype-title-logo {
-    float: left;
-    margin-top: 3px;
-    width: 24px;
-    height: 24px;
-    border: 1px dashed #000;
+.projecttype-title{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .projecttype-title-text {
-    float: left;
     padding-left: 16px;
     font-size: 22px;
-    font-weight: 400;
     color: rgba(18, 21, 33, 1);
-    line-height: 30px;
 }
 
-.projecttype-title-type {
-    float: right;
+.projecttype-title-operate {
+    position: absolute;
+    top: 19px;
+    right: 24px;
     height: 30px;
     border-radius: 4px;
     font-size: 12px;
-    font-weight: 400;
     color: rgba(60, 68, 99, 1);
 }
 
-.projecttype-title-type-active {
+.projecttype-title-operate-active {
     color: #5D3AB3;
     border: 1px solid #5D3AB3 !important;
 }
 
-.projecttype-title-type>div {
+.projecttype-title-operate>div {
     width: 80px;
     height: 100%;
     float: left;
@@ -84,11 +80,11 @@
     cursor: pointer;
 }
 
-.projecttype-title-type>div:nth-child(1) {
+.projecttype-title-operate>div:nth-child(1) {
     border-radius: 8px 0px 0px 8px;
 }
 
-.projecttype-title-type>div:nth-child(2) {
+.projecttype-title-operate>div:nth-child(2) {
     border-radius: 0px 8px 8px 0px;
 }
 
@@ -131,9 +127,12 @@
 }
 
 .projectalarm-title-type {
-    float: right;
+    position: absolute;
+    top: 20px;
+    right: 24px;
     height: 30px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .projectalarm-more {
@@ -150,7 +149,6 @@
     margin-left: 8px;
     width: 16px;
     height: 16px;
-    border: 1px dashed #000;
 }
 
 .projectalarm-content {

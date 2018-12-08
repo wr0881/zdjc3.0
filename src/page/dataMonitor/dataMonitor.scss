@@ -1,21 +1,109 @@
-.dataMonitor-wrapper{
+.dataMonitor-wrapper {
     width: 100%;
-    height: calc(100vh - 310px);
+    min-height: calc(100vh - 310px);
 }
 
-.point-map-wrapper{
+.point-map-wrapper {
     padding: 10px;
     width: 100%;
     height: 429px;
     overflow: hidden;
 }
 
-.point-detail-operate{
+.point-detail-operate {
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
-    height: 90px;
+    padding: 0px 24px;
+    height: 70px;
     background-color: #FAFBFF;
     border: 1px solid #ECEAF3;
+}
+
+.point-detail-operate>span {
+    margin-right: 16px;
+}
+
+.point-detail-operate-timeselect {
+    margin-left: 16px;
+    width: 76px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    color: #fff;
+    background: #937BCF;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    cursor: pointer;
+}
+
+.point-detail-content {
+    display: flex;
+}
+
+.point-detail-table-wrapper {
+    flex: 1 1 45%;
+    padding: 16px;
+}
+
+.point-detail-table1 {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    border-right: 1px solid #DFDDEC;
+    border-bottom: 1px solid #DFDDEC;
+}
+
+.point-detail-table1-item {
+    flex: 1 1 50%;
+}
+
+.point-detail-table1-item>span {
+    display: inline-block;
+    width: 50%;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-left: 1px solid #DFDDEC;
+    border-top: 1px solid #DFDDEC;
+}
+
+.point-detail-table1-item>span:nth-child(1) {
+    background-color: #F4F7FC;
+}
+
+.point-detail-table2 {
+    display: flex;
+    margin-top: 16px;
+    border-right: 1px solid #DFDDEC;
+    border-bottom: 1px solid #DFDDEC;
+}
+
+.point-detail-table2-item {
+    flex: 1 1 25%;
+}
+
+.point-detail-table2-item>span {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border-left: 1px solid #DFDDEC;
+    border-top: 1px solid #DFDDEC;
+}
+
+.point-detail-table2-item>span:nth-child(1) {
+    background-color: #F4F7FC;
+}
+
+.point-detail-chart-wrapper {
+    flex: 1 1 55%;
+    padding: 16px;
+    height: 210px;
+}
+
+.point-detail-chart {
+    width: 100%;
+    height: 188px;
 }

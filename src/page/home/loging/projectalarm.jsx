@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+import iconRinghtImg from 'common/image/向右箭头2.png';
+import iconAlarm from 'common/image/icon_主页_告警.png';
 
+@withRouter
 class ProjectAlarm extends Component {
     constructor(props) {
         super(props);
@@ -9,9 +13,9 @@ class ProjectAlarm extends Component {
                 sensorErrorCount: '--',
                 terminalErrorCount: '--',
                 projectAlarmCount: '--',
-                speedChangeErrorCount: '--',
-                singleChangeErrorCount: '--',
-                totalChangeErrorCount: '--'
+                levelOneCount: '--',
+                levelTwoCount: '--',
+                levelThreeCount: '--'
             }
         }
     }
@@ -19,12 +23,16 @@ class ProjectAlarm extends Component {
         const { alarm } = this.state;
         return (
             <div className="projecttype">
-                <div className="projecttype-title">
-                    <div className='projecttype-title-logo'><img src="" alt="" /></div>
-                    <div className="projecttype-title-text">告警事项</div>
-                    <div className="projectalarm-title-type">
+                <div className="projecttype-title-wrapper">
+                    <div className="projecttype-title">
+                        <div className='projecttype-title-logo'>
+                            <img src={iconAlarm} alt="" />
+                        </div>
+                        <div className="projecttype-title-text">告警事项</div>
+                    </div>
+                    <div className="projectalarm-title-type" onClick={_ => { this.props.history.push('/alarmsimple') }}>
                         <div className="projectalarm-more">查看详情</div>
-                        <div className="projectalarm-more-icon"><img src="" alt="" /></div>
+                        <div className="projectalarm-more-icon"><img src={iconRinghtImg} alt="" /></div>
                     </div>
                 </div>
                 <div className="projecttype-content-wrapper">
@@ -37,7 +45,7 @@ class ProjectAlarm extends Component {
                         <ProjectAlarmItem num={alarm.levelThreeCount} name='三级告警数' color='#3C4463' />
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
     componentDidMount() {

@@ -6,6 +6,7 @@ import Nav from './Nav';
 import Overview from 'page/overview/overview';
 import Manage from 'page/manage/manage';
 import Detail from 'page/Detail/Detail';
+import Bim from 'page/bim/bim';
 import './Layout.scss';
 
 class Layout extends Component {
@@ -25,6 +26,7 @@ class Layout extends Component {
                         <Route exact path={`${curUrl}/overview`} component={Overview} />
                         <Route exact path={`${curUrl}/manage`} component={Manage} />
                         <Route exact path={`${curUrl}/manage/detail`} component={Detail} />
+                        <Route exact path={`${curUrl}/bim`} component={Bim} />
                     </Switch>
                 </div>
             </div>

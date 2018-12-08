@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import TypeItem from './typeitem/typeitem';
 import axios from 'axios';
+import { Avatar } from 'antd';
+import TypeItem from './typeitem/typeitem';
+import imgTitle from 'common/image/icon_主页_监测项目.png';
 
 class ProjectType extends Component {
     constructor(props) {
@@ -15,12 +17,16 @@ class ProjectType extends Component {
         const { loading, monitorStatus, projectType } = this.state;
         return (
             <div className="projecttype">
-                <div className="projecttype-title">
-                    <div className='projecttype-title-logo'><img src="" alt="" /></div>
-                    <div className="projecttype-title-text">中大检测</div>
-                    <div className="projecttype-title-type">
+                <div className="projecttype-title-wrapper">
+                    <div className="projecttype-title">
+                        <div className='projecttype-title-logo'>
+                            <Avatar src={imgTitle} style={{ width: '24px', height: '24px' }} />
+                        </div>
+                        <div className="projecttype-title-text">中大检测</div>
+                    </div>
+                    <div className="projecttype-title-operate">
                         <div
-                            className={monitorStatus ? '' : 'projecttype-title-type-active'}
+                            className={monitorStatus ? '' : 'projecttype-title-operate-active'}
                             onClick={_ => {
                                 this.setState({ monitorStatus: 0 }, _ => { this.getProjectType() });
                             }}
@@ -28,7 +34,7 @@ class ProjectType extends Component {
                             监测中
                         </div>
                         <div
-                            className={monitorStatus ? 'projecttype-title-type-active' : ''}
+                            className={monitorStatus ? 'projecttype-title-operate-active' : ''}
                             onClick={_ => {
                                 this.setState({ monitorStatus: 1 }, _ => { this.getProjectType() });
                             }}
