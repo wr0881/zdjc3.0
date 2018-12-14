@@ -1,0 +1,66 @@
+.alarmdetail-operate {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    height: 90px;
+}
+
+.alarmdetail-search-name>span,
+.alarmdetail-search-type>span {
+    margin-left: 65px;
+    margin-right: 16px;
+    font-size: 16px;
+    color: #3C4463;
+}
+
+.alarmdetail-search-name>input,
+.alarmdetail-search-type>input {
+    padding: 10px;
+    outline: none;
+    font-size: 16px;
+    color: #8E92A3;
+    border: 1px solid #DFDDEC;
+    border-radius: 4px;
+}
+
+.alarmdetail-search-name>input:focus,
+.alarmdetail-search-type>input:focus {
+    color: #3C4463;
+}
+
+.alarmdetail-search-btn {
+    margin-left: 80px;
+    padding: 8px 48px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #5D3AB3;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.alarmdetail-search-btn:hover {
+    opacity: .8;
+}
+
+.alarmdetail-content {
+    padding: 0px 24px 60px 24px;
+}
+
+.alarmdetail-table-confirmed,
+.alarmdetail-table-unconfirmed {
+    width: 60px;
+    height: 24px;
+    line-height: 24px;
+    background: #ECEAF3;
+    text-align: center;
+    font-size: 14px;
+    color: #3C4463;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+.alarmdetail-table-unconfirmed {
+    background: #5D3AB3;
+    color: #fff;
+    cursor: pointer;
+}

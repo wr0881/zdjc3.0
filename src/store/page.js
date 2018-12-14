@@ -2,7 +2,7 @@ import { observable } from 'mobx';
 
 class Page {
     @observable projectType = { projectTypeId: '', projectTypeName: '' }
-    @observable intervalId = ''
+    @observable sector = { sectorId: '', sectorName: '' }
 }
 
 const page = new Page();

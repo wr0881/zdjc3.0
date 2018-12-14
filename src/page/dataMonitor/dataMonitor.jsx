@@ -131,7 +131,8 @@ class DataMonitor extends Component {
                 containLabel: true
             },
             legend: {
-                data: ['累计变化量', '单次变化量', '变化速率']
+                data: ['累计变化量', '单次变化量', '变化速率'],
+                selectedMode:'single'
             },
             xAxis: {
                 type: 'category',

@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import Card from 'component/Card/Card';
 import Chart from './chart';
+import pageStore from 'store/page'
 import './overview.scss';
 
 class overview extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            resourceData: {},
+            projectAlarmData: [],
+            projectWillData: [],
+            projectListData: []
+        }
     }
     render() {
+        const { resourceData, projectAlarmData, projectWillData, projectListData } = this.state;
         return (
             <div className="overview">
                 <div className="overview-dec">
@@ -18,23 +26,23 @@ class overview extends Component {
                     >
                         <div className='resource-overview-wrapper'>
                             <div className="resource-overview-item" style={{ borderColor: '#32D184' }}>
-                                <div className="resource-overview-item-num">15</div>
+                                <div className="resource-overview-item-num">{resourceData.projectIngCount}</div>
                                 <div className="resource-overview-item-type">监测中</div>
                             </div>
                             <div className="resource-overview-item" style={{ borderColor: '#F0514D' }}>
-                                <div className="resource-overview-item-num">02</div>
+                                <div className="resource-overview-item-num">{resourceData.projectErrorCount}</div>
                                 <div className="resource-overview-item-type">异常项目</div>
                             </div>
                             <div className="resource-overview-item" style={{ borderColor: '#8562DD' }}>
-                                <div className="resource-overview-item-num">03</div>
+                                <div className="resource-overview-item-num">{resourceData.projectEndCount}</div>
                                 <div className="resource-overview-item-type">已完毕</div>
                             </div>
                             <div className="resource-overview-item" style={{ borderColor: '#F6BD5C' }}>
-                                <div className="resource-overview-item-num">04</div>
+                                <div className="resource-overview-item-num">{resourceData.projectWillEndCount}</div>
                                 <div className="resource-overview-item-type">即将完毕</div>
                             </div>
                             <div className="resource-overview-item" style={{ borderColor: '#32D184' }}>
-                                <div className="resource-overview-item-num">24</div>
+                                <div className="resource-overview-item-num">{resourceData.projectTotalCount}</div>
                                 <div className="resource-overview-item-type">共有项目</div>
                             </div>
                         </div>
@@ -44,15 +52,13 @@ class overview extends Component {
                         text='项目告警'
                     >
                         <div className="overview-alarm-wrapper">
-                            <div className="overview-alarm-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-alarm-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-alarm-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-alarm-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-alarm-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-alarm-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-alarm-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-alarm-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-alarm-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
+                            {projectAlarmData.length && projectAlarmData.map(v => {
+                                return (
+                                    <div className="overview-alarm-item" key={Math.random()}>
+                                        {`${v.projectName}${v.sectorName}${v.alarmContext}`}
+                                    </div>
+                                )
+                            })}
                         </div>
                     </Card>
                     <Card
@@ -60,15 +66,13 @@ class overview extends Component {
                         text='即将完毕项目'
                     >
                         <div className="overview-coming-wrapper">
-                            <div className="overview-coming-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-coming-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-coming-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-coming-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-coming-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-coming-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-coming-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-coming-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
-                            <div className="overview-coming-item">广西贵港至隆安高速公路边坡至隆安高速公路</div>
+                            {projectWillData.map(v => {
+                                return (
+                                    <div className="overview-coming-item" key={Math.random()}>
+                                        {`${v.projectName}${v.sectorName}`}
+                                    </div>
+                                )
+                            })}
                         </div>
                     </Card>
                 </div>
@@ -78,87 +82,101 @@ class overview extends Component {
                         text='项目监测概览'
                     >
                         <div className='overview-project-content'>
-                            <Card
-                                icon={<div style={{ width: '8px', height: '8px' }}></div>}
-                                text='地铁二号线'
-                                className='overview-project-item'
-                            >
-                                <div className="overview-item-content">
-                                    <div className="overview-item-title">项目描述</div>
-                                    <div className="overview-item-dec">项目地位于深圳市高新技术产业园南区,地处高新区核心地带。项目东临沙河西路、西至科技南路、南临高新南十道、北至白石路。基坑占地面积约4万平米，基坑深度约13.7米。拟建地下室3层。基坑工程的支护安全等级为一级。</div>
-                                    <div className="overview-item-chart-wrapper">
-                                        <div className="overview-item-chart-dec">
-                                            <div>544</div>
-                                            <div>总预警(次)</div>
+                            {projectListData.map(v => {
+                                return (
+                                    <Card
+                                        key={Math.random()}
+                                        icon={<div style={{ width: '8px', height: '8px' }}></div>}
+                                        text={v.projectName}
+                                        className='overview-project-item'
+                                    >
+                                        <div className="overview-item-content">
+                                            <div className="overview-item-title">项目描述</div>
+                                            <div className="overview-item-dec">{v.projectDescription}</div>
+                                            <div className="overview-item-chart-wrapper">
+                                                <div className="overview-item-chart-dec">
+                                                    <div>{v.alarmCount}</div>
+                                                    <div>总预警(次)</div>
+                                                </div>
+                                                <div className="overview-item-chart">
+                                                    <Chart data={v.list} />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="overview-item-chart">
-                                            <Chart />
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card>
-                            <Card
-                                icon={<div style={{ width: '8px', height: '8px' }}></div>}
-                                text='地铁三号线'
-                                className='overview-project-item'
-                            >
-                                <div className="overview-item-content">
-                                    <div className="overview-item-title">项目描述</div>
-                                    <div className="overview-item-dec">项目地位于深圳市高新技术产业园南区,地处高新区核心地带。项目东临沙河西路、西至科技南路、南临高新南十道、北至白石路。基坑占地面积约4万平米，基坑深度约13.7米。拟建地下室3层。基坑工程的支护安全等级为一级。</div>
-                                    <div className="overview-item-chart-wrapper">
-                                        <div className="overview-item-chart-dec">
-                                            <div>544</div>
-                                            <div>总预警(次)</div>
-                                        </div>
-                                        <div className="overview-item-chart">
-                                            <Chart />
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card>
-                            <Card
-                                icon={<div style={{ width: '8px', height: '8px' }}></div>}
-                                text='地铁四号线'
-                                className='overview-project-item'
-                            >
-                                <div className="overview-item-content">
-                                    <div className="overview-item-title">项目描述</div>
-                                    <div className="overview-item-dec">项目地位于深圳市高新技术产业园南区,地处高新区核心地带。项目东临沙河西路、西至科技南路、南临高新南十道、北至白石路。基坑占地面积约4万平米，基坑深度约13.7米。拟建地下室3层。基坑工程的支护安全等级为一级。</div>
-                                    <div className="overview-item-chart-wrapper">
-                                        <div className="overview-item-chart-dec">
-                                            <div>544</div>
-                                            <div>总预警(次)</div>
-                                        </div>
-                                        <div className="overview-item-chart">
-                                            <Chart />
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card>
-                            <Card
-                                icon={<div style={{ width: '8px', height: '8px' }}></div>}
-                                text='地铁五号线'
-                                className='overview-project-item'
-                            >
-                                <div className="overview-item-content">
-                                    <div className="overview-item-title">项目描述</div>
-                                    <div className="overview-item-dec">项目地位于深圳市高新技术产业园南区,地处高新区核心地带。项目东临沙河西路、西至科技南路、南临高新南十道、北至白石路。基坑占地面积约4万平米，基坑深度约13.7米。拟建地下室3层。基坑工程的支护安全等级为一级。</div>
-                                    <div className="overview-item-chart-wrapper">
-                                        <div className="overview-item-chart-dec">
-                                            <div>544</div>
-                                            <div>总预警(次)</div>
-                                        </div>
-                                        <div className="overview-item-chart">
-                                            <Chart />
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card>
+                                    </Card>
+                                )
+                            })}
                         </div>
                     </Card>
                 </div>
             </div>
         );
+    }
+    componentDidMount() {
+        this.getResourceData();
+        this.getProjectAlarm();
+        this.getProjectWill();
+        this.getProjectList();
+    }
+    getResourceData() {
+        axios.get('/project/queryProjectStatusCount', {
+            params: {
+                scId: pageStore.projectType.projectTypeId
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                this.setState({ resourceData: data });
+            } else {
+                this.setState({ resourceData: {} });
+                console.log('/project/queryProjectStatusCount code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
+    }
+    getProjectAlarm() {
+        axios.get('/alarm/queryAlarmProject', {
+            params: {
+                scId: pageStore.projectType.projectTypeId
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                this.setState({ projectAlarmData: data });
+            } else {
+                this.setState({ projectAlarmData: [] });
+                console.log('/alarm/queryAlarmProject code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
+    }
+    getProjectWill() {
+        axios.get('/project/queryWillProject', {
+            params: {
+                scId: pageStore.projectType.projectTypeId
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                this.setState({ projectWillData: data });
+            } else {
+                this.setState({ projectWillData: [] });
+                console.log('/project/queryWillProject code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
+    }
+    getProjectList() {
+        axios.get('/project/queryMonitorView', {
+            params: {
+                scId: pageStore.projectType.projectTypeId
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                this.setState({ projectListData: data });
+            } else {
+                this.setState({ projectListData: [] });
+                console.log('/project/queryMonitorView code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
     }
 }
 

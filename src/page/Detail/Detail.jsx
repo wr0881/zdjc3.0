@@ -5,6 +5,8 @@ import PeopleInformation from 'page/peopleInformation/info';
 import DeviceInformation from 'page/deviceInformation/info';
 import BluePrint from 'page/blueprint/blueprint';
 import DataMonitor from 'page/dataMonitor/dataMonitor';
+import AlarmDetail from 'page/alarmdetail/alarmdetail';
+import pagedata from 'store/page.js';
 import './Detail.scss';
 
 class Detail extends Component {
@@ -23,11 +25,11 @@ class Detail extends Component {
                         onClick={_ => { this.props.history.push('/project/manage') }}
                     >项目管理</span>
                     &nbsp;/
-                    地铁六号线运行监测项目
+                    {`${pagedata.sector.sectorName}`}
                 </div>
                 <Card
                     icon={<div style={{ width: '24px', height: '24px' }}></div>}
-                    text='地铁六号线运行监测项目'
+                    text={`${pagedata.sector.sectorName}`}
                 >
                     <div className="detail-content-wrapper">
                         <div className="detail-content-title">
@@ -60,7 +62,7 @@ class Detail extends Component {
                             {/* 6,视频监控 */}
                             {title_index === 6 ? <Content title='视频监控' /> : null}
                             {/* 7,项目告警 */}
-                            {title_index === 7 ? <Content title='项目告警' /> : null}
+                            {title_index === 7 ? <AlarmDetail /> : null}
                             {/* 8,项目文库 */}
                             {title_index === 8 ? <Content title='项目文库' /> : null}
                             {/* 9,操作日志 */}

@@ -4,7 +4,9 @@ import echarts from 'echarts';
 class Chart extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            data: {}
+        }
     }
     render() {
         return (
@@ -12,6 +14,9 @@ class Chart extends Component {
         );
     }
     componentDidMount() {
+        this.initChart();
+    }
+    initChart() {
         const chart = echarts.init(this.refs.overviewChart);
         const seriesLabel = {
             normal: {
@@ -47,7 +52,7 @@ class Chart extends Component {
                 axisLabel: {
                     color: '#8E92A3'
                 },
-                data: ['沉降', '收敛', '位移'],
+                data: this.getFormatData().point,
             },
             yAxis: {
                 type: 'value',
@@ -66,20 +71,20 @@ class Chart extends Component {
                 {
                     name: '一级告警',
                     type: 'bar',
-                    data: [165, 170, 30],
+                    data: this.getFormatData().level1,
                     label: seriesLabel
                 },
                 {
                     name: '二级告警',
                     type: 'bar',
                     label: seriesLabel,
-                    data: [150, 105, 110]
+                    data: this.getFormatData().level2,
                 },
                 {
                     name: '三级告警',
                     type: 'bar',
                     label: seriesLabel,
-                    data: [220, 82, 63]
+                    data: this.getFormatData().level3,
                 }
             ]
         };
@@ -89,6 +94,17 @@ class Chart extends Component {
         window.addEventListener('resize', _ => {
             chart.resize();
         });
+    }
+    getFormatData() {
+        const { data } = this.props;
+        let point = [], level1 = [], level2 = [], level3 = [];
+        data.forEach(v => {
+            point.push(v.monitorTypeName);
+            level1.push(v.level1);
+            level2.push(v.level2);
+            level3.push(v.level3);
+        });
+        return { point, level1, level2, level3 };
     }
 }
 

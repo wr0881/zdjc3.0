@@ -43,9 +43,8 @@ class AlarmSimple extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            current: 1,
-            pageSize: 10,
-            alarmNum: 0,
+            initcurrent: 1,
+            initpageSize: 10,
             alarm: [],
             pagination: {
                 current: 1,
@@ -75,8 +74,8 @@ class AlarmSimple extends Component {
         );
     }
     componentDidMount() {
-        const { current, pageSize } = this.state;
-        this.getAlarmSimple(current, pageSize);
+        const { initcurrent, initpageSize } = this.state;
+        this.getAlarmSimple(initcurrent, initpageSize);
     }
     handleTableChange(pagination) {
         const { current, pageSize } = pagination;
@@ -92,28 +91,18 @@ class AlarmSimple extends Component {
         }).then(res => {
             const { code, msg, data } = res.data;
             if (code === 0) {
-                if (data.AlarmCounts) {
-                    const formatData = this.getTableFormat(data.AlarmCounts);
-                    this.setState({ alarm: formatData });
-                } else {
-                    alert('/alarm/queryAlarmCount 字段异常');
-                };
-                if (data.total) {
-                    this.setState({ pagination: { ...this.state.pagination, total: data.total } });
-                };
+                const formatData = this.getTableFormat(data.AlarmCounts);
+                this.setState({ alarm: formatData });
+                this.setState({ pagination: { ...this.state.pagination, total: data.total } });
             } else {
                 console.log('/alarm/queryAlarmCount code: ', code, msg);
             }
         }).catch(err => { alert(err) });
     }
     getTableFormat(ary) {
-        let data = [];
-        let obj = {};
-        ary.forEach(v => {
-            obj = Object.assign({ key: Math.random() }, v);
-            data.push(obj);
+        return ary.map(v => {
+            return { ...v, key: Math.random() }
         });
-        return data;
     }
 }
 
