@@ -1,71 +1,107 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import echarts from 'echarts';
-import { Checkbox } from 'antd';
+import { Checkbox, Radio } from 'antd';
+import pageData from 'store/page.js';
+import { getTime } from 'common/js/util.js';
 import './dataAnalyse.scss';
 
 const CheckboxGroup = Checkbox.Group;
-
-const options = [
-    { label: '测点1', value: '1' },
-    { label: '测点2', value: '2' },
-    { label: '测点3', value: '3' },
-    { label: '测点4', value: '4' },
-    { label: '测点5', value: '5' },
-    { label: '测点6', value: '6' },
-    { label: '测点7', value: '7' },
-    { label: '测点8', value: '8' },
-    { label: '测点9', value: '9' },
-];
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
 
 class DataAnalyse extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectValue: []
+            chart: null,
+            pointTypeData: [],
+            pointNameData: [],
+            echartData: [],
+            selectPointTypeValue: '',
+            selectPointValue: [],
+            pointdataType: 'totalChange',
+            timeType: 'week',
         }
     }
     render() {
-        const { selectValue } = this.state;
+        const { selectPointValue, timeType, pointdataType, echartData } = this.state;
         return (
             <div className="dataAnalyse-wrapper">
                 <div className="dataAnalyse-chart-wrapper">
                     <div className="dataAnalyse-type-wrapper">
-                        <div className="dataAnalyse-type-name">累计变化量</div>
+                        <div className="dataAnalyse-type-name">{pageData.sector.sectorName}</div>
                         <div className="dataAnalyse-type-btnGrounp">
-                            <span className='dataAnalyse-type-btn-active'>累计变化量</span>
-                            <span>单次变化量</span>
-                            <span>变化速率</span>
+                            <RadioGroup key={Math.random()} defaultValue={pointdataType}
+                                onChange={e => { this.setState({ pointdataType: e.target.value }, this.setEchartData.bind(this, e.target.value)) }}
+                            >
+                                <RadioButton value="totalChange">累计变化量</RadioButton>
+                                <RadioButton value="singleChange">单次变化量</RadioButton>
+                                <RadioButton value="speedChange">变化速率</RadioButton>
+                            </RadioGroup>
                         </div>
                     </div>
-                    <div>
+                    <div style={{ display: echartData.length ? 'block' : 'none' }}>
                         <div className='dataAnalyse-chart' ref='chart'></div>
+                    </div>
+                    <div style={{ display: echartData.length ? 'none' : 'block', height: '400px' }}>
+                        <span style={{ margin: '50px' }}>暂无数据信息，请选择测点!</span>
                     </div>
                     <div className="dataAnalyse-type-wrapper">
                         <div className="dataAnalyse-type-btnGrounp">
-                            <span>全部</span>
-                            <span className='dataAnalyse-type-btn-active'>一周</span>
-                            <span>一月</span>
-                            <span>一年</span>
+                            <RadioGroup key={Math.random()} defaultValue={timeType}
+                                onChange={e => { this.setState({ timeType: e.target.value }, this.getEchartData.bind(this)) }}
+                            >
+                                <RadioButton value="全部" disabled>全部</RadioButton>
+                                <RadioButton value="week">一周</RadioButton>
+                                <RadioButton value="month">一月</RadioButton>
+                                <RadioButton value="year" disabled>一年</RadioButton>
+                            </RadioGroup>
                         </div>
                     </div>
                 </div>
                 <div className="dataAnalyse-operate-wrapper">
-                    <div className="dataAnalyse-operate-title">选择对比数据</div>
+                    <div className="dataAnalyse-operate-title">选择指标:</div>
+                    <div className="dataAnalyse-operate-content">
+                        <RadioGroup
+                            key={Math.random()}
+                            onChange={e => { this.setState({ selectPointTypeValue: e.target.value }) }}
+                            value={this.state.selectPointTypeValue}
+                        >
+                            {this.state.pointTypeData.map(v => {
+                                return <Radio key={v.monitorType} value={v.monitorType}>{v.monitorTypeName}</Radio>;
+                            })}
+                        </RadioGroup>
+                    </div>
+                    <div className="dataAnalyse-operate-title">选择测点:</div>
                     <div className="dataAnalyse-operate-select">
-                        <CheckboxGroup options={options} defaultValue={selectValue}
-                            onChange={v => { this.setState({ selectValue: v }) }}
-                        />
+                        <CheckboxGroup
+                            key={Math.random()}
+                            defaultValue={selectPointValue}
+                            onChange={v => { this.setState({ selectPointValue: v }) }}
+                        >
+                            {this.state.pointNameData.map(v => {
+                                return <Checkbox key={v} value={v}>{v}</Checkbox>;
+                            })}
+                        </CheckboxGroup>
                     </div>
                     <div className="dataAnalyse-operate-btn">
                         <span className="dataAnalyse-operate-btn1">重置</span>
-                        <span className="dataAnalyse-operate-btn2">对比</span>
+                        <span className="dataAnalyse-operate-btn2"
+                            onClick={this.getEchartData.bind(this)}
+                        >对比</span>
                     </div>
                 </div>
             </div>
         );
     }
     componentDidMount() {
-        this.initChart();
+        this.getPointType();
+    }
+    componentWillUpdate(nextProps, nextState) {
+        if (nextState.selectPointTypeValue !== this.state.selectPointTypeValue) {
+            this.getPointName(nextState.selectPointTypeValue);
+        };
     }
     initChart() {
         const chart = echarts.init(this.refs.chart);
@@ -94,7 +130,7 @@ class DataAnalyse extends Component {
                 containLabel: true
             },
             legend: {
-                data: ['累计变化量', '单次变化量', '变化速率']
+                data: []
             },
             xAxis: {
                 type: 'category',
@@ -106,8 +142,7 @@ class DataAnalyse extends Component {
                 },
                 axisLabel: {
                     color: '#545454'
-                },
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                }
             },
             yAxis: {
                 type: 'value',
@@ -127,30 +162,91 @@ class DataAnalyse extends Component {
                     }
                 }
             },
-            series: [
-                {
-                    name: '累计变化量',
-                    type: 'line',
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                },
-                {
-                    name: '单次变化量',
-                    type: 'line',
-                    data: [220, 182, 191, 234, 290, 330, 310]
-                },
-                {
-                    name: '变化速率',
-                    type: 'line',
-                    data: [150, 232, 201, 154, 190, 330, 410]
-                }
-            ]
+            series: []
         };
-
+        chart.clear();
         chart.setOption(option);
-
+        this.setState({ chart });
         window.addEventListener('resize', _ => {
             chart.resize();
         });
+    }
+    getPointType() {
+        axios.get('http://10.88.89.170:8080/common/queryMonitorTypeName', {
+            params: {
+                sectorId: pageData.sector.sectorId
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                this.setState({ pointTypeData: data });
+            } else {
+                // this.setState({ pointTypeData: [] });
+                console.log('/common/queryMonitorTypeName code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
+    }
+    getPointName(value) {
+        axios.get('http://10.88.89.170:8080/point/queryMonitorPointName', {
+            params: {
+                sectorId: pageData.sector.sectorId,
+                monitorType: value
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                console.log(data);
+                this.setState({ pointNameData: data });
+            } else {
+                // this.setState({ pointNameData: [] });
+                console.log('/point/queryMonitorPointName code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
+    }
+    getEchartData() {
+        const { selectPointTypeValue, selectPointValue, pointdataType, timeType } = this.state;
+        this.initChart();
+        axios.get('/sector/queryComparisonData', {
+            params: {
+                sectorId: pageData.sector.sectorId,
+                monitorType: selectPointTypeValue,
+                pointNames: JSON.stringify(selectPointValue),
+                beginTime: getTime(timeType)[0],
+                endTime: getTime(timeType)[1],
+                dateType: 1
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0 || code === 2) {
+                console.log(data);
+                this.setState({ echartData: data.comparisonVO }, this.setEchartData.bind(this, pointdataType));
+            } else {
+                this.setState({ echartData: [] });
+                console.log('/sector/queryComparisonData code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
+    }
+    setEchartData(dataType) {
+        const { chart, echartData, selectPointTypeValue, selectPointValue } = this.state;
+        let legend = [], dataAry = [];
+        if (selectPointTypeValue && selectPointValue.length) {
+            echartData.forEach(v => {
+                legend.push(v.monitorPointNumber);
+                dataAry.push({
+                    name: v.monitorPointNumber,
+                    type: 'line',
+                    smooth: true,
+                    data: v[dataType]
+                });
+            });
+            chart.setOption({
+                legend: {
+                    data: legend
+                },
+                series: dataAry
+            });
+            chart.resize();
+        }
     }
 }
 

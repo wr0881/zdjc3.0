@@ -39,49 +39,50 @@
 }
 
 .point-detail-content {
-    display: flex;
+    position: relative;
+    padding: 24px;
+    overflow: hidden;
 }
 
 .point-detail-table-wrapper {
-    flex: 1 1 45%;
-    padding: 16px;
+    float: left;
+    width: 45%;
 }
 
 .point-detail-table1 {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    border-right: 1px solid #DFDDEC;
-    border-bottom: 1px solid #DFDDEC;
+    overflow: hidden;
 }
 
 .point-detail-table1-item {
-    flex: 1 1 50%;
+    float: left;
+    width: 50%;
+    border: 1px solid #DFDDEC;
+    overflow: hidden;
 }
 
 .point-detail-table1-item>span {
-    display: inline-block;
+    float: left;
+    display: block;
     width: 50%;
     height: 32px;
     line-height: 32px;
     text-align: center;
-    border-left: 1px solid #DFDDEC;
-    border-top: 1px solid #DFDDEC;
 }
 
 .point-detail-table1-item>span:nth-child(1) {
     background-color: #F4F7FC;
+    border-right: 1px solid #DFDDEC;
 }
 
 .point-detail-table2 {
-    display: flex;
     margin-top: 16px;
-    border-right: 1px solid #DFDDEC;
-    border-bottom: 1px solid #DFDDEC;
+    overflow: hidden;
 }
 
 .point-detail-table2-item {
-    flex: 1 1 25%;
+    float: left;
+    width: 25%;
+    border: 1px solid #DFDDEC;
 }
 
 .point-detail-table2-item>span {
@@ -89,17 +90,17 @@
     height: 32px;
     line-height: 32px;
     text-align: center;
-    border-left: 1px solid #DFDDEC;
-    border-top: 1px solid #DFDDEC;
 }
 
 .point-detail-table2-item>span:nth-child(1) {
     background-color: #F4F7FC;
+    border-bottom: 1px solid #DFDDEC;
 }
 
 .point-detail-chart-wrapper {
-    flex: 1 1 55%;
-    padding: 16px;
+    float: left;
+    width: 55%;
+    padding-left: 16px;
     height: 210px;
 }
 

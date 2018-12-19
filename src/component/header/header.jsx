@@ -4,8 +4,11 @@ import axios from 'axios';
 import { Modal } from 'antd';
 import { Post } from 'common/js/util.js';
 import Panel from './panel';
-import logo from 'common/image/logo.png';
 import user from 'store/user.js';
+import logo from 'common/image/logo.png';
+import avatar from 'common/image/avatar.png';
+import jiantou from 'common/image/向下箭头.png';
+import qiehuan from 'common/image/切换版本.png';
 import './header.scss';
 
 @withRouter
@@ -48,7 +51,7 @@ class Header extends Component {
                             </Panel>
                             <Panel
                                 style={{ height: '90px' }}
-                                title={<User name='白川芥' type='超级管理员' />}
+                                title={<User name={userInfo.realName} type='超级管理员' />}
                             >
                                 <div className="user-content">
                                     <div>欢迎登陆</div>
@@ -118,9 +121,6 @@ class Header extends Component {
     }
     componentDidMount() {
         this.getUserInfo();
-    }
-    componentWillUpdate(nextProps, nextStates) {
-
     }
     getUserInfo() {
         axios.get('/user/queryUserInfo').then(res => {
@@ -254,10 +254,10 @@ function Zhichi() {
 function User(props) {
     return (
         <div className="home-user">
-            <div className="user-avatar"><img src="" alt="" /></div>
+            <div className="user-avatar"><img src={avatar} alt="" /></div>
             <div className="user-name">{props.name}</div>
             <div className="user-type">{props.type}</div>
-            <div className="user-icon"></div>
+            <div className="user-icon"><img src={jiantou} alt="" /></div>
         </div>
     )
 }
@@ -268,7 +268,7 @@ function Version(props) {
         <div className="version">
             <div className="version-content">
                 <div className="version-title">{props.title}</div>
-                <div className="version-icon"></div>
+                <div className="version-icon"><img src={qiehuan} alt="" /></div>
             </div>
         </div>
     )

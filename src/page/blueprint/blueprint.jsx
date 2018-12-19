@@ -1,87 +1,81 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Tree } from 'antd';
+import pagedata from 'store/page.js';
 import './blueprint.scss';
 
 const TreeNode = Tree.TreeNode;
 
-const data = [
-    {
-        key: Math.random(),
-        title: '布点图',
-        children: [
-            {
-                key: Math.random(),
-                title: '布点图1',
-            },
-            {
-                key: Math.random(),
-                title: '布点图2',
-            },
-            {
-                key: Math.random(),
-                title: '布点图3',
-            },
-            {
-                key: Math.random(),
-                title: '布点图4',
-            }
-        ]
-    },
-    {
-        key: Math.random(),
-        title: '剖面图',
-        children: [
-            {
-                key: Math.random(),
-                title: '剖面图1',
-            },
-            {
-                key: Math.random(),
-                title: '剖面图2',
-            },
-            {
-                key: Math.random(),
-                title: '剖面图3',
-            },
-            {
-                key: Math.random(),
-                title: '剖面图4',
-            }
-        ]
-    },
-    {
-        key: Math.random(),
-        title: '现场图',
-        children: [],
-    },
-]
-
 class BluePrint extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            imageData: [],
+            imgInfo: {}
+        }
+    }
     render() {
+        const { imageData ,imgInfo} = this.state;
         const loop = data => data.map(value => {
-            if (value.children && value.children.length !== 0) {
-                return <TreeNode key={value.title} title={value.title} disabled>{loop(value.children)}</TreeNode>
+            if (value.images && value.images.length !== 0) {
+                return <TreeNode key={value.imageType} title={value.imageType} disabled>{loop(value.images)}</TreeNode>
             } else if (value.children && value.children.length === 0) {
-                return <TreeNode key={value.title} title={value.title} disabled />
+                return <TreeNode key={value.imageType} title={value.imageType} disabled />
             } else {
-                return <TreeNode key={value.title} title={value.title} />
+                return <TreeNode key={value.imageListId} title={value.imageName} id={value.imageListId} />
             }
         });
         return (
             <div className="blueprint">
                 <div className="blueprint-operate">
                     <Tree
+                        key={Math.random()}
                         defaultExpandAll
-                        onSelect={(v, e) => { console.log(e) }}
+                        onSelect={this.getSelectImgInfo.bind(this)}
                     >
-                        {loop(data)}
+                        {loop(imageData)}
                     </Tree>
                 </div>
                 <div className="blueprint-img">
-                    <img src="http://attach.bbs.miui.com/forum/201807/17/154537ujxutueesyj3mzt0.jpg" alt=""/>
+                    <img src={`${window.Psq_ImgUrl}${imgInfo.imageUrl}`} alt="" />
                 </div>
             </div>
         );
+    }
+    componentDidMount() {
+        this.getImageData();
+    }
+    getImageData() {
+        axios.get('/sector/queryImageNames', {
+            params: {
+                sectorId: pagedata.sector.sectorId
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                this.setState({ imageData: data });
+            } else {
+                this.setState({ imageData: [] });
+                console.log('/sector/queryImageNames code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
+    }
+    getSelectImgInfo(key,e) {
+        const { id } = e.selectedNodes[0].props;
+        axios.get('/sector/queryImage', {
+            params: {
+                imageListId: id,
+                imageType: 3
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                this.setState({ imgInfo: data });
+            } else {
+                this.setState({ imgInfo: {} });
+                console.log('/sector/queryImage code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
     }
 }
 

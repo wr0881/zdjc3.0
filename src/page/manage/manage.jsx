@@ -5,6 +5,7 @@ import Card from 'component/Card/Card';
 import Button from 'component/Button/Button';
 import Input from 'component/Input/Input';
 import pagedata from 'store/page.js';
+import manage from 'common/image/manage.png';
 import './manage.scss';
 
 const rowSelection = {
@@ -118,7 +119,7 @@ class Manage extends Component {
         return (
             <div className="manage">
                 <Card
-                    icon={<div style={{ width: '24px', height: '24px' }}></div>}
+                    icon={<div style={{ width: '24px', height: '24px' }}><img src={manage} alt="" /></div>}
                     text={`${pagedata.projectType.projectTypeName}自动监测项目`}
                 >
                     <div className='manage-content'>

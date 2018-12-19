@@ -1,80 +1,120 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { DatePicker, Modal } from 'antd';
 import echarts from 'echarts';
+import Hot from 'component/Hot/hot';
 import DataAnalyse from './dataAnalyse';
+import pagedata from 'store/page.js';
+//banner图
+import Swiper from 'swiper/dist/js/swiper.js'
+import 'swiper/dist/css/swiper.min.css'
+
 import './dataMonitor.scss';
 
 const { RangePicker } = DatePicker;
-const dateFormat = 'YYYY-MM-DD';
+const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 
 class DataMonitor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: false
+            visible: false,
+            chart: null,
+            selectPointInfo: {},
+            selsectTime: [],
+            blueprintData: [],
+            pointDetailData: {},
         }
     }
     render() {
+        const { blueprintData, pointDetailData, selectPointInfo } = this.state;
         return (
             <div className='dataMonitor-wrapper'>
                 <div className="point-map-wrapper">
-                    <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}><img src="http://attach.bbs.miui.com/forum/201807/17/154537ujxutueesyj3mzt0.jpg" alt="" /></div>
+                    <div className="swiper-container">
+                        <div className="swiper-wrapper" style={{ width: '800px', height: '409px' }}>
+                            {blueprintData.map(v => {
+                                return (
+                                    <div key={Math.random()} className="swiper-slide">
+                                        <Hot
+                                            key={Math.random()}
+                                            style={{ width: '100%', height: '100%' }}
+                                            imgUrl={`${window.Psq_ImgUrl}${v.imageUrl}`}
+                                            onClick={v => {
+                                                this.setState({ selectPointInfo: v });
+                                            }}
+                                            dataSource={v.monitorPoints}
+                                        />
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className="swiper-pagination"></div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-button-next"></div>
+                    </div>
                 </div>
                 <div className="point-detail-wrapper">
                     <div className="point-detail-operate">
                         <span>时间区间</span>
-                        <RangePicker format={dateFormat} />
-                        <div className="point-detail-operate-timeselect">查看</div>
+                        <RangePicker showTime format={dateFormat}
+                            onOk={v => {
+                                this.setState({ selsectTime: v });
+                            }}
+                        />
+                        <div className="point-detail-operate-timeselect"
+                            onClick={this.setChart.bind(this, selectPointInfo)}
+                        >查看</div>
                         <div className="point-detail-operate-timeselect"
                             onClick={_ => {
-                                this.setState({ visible: true })
+                                this.setState({ visible: true });
                             }}
                         >数据对比</div>
                     </div>
-                    <div className="point-detail-content">
+                    <div className="point-detail-content" style={{ display: pointDetailData.monitorPointNumber ? 'block' : 'none' }}>
                         <div className="point-detail-table-wrapper">
                             <div className="point-detail-table1">
                                 <div className="point-detail-table1-item">
                                     <span>测点名称</span>
-                                    <span>cj43</span>
+                                    <span>{pointDetailData.monitorPointNumber}</span>
                                 </div>
                                 <div className="point-detail-table1-item">
-                                    <span>采集器通道</span>
-                                    <span>cj43</span>
+                                    <span>终端通道</span>
+                                    <span>{pointDetailData.terminalChannel}</span>
                                 </div>
                                 <div className="point-detail-table1-item">
                                     <span>传感器编号</span>
-                                    <span>cj43</span>
+                                    <span>{pointDetailData.sensorNumber}</span>
                                 </div>
                                 <div className="point-detail-table1-item">
                                     <span>检测指标</span>
-                                    <span>cj43</span>
+                                    <span>{pointDetailData.monitorTypeName}</span>
                                 </div>
                                 <div className="point-detail-table1-item">
-                                    <span>采集器编号</span>
-                                    <span>cj43</span>
+                                    <span>传感器编号</span>
+                                    <span>{pointDetailData.sensorNumber}</span>
                                 </div>
                                 <div className="point-detail-table1-item">
-                                    <span>传感器类型</span>
-                                    <span>cj43</span>
+                                    <span>传感器型号</span>
+                                    <span>{pointDetailData.sensorModel}</span>
                                 </div>
                             </div>
                             <div className="point-detail-table2">
                                 <div className="point-detail-table2-item">
                                     <span>实时值</span>
-                                    <span>cj43</span>
+                                    <span>{pointDetailData.measuredData}</span>
                                 </div>
                                 <div className="point-detail-table2-item">
                                     <span>测量时间</span>
-                                    <span>cj43</span>
+                                    <span>{pointDetailData.createDate}</span>
                                 </div>
                                 <div className="point-detail-table2-item">
                                     <span>累计变化量</span>
-                                    <span>cj43</span>
+                                    <span>{pointDetailData.totalChange}</span>
                                 </div>
                                 <div className="point-detail-table2-item">
                                     <span>变化速率</span>
-                                    <span>cj43</span>
+                                    <span>{pointDetailData.speedChange}</span>
                                 </div>
                             </div>
                         </div>
@@ -83,6 +123,9 @@ class DataMonitor extends Component {
                                 <div className="point-detail-chart" ref='chart'></div>
                             </div>
                         </div>
+                    </div>
+                    <div className="point-detail-content" style={{ display: pointDetailData.monitorPointNumber ? 'none' : 'block' }}>
+                        <span>暂无数据信息，请选择测点!</span>
                     </div>
                 </div>
                 <Modal
@@ -102,7 +145,34 @@ class DataMonitor extends Component {
         );
     }
     componentDidMount() {
+        this.initBanner();
         this.initChart();
+        this.getBlueprintData();
+    }
+    componentWillUpdate(nextProps, nextState) {
+        if (nextState.selectPointInfo.monitorPointNumber !== this.state.selectPointInfo.monitorPointNumber) {
+            this.setChart(nextState.selectPointInfo);
+            this.getPointDetailData(nextState.selectPointInfo);
+        };
+        if (nextState.selectPointInfo.monitorPointNumber) {
+            setTimeout(() => {
+                this.state.chart.resize();
+            }, 16);
+        }
+        return true;
+    }
+    initBanner() {
+        new Swiper('.swiper-container', {
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            observer: true,
+        });
     }
     initChart() {
         const chart = echarts.init(this.refs.chart);
@@ -132,7 +202,7 @@ class DataMonitor extends Component {
             },
             legend: {
                 data: ['累计变化量', '单次变化量', '变化速率'],
-                selectedMode:'single'
+                selectedMode: 'single'
             },
             xAxis: {
                 type: 'category',
@@ -186,9 +256,116 @@ class DataMonitor extends Component {
 
         chart.setOption(option);
 
+        this.setState({ chart });
+
         window.addEventListener('resize', _ => {
             chart.resize();
         });
+    }
+    setChart(pointInfo) {
+        const { chart, selsectTime } = this.state;
+        if (chart && pointInfo.monitorPointNumber) {
+            axios.get('http://10.88.89.170:8080/sector/querySensorData', {
+                params: {
+                    sectorId: pagedata.sector.sectorId,
+                    monitorType: pointInfo.monitorType,
+                    monitorPointNumber: pointInfo.monitorPointNumber,
+                    beginTime: selsectTime[0] && selsectTime[0].format(dateFormat),
+                    endTime: selsectTime[1] && selsectTime[1].format(dateFormat),
+                }
+            }).then(res => {
+                const { code, msg, data } = res.data;
+                let time = [], singleChange = [], totalChange = [], speedChange = [];
+                if (code === 0) {
+                    data.commonDataVOs.forEach(v => {
+                        time.push(v.createDate);
+                        singleChange.push(v.singleChange);
+                        totalChange.push(v.totalChange);
+                        speedChange.push(v.speedChange);
+                    });
+                    chart.setOption({
+                        xAxis: {
+                            data: time
+                        },
+                        series: [
+                            {
+                                name: '累计变化量',
+                                type: 'line',
+                                data: totalChange
+                            },
+                            {
+                                name: '单次变化量',
+                                type: 'line',
+                                data: singleChange
+                            },
+                            {
+                                name: '变化速率',
+                                type: 'line',
+                                data: speedChange
+                            }
+                        ]
+                    })
+                } else {
+                    chart.setOption({
+                        xAxis: {
+                            data: []
+                        },
+                        series: [
+                            {
+                                name: '累计变化量',
+                                type: 'line',
+                                data: []
+                            },
+                            {
+                                name: '单次变化量',
+                                type: 'line',
+                                data: []
+                            },
+                            {
+                                name: '变化速率',
+                                type: 'line',
+                                data: []
+                            }
+                        ]
+                    })
+                    console.log('/sector/querySensorData code: ', code, msg);
+                }
+            }).catch(err => { alert(err) });
+        }
+    }
+    getBlueprintData() {
+        axios.get('http://10.88.89.170:8080/sector/queryImagesMonitorPoint', {
+            params: {
+                sectorId: pagedata.sector.sectorId,
+                imageType: 3
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0 || code === 2) {
+                this.setState({ blueprintData: data });
+            } else {
+                this.setState({ blueprintData: [] });
+                alert('暂无布点图信息');
+                console.log('/sector/queryImagesMonitorPoint code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
+    }
+    getPointDetailData(pointInfo) {
+        axios.get('http://10.88.89.170:8080/sector/queryTerminalAndSensor', {
+            params: {
+                sectorId: pagedata.sector.sectorId,
+                monitorType: pointInfo.monitorType,
+                monitorPointNumber: pointInfo.monitorPointNumber
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                this.setState({ pointDetailData: data });
+            } else {
+                this.setState({ pointDetailData: {} });
+                console.log('/sector/queryTerminalAndSensor code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
     }
 }
 

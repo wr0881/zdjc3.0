@@ -54,11 +54,11 @@
     border-radius: 0px 4px 4px 0px;
 }
 
-.dataAnalyse-type-btn-active {
-    color: #5D3AB3 !important;
-    background-color: #E9E3F6 !important;
-    border: 1px solid #5D3AB3 !important;
-}
+// .dataAnalyse-type-btn-active {
+//     color: #5D3AB3 !important;
+//     background-color: #E9E3F6 !important;
+//     border: 1px solid #5D3AB3 !important;
+// }
 
 .dataAnalyse-chart {
     width: 100%;
@@ -72,40 +72,18 @@
     color: #3C4463;
 }
 
-.dataAnalyse-operate-select {
-    padding: 15px 28px;
-}
-
-//antd 样式
-.dataAnalyse-wrapper .ant-checkbox-wrapper:hover .ant-checkbox-inner,
-.dataAnalyse-wrapper .ant-checkbox:hover .ant-checkbox-inner,
-.dataAnalyse-wrapper .ant-checkbox-input:focus+.ant-checkbox-inner {
-    border-color: #5D3AB3;
-}
-
-.dataAnalyse-wrapper .ant-checkbox-indeterminate .ant-checkbox-inner:after {
-    background-color: #5D3AB3;
-}
-
-.dataAnalyse-wrapper .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: #5D3AB3;
-    border-color: #5D3AB3;
-}
-
-.dataAnalyse-wrapper .ant-checkbox-group {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-}
-
-.dataAnalyse-wrapper .ant-checkbox-group-item.ant-checkbox-wrapper {
-    flex: 1 1 50%;
-    margin-right: 0px;
-    margin-bottom: 6px;
+.dataAnalyse-operate-content {
+    padding-top: 10px;
+    padding-left: 28px;
+    font-size: 16px;
     color: #3C4463;
 }
 
-.dataAnalyse-operate-btn{
+.dataAnalyse-operate-select {
+    margin: 15px 28px;
+}
+
+.dataAnalyse-operate-btn {
     margin-top: 19px;
     padding-left: 28px;
 }
@@ -122,13 +100,25 @@
     cursor: pointer;
 }
 
-.dataAnalyse-operate-btn1{
+.dataAnalyse-operate-btn1 {
     margin-right: 16px;
     color: #937BCF;
     background-color: #ECEAF3;
 }
 
-.dataAnalyse-operate-btn2{
+.dataAnalyse-operate-btn2 {
     color: #fff;
     background-color: #937BCF;
+}
+
+//antd 样式
+.dataAnalyse-wrapper .ant-checkbox-group .ant-checkbox-wrapper {
+    float: left;
+    min-width: 50%;
+    margin-right: 0px;
+    margin-bottom: 6px;
+    color: #3C4463;
+}
+.dataAnalyse-wrapper .ant-checkbox-wrapper+.ant-checkbox-wrapper {
+    margin-left: 0px;
 }

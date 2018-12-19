@@ -3,6 +3,7 @@ import axios from 'axios';
 import Card from 'component/Card/Card';
 import Chart from './chart';
 import pageStore from 'store/page'
+import manage from 'common/image/manage.png';
 import './overview.scss';
 
 class overview extends Component {
@@ -21,7 +22,7 @@ class overview extends Component {
             <div className="overview">
                 <div className="overview-dec">
                     <Card
-                        icon={<div style={{ width: '24px', height: '24px' }}></div>}
+                        icon={<div style={{ width: '24px', height: '24px' }}><img src={manage} alt="" /></div>}
                         text='资源概览'
                     >
                         <div className='resource-overview-wrapper'>
@@ -48,7 +49,7 @@ class overview extends Component {
                         </div>
                     </Card>
                     <Card
-                        icon={<div style={{ width: '24px', height: '24px' }}></div>}
+                        icon={<div style={{ width: '24px', height: '24px' }}><img src={manage} alt="" /></div>}
                         text='项目告警'
                     >
                         <div className="overview-alarm-wrapper">
@@ -62,7 +63,7 @@ class overview extends Component {
                         </div>
                     </Card>
                     <Card
-                        icon={<div style={{ width: '24px', height: '24px' }}></div>}
+                        icon={<div style={{ width: '24px', height: '24px' }}><img src={manage} alt="" /></div>}
                         text='即将完毕项目'
                     >
                         <div className="overview-coming-wrapper">
@@ -78,7 +79,7 @@ class overview extends Component {
                 </div>
                 <div className="overview-project">
                     <Card
-                        icon={<div style={{ width: '24px', height: '24px' }}></div>}
+                        icon={<div style={{ width: '24px', height: '24px' }}><img src={manage} alt="" /></div>}
                         text='项目监测概览'
                     >
                         <div className='overview-project-content'>
@@ -86,7 +87,7 @@ class overview extends Component {
                                 return (
                                     <Card
                                         key={Math.random()}
-                                        icon={<div style={{ width: '8px', height: '8px' }}></div>}
+                                        icon={<div style={{ width: '8px', height: '8px', backgroundColor: '#32D184', borderRadius: '50%' }}></div>}
                                         text={v.projectName}
                                         className='overview-project-item'
                                     >

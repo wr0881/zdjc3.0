@@ -7,6 +7,20 @@ import BluePrint from 'page/blueprint/blueprint';
 import DataMonitor from 'page/dataMonitor/dataMonitor';
 import AlarmDetail from 'page/alarmdetail/alarmdetail';
 import pagedata from 'store/page.js';
+
+import manage from 'common/image/manage.png';
+import icon_1 from 'common/image/基本信息.png';
+import icon_2 from 'common/image/人员信息.png';
+import icon_3 from 'common/image/设备信息.png';
+import icon_4 from 'common/image/项目图纸.png';
+import icon_5 from 'common/image/bim.png';
+import icon_6 from 'common/image/数据监控.png';
+import icon_7 from 'common/image/视频监控.png';
+// import icon_8 from 'common/image/危险源.png';
+import icon_9 from 'common/image/项目告警.png';
+import icon_10 from 'common/image/项目文库.png';
+import icon_11 from 'common/image/操作日志.png';
+
 import './Detail.scss';
 
 class Detail extends Component {
@@ -28,7 +42,7 @@ class Detail extends Component {
                     {`${pagedata.sector.sectorName}`}
                 </div>
                 <Card
-                    icon={<div style={{ width: '24px', height: '24px' }}></div>}
+                    icon={<div style={{ width: '24px', height: '24px' }}><img src={manage} alt=""/></div>}
                     text={`${pagedata.sector.sectorName}`}
                 >
                     <div className="detail-content-wrapper">
@@ -40,7 +54,7 @@ class Detail extends Component {
                                         className={`detail-content-title-item ${title_index === i ? 'detail-content-title-item-active' : ''}`}
                                         onClick={_ => { this.setState({ title_index: i }) }}
                                     >
-                                        <div></div>
+                                        <div><img src={v.icon_url} alt=""/></div>
                                         <div>{v.title}</div>
                                     </div>
                                 )
@@ -77,43 +91,43 @@ class Detail extends Component {
 
 const title = [
     {
-        icon_url: '',
+        icon_url: icon_1,
         title: '基本信息'
     },
     {
-        icon_url: '',
+        icon_url: icon_2,
         title: '人员信息'
     },
     {
-        icon_url: '',
+        icon_url: icon_3,
         title: '设备信息'
     },
     {
-        icon_url: '',
+        icon_url: icon_4,
         title: '项目图纸'
     },
     {
-        icon_url: '',
+        icon_url: icon_5,
         title: 'bim'
     },
     {
-        icon_url: '',
+        icon_url: icon_6,
         title: '数据监控'
     },
     {
-        icon_url: '',
+        icon_url: icon_7,
         title: '视频监控'
     },
     {
-        icon_url: '',
+        icon_url: icon_9,
         title: '项目告警'
     },
     {
-        icon_url: '',
+        icon_url: icon_10,
         title: '项目文库'
     },
     {
-        icon_url: '',
+        icon_url: icon_11,
         title: '操作日志'
     }
 ];

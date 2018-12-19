@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import 'common/js/axios.config.js';
+import 'common/js/config.js';
 import Login from 'page/Login/Login';
 import Home from './page/home/loging/index';
 import AlarmSimple from './page/alarmsimple/alarmsimple';
