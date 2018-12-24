@@ -8,7 +8,7 @@ class Bim extends Component {
     render() {
         return (
             <div style={{ width: '100%', height: '100%' ,overflow:'hidden'}}>
-                <iframe title='bim' src="http://www.thingjs.com/demos/menu.html?name=silohouse" frameborder="0" width='100%' height='100%'/>
+                {/* <iframe title='bim' src="http://www.thingjs.com/demos/menu.html?name=silohouse" frameborder="0" width='100%' height='100%'/> */}
             </div>
         );
     }

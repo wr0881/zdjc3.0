@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
+import { Table ,message} from 'antd';
 import axios from 'axios';
 import pagedata from 'store/page.js';
 import './info.scss';
@@ -19,11 +19,11 @@ const columns = [
     },
     {
         title: '岗位',
-        dataIndex: 'memberCompany'
+        dataIndex: 'sectorRole'
     },
     {
         title: '备注',
-        dataIndex: 'sectorRole'
+        dataIndex: 'memberCompany'
     },
 ];
 
@@ -70,7 +70,7 @@ class PeopleInformation extends Component {
             }
         }).then(res => {
             const { code, msg, data } = res.data;
-            if (code === 0) {
+            if (code === 0||code===2) {
                 this.setState({ companyA: data.partyA.company, principalA: data.partyA.principal });
                 this.setState({ companyB: data.partyB.company, principalB: data.partyB.principal });
                 const membersA = data.partyA.members.map(v => {
@@ -80,6 +80,9 @@ class PeopleInformation extends Component {
                     return { ...v, key: Math.random() };
                 });
                 this.setState({ membersA, membersB });
+                if(code===2){
+                    message.error(msg);
+                }
             } else {
                 console.log('/sector/querySectorMember: ', code, msg);
             };

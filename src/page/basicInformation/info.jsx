@@ -24,7 +24,7 @@ class BasicInformation extends Component {
                 </div>
                 <div className="basicInformation-wrapper">
                     <div className="basicInformation-title">区间类型</div>
-                    <div className="basicInformation-dec">{basicInformation.sectorType}</div>
+                    <div className="basicInformation-dec">{basicInformation.sectorTypeName}</div>
                 </div>
                 <div className="basicInformation-wrapper">
                     <div className="basicInformation-title">区间地址</div>

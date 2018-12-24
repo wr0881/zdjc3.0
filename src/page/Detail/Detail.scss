@@ -20,13 +20,30 @@
     cursor: pointer;
 }
 
+.detail-content-title a{
+    color: #8E92A3;
+}
+
+.detail-content-title a:hover{
+    color: #8E92A3;
+}
+
 .detail-content-title-item>div:first-child{
     margin: 8px auto 4px;
     width: 24px;
     height: 24px;
 }
 
+.detail-content-title-item>div:last-child{
+    display: inline-block;
+    padding: 0px 5px;
+    height: 26px;
+}
+
 .detail-content-title-item-active{
-    color: #5D3AB3;
+    color: #5D3AB3 !important;
+}
+
+.detail-content-title-item-active .detail-content-title-item>div:last-child{
     border-bottom: 2px solid #5D3AB3;
 }

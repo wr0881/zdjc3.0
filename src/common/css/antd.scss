@@ -44,6 +44,11 @@ html body {
     .ant-radio-button-wrapper-focused {
         color: #5D3AB3;
     }
+    /* tree颜色 */
+    .ant-tree li .ant-tree-node-content-wrapper:hover {
+        background-color: inherit;
+        color: #5D3AB3;
+    }
     /* 换行变色 */
     .alarmsimple .ant-table-tbody>.ant-table-row:nth-child(2n-1) {
         background-color: #F4F7FC;

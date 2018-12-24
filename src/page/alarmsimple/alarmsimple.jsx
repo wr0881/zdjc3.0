@@ -1,44 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { Table } from 'antd';
 import Header from 'component/header/header';
+import pageData from 'store/page';
 import './alarmsimple.scss';
 
-const columns = [
-    {
-        title: '项目名称',
-        dataIndex: 'projectName'
-    },
-    {
-        title: '区间名称',
-        dataIndex: 'sectorName'
-    },
-    {
-        title: '告警总数',
-        dataIndex: 'alarmTotal'
-    },
-    {
-        title: '一级告警数',
-        dataIndex: 'level1'
-    },
-    {
-        title: '二级告警数',
-        dataIndex: 'level2'
-    },
-    {
-        title: '三级告警数',
-        dataIndex: 'level3'
-    },
-    {
-        title: '终端异常数',
-        dataIndex: 'tError'
-    },
-    {
-        title: '传感器异常数',
-        dataIndex: 'sError'
-    },
-];
-
+@withRouter
 class AlarmSimple extends Component {
     constructor(props) {
         super(props);
@@ -57,6 +25,54 @@ class AlarmSimple extends Component {
         }
     }
     render() {
+        const columns = [
+            {
+                title: '项目名称',
+                dataIndex: 'projectName'
+            },
+            {
+                title: '区间名称',
+                dataIndex: 'sectorName'
+            },
+            {
+                title: '告警总数',
+                dataIndex: 'alarmTotal'
+            },
+            {
+                title: '一级告警数',
+                dataIndex: 'level1'
+            },
+            {
+                title: '二级告警数',
+                dataIndex: 'level2'
+            },
+            {
+                title: '三级告警数',
+                dataIndex: 'level3'
+            },
+            {
+                title: '终端异常数',
+                dataIndex: 'tError'
+            },
+            {
+                title: '传感器异常数',
+                dataIndex: 'sError'
+            },
+            {
+                title: '操作',
+                render: (text, record, index) => {
+                    return (
+                        <div className='alarmdetail-table-unconfirmed'
+                            onClick={_ => {
+                                pageData.projectType = { projectTypeId: record.scId, projectTypeName: record.itemName };
+                                pageData.sector = { sectorId: record.sectorId, sectorName: record.sectorName };
+                                this.props.history.push(`/project/manage/detail/AlarmDetail`);
+                            }}
+                        >详情</div>
+                    )
+                },
+            },
+        ];
         return (
             <div className='alarmsimple'>
                 <Header />

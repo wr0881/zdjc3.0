@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table } from 'antd';
+import { Table ,message} from 'antd';
 import { Post } from 'common/js/util.js';
 import pagedata from 'store/page.js';
 import './alarmdetail.scss';
@@ -183,8 +183,8 @@ class DeviveInformation extends Component {
             if (code === 0) {
                 this.getAlarmDetail(current, pageSize);
             } else {
+                message.error('告警确认失败');
                 console.log('/alarm/queryDeviceInfo code: ', code, msg);
-                alert('告警确认失败');
             }
         }).catch(err => { alert(err) });
     }

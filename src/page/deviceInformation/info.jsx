@@ -1,32 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table } from 'antd';
+import { Table, Modal } from 'antd';
+import Terminal from './terminal';
 import pagedata from 'store/page.js';
 import './info.scss';
-
-const columns = [
-    {
-        title: '终端编号',
-        dataIndex: 'terminalNumber'
-    },
-    {
-        title: '终端名称',
-        dataIndex: 'terminalName'
-    },
-    {
-        title: '终端型号',
-        dataIndex: 'terminalModel'
-    },
-    {
-        title: '终端状态',
-        dataIndex: 'terminalStatus'
-    },
-    {
-        title: '传感器',
-        dataIndex: 'deviveStatus'
-
-    },
-]
 
 class DeviveInformation extends Component {
     constructor(props) {
@@ -46,10 +23,47 @@ class DeviveInformation extends Component {
                 total: 0,
                 showSizeChanger: true,
                 showQuickJumper: true
-            }
+            },
+            //modal
+            isShow: false,
+            selectTerminalNumber: '',
+            sensorData: []
         }
     }
     render() {
+        const columns = [
+            {
+                title: '终端编号',
+                dataIndex: 'terminalNumber'
+            },
+            {
+                title: '终端名称',
+                dataIndex: 'terminalName'
+            },
+            {
+                title: '终端型号',
+                dataIndex: 'terminalModel'
+            },
+            {
+                title: '终端状态',
+                dataIndex: 'terminalStatus'
+            },
+            {
+                title: '传感器',
+                dataIndex: 'deviveStatus',
+                render: (text, record, index) => {
+                    return (
+                        <div className='alarmdetail-table-unconfirmed'
+                            onClick={_ => {
+                                this.setState({ selectTerminalNumber: record.terminalNumber });
+                                this.getTerminalData(record.terminalNumber);
+                                // console.log(record);
+                            }}
+                        >详情</div>
+                    )
+                },
+            },
+        ];
         return (
             <div className="deviceInformation">
                 <div className="deviceInformation-operate">
@@ -69,12 +83,23 @@ class DeviveInformation extends Component {
                 </div>
                 <div className="deviceInformation-content">
                     <Table
+                        key={Math.random()}
                         columns={columns}
                         dataSource={this.state.terminalData}
                         pagination={this.state.pagination}
                         onChange={this.handleTableChange.bind(this)}
                     />
                 </div>
+                <Modal
+                    key={Math.random()}
+                    title={<div className='user-info-title'>传感器详情</div>}
+                    visible={this.state.isShow}
+                    footer={null}
+                    width='1200px'
+                    onCancel={_ => { this.setState({ isShow: false }) }}
+                >
+                    <Terminal dataSource={this.state.sensorData}/>
+                </Modal>
             </div>
         );
     }
@@ -124,6 +149,27 @@ class DeviveInformation extends Component {
                 showQuickJumper: true
             }
         }, _ => { this.getDeviceInformation(initcurrent, initpageSize) });
+    }
+    getTerminalData(number) {
+        axios.get('/device/querySensorInfos', {
+            params: {
+                sectorId: pagedata.sector.sectorId,
+                terminalNumber: number
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0) {
+                console.log(data);
+                const sensorData = data.map(v => {
+                    return { ...v, key: Math.random() };
+                })
+                this.setState({ sensorData, isShow: true });
+            } else {
+                this.setState({ sensorData: [] });
+                alert('暂无传感器数据');
+                console.log('/device/querySensorInfos code: ', code, msg);
+            }
+        }).catch(err => { alert(err) });
     }
 }
 

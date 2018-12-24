@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { DatePicker, Modal } from 'antd';
+import { DatePicker, Modal, message } from 'antd';
 import echarts from 'echarts';
 import Hot from 'component/Hot/hot';
 import DataAnalyse from './dataAnalyse';
 import pagedata from 'store/page.js';
+import { getTime } from 'common/js/util.js';
 //banner图
 import Swiper from 'swiper/dist/js/swiper.js'
 import 'swiper/dist/css/swiper.min.css'
@@ -265,13 +266,13 @@ class DataMonitor extends Component {
     setChart(pointInfo) {
         const { chart, selsectTime } = this.state;
         if (chart && pointInfo.monitorPointNumber) {
-            axios.get('http://10.88.89.170:8080/sector/querySensorData', {
+            axios.get('/sector/querySensorData', {
                 params: {
                     sectorId: pagedata.sector.sectorId,
                     monitorType: pointInfo.monitorType,
                     monitorPointNumber: pointInfo.monitorPointNumber,
-                    beginTime: selsectTime[0] && selsectTime[0].format(dateFormat),
-                    endTime: selsectTime[1] && selsectTime[1].format(dateFormat),
+                    beginTime: selsectTime[0] ? selsectTime[0].format(dateFormat) : getTime('day')[0],
+                    endTime: selsectTime[1] ? selsectTime[1].format(dateFormat) : getTime('day')[1],
                 }
             }).then(res => {
                 const { code, msg, data } = res.data;
@@ -327,14 +328,15 @@ class DataMonitor extends Component {
                                 data: []
                             }
                         ]
-                    })
+                    });
+                    message.error(msg);
                     console.log('/sector/querySensorData code: ', code, msg);
                 }
             }).catch(err => { alert(err) });
         }
     }
     getBlueprintData() {
-        axios.get('http://10.88.89.170:8080/sector/queryImagesMonitorPoint', {
+        axios.get('/sector/queryImagesMonitorPoint', {
             params: {
                 sectorId: pagedata.sector.sectorId,
                 imageType: 3
@@ -351,7 +353,7 @@ class DataMonitor extends Component {
         }).catch(err => { alert(err) });
     }
     getPointDetailData(pointInfo) {
-        axios.get('http://10.88.89.170:8080/sector/queryTerminalAndSensor', {
+        axios.get('/sector/queryTerminalAndSensor', {
             params: {
                 sectorId: pagedata.sector.sectorId,
                 monitorType: pointInfo.monitorType,

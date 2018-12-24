@@ -25,7 +25,7 @@ class Layout extends Component {
                     <Switch>
                         <Route exact path={`${curUrl}/overview`} component={Overview} />
                         <Route exact path={`${curUrl}/manage`} component={Manage} />
-                        <Route exact path={`${curUrl}/manage/detail`} component={Detail} />
+                        <Route path={`${curUrl}/manage/detail`} component={Detail} />
                         <Route exact path={`${curUrl}/bim`} component={Bim} />
                     </Switch>
                 </div>

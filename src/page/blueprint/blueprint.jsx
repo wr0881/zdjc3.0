@@ -11,11 +11,12 @@ class BluePrint extends Component {
         super(props);
         this.state = {
             imageData: [],
-            imgInfo: {}
+            imgInfo: {},
+            key_id: []
         }
     }
     render() {
-        const { imageData ,imgInfo} = this.state;
+        const { imageData, imgInfo } = this.state;
         const loop = data => data.map(value => {
             if (value.images && value.images.length !== 0) {
                 return <TreeNode key={value.imageType} title={value.imageType} disabled>{loop(value.images)}</TreeNode>
@@ -31,7 +32,10 @@ class BluePrint extends Component {
                     <Tree
                         key={Math.random()}
                         defaultExpandAll
-                        onSelect={this.getSelectImgInfo.bind(this)}
+                        selectedKeys={this.state.key_id}
+                        onSelect={key_id => { 
+                            this.getSelectImgInfo(key_id) ;
+                        }}
                     >
                         {loop(imageData)}
                     </Tree>
@@ -53,18 +57,20 @@ class BluePrint extends Component {
         }).then(res => {
             const { code, msg, data } = res.data;
             if (code === 0) {
+                // console.log(data[0].images[0].imageListId)
                 this.setState({ imageData: data });
+                this.getSelectImgInfo([`${data[0].images[0].imageListId}`]);
             } else {
                 this.setState({ imageData: [] });
                 console.log('/sector/queryImageNames code: ', code, msg);
             }
         }).catch(err => { alert(err) });
     }
-    getSelectImgInfo(key,e) {
-        const { id } = e.selectedNodes[0].props;
+    getSelectImgInfo(key_id) {
+        this.setState({key_id});
         axios.get('/sector/queryImage', {
             params: {
-                imageListId: id,
+                imageListId: key_id[0],
                 imageType: 3
             }
         }).then(res => {

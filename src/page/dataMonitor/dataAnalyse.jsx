@@ -172,7 +172,7 @@ class DataAnalyse extends Component {
         });
     }
     getPointType() {
-        axios.get('http://10.88.89.170:8080/common/queryMonitorTypeName', {
+        axios.get('/common/queryMonitorTypeName', {
             params: {
                 sectorId: pageData.sector.sectorId
             }
@@ -187,7 +187,7 @@ class DataAnalyse extends Component {
         }).catch(err => { alert(err) });
     }
     getPointName(value) {
-        axios.get('http://10.88.89.170:8080/point/queryMonitorPointName', {
+        axios.get('/point/queryMonitorPointName', {
             params: {
                 sectorId: pageData.sector.sectorId,
                 monitorType: value
