@@ -4,7 +4,6 @@ class Dot extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    
   }
 
   render() {
@@ -22,12 +21,12 @@ class Dot extends Component {
           onClick={onClick.bind(this, this.props.value)}
           className="item1"
           style={{
-            backgroundColor: dotColor === undefined ? 'red' : dotColor
+            backgroundColor: dotColor === undefined ? 'green' : dotColor
           }}
         />
         <div
           className="item2"
-          style={{ backgroundColor: dotColor === undefined ? 'red' : dotColor }}
+          style={{ backgroundColor: dotColor === undefined ? 'green' : dotColor }}
         />
       </div>
     );

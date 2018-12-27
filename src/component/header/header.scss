@@ -21,11 +21,8 @@
     margin-top: 24px;
     width: 180px;
     height: 42px;
-}
-
-.home-header-login img {
-    width: auto;
-    height: 100%;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .home-header-operate {

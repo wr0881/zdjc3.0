@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Card from 'component/Card/Card';
 import Chart from './chart';
-import pageStore from 'store/page'
+import Status from 'component/Status/status';
 import manage from 'common/image/manage.png';
+import pageStore from 'store/page'
+import iconRinghtImg from 'common/image/向右箭头2.png';
 import './overview.scss';
 
 class overview extends Component {
@@ -53,13 +55,17 @@ class overview extends Component {
                         text='项目告警'
                     >
                         <div className="overview-alarm-wrapper">
-                            {projectAlarmData.length && projectAlarmData.map(v => {
-                                return (
-                                    <div className="overview-alarm-item" key={Math.random()}>
-                                        {`${v.projectName}${v.sectorName}${v.alarmContext}`}
-                                    </div>
-                                )
-                            })}
+                            {projectAlarmData.length ?
+                                projectAlarmData.map(v => {
+                                    return (
+                                        <div className="overview-alarm-item" key={Math.random()}>
+                                            {`${v.projectName}${v.sectorName}${v.alarmContext}`}
+                                        </div>
+                                    )
+                                })
+                                :
+                                <Status text='暂无项目告警' />
+                            }
                         </div>
                     </Card>
                     <Card
@@ -67,13 +73,17 @@ class overview extends Component {
                         text='即将完毕项目'
                     >
                         <div className="overview-coming-wrapper">
-                            {projectWillData.map(v => {
-                                return (
-                                    <div className="overview-coming-item" key={Math.random()}>
-                                        {`${v.projectName}${v.sectorName}`}
-                                    </div>
-                                )
-                            })}
+                            {projectWillData.length ?
+                                projectWillData.map(v => {
+                                    return (
+                                        <div className="overview-coming-item" key={Math.random()}>
+                                            {`${v.projectName}${v.sectorName}`}
+                                        </div>
+                                    )
+                                })
+                                :
+                                <Status text='暂无即将完毕项目' />
+                            }
                         </div>
                     </Card>
                 </div>
@@ -88,6 +98,14 @@ class overview extends Component {
                                     <Card
                                         key={Math.random()}
                                         icon={<div style={{ width: '8px', height: '8px', backgroundColor: '#32D184', borderRadius: '50%' }}></div>}
+                                        operate={
+                                            <div className="overview-project-item-operate" onClick={_ => {
+                                                console.log(v);
+                                            }}>
+                                                <div className="">查看详情</div>
+                                                <div style={{ marginTop: '7px', marginLeft: '7px' }}><img src={iconRinghtImg} alt="" /></div>
+                                            </div>
+                                        }
                                         text={v.projectName}
                                         className='overview-project-item'
                                     >

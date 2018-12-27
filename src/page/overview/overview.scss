@@ -138,6 +138,14 @@
     margin-left: 16px;
 }
 
+.overview-project-item-operate{
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+    align-items: center;
+    cursor: pointer;
+}
+
 .overview-item-content {
     padding: 0 24px;
 }

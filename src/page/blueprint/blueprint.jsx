@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Tree } from 'antd';
+import Zmage from 'react-zmage';
 import pagedata from 'store/page.js';
 import './blueprint.scss';
 
@@ -33,15 +34,16 @@ class BluePrint extends Component {
                         key={Math.random()}
                         defaultExpandAll
                         selectedKeys={this.state.key_id}
-                        onSelect={key_id => { 
-                            this.getSelectImgInfo(key_id) ;
+                        onSelect={key_id => {
+                            this.getSelectImgInfo(key_id);
                         }}
                     >
                         {loop(imageData)}
                     </Tree>
                 </div>
                 <div className="blueprint-img">
-                    <img src={`${window.Psq_ImgUrl}${imgInfo.imageUrl}`} alt="" />
+                    {/* <img src={`${window.Psq_ImgUrl}${imgInfo.imageUrl}`} alt="" /> */}
+                    <Zmage src={`${window.Psq_ImgUrl}${imgInfo.imageUrl}`} alt="" />
                 </div>
             </div>
         );
@@ -67,7 +69,7 @@ class BluePrint extends Component {
         }).catch(err => { alert(err) });
     }
     getSelectImgInfo(key_id) {
-        this.setState({key_id});
+        this.setState({ key_id });
         axios.get('/sector/queryImage', {
             params: {
                 imageListId: key_id[0],

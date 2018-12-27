@@ -41,6 +41,7 @@ $card-title-height:68px;
 
 .card-title-text {
     @extend .text-overflow-ellipsis;
+    float: left;
     height: $card-title-height;
     line-height: $card-title-height;
     font-size: 22px;
@@ -48,9 +49,16 @@ $card-title-height:68px;
     color: #121521;
 }
 
+.card-title-operate{
+    float: right;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    padding-right: 24px;
+    height: $card-title-height;
+}
+
 .card-content {
     position: relative;
-    margin-top: -$card-title-height;
-    padding-top: $card-title-height;
-    height: 100%;
+    height: calc(100% - #{$card-title-height});
 }

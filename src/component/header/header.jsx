@@ -6,7 +6,7 @@ import { Post } from 'common/js/util.js';
 import Panel from './panel';
 import user from 'store/user.js';
 import logo from 'common/image/logo.png';
-import avatar from 'common/image/avatar.png';
+import avatar from 'common/image/favicon.png';
 import jiantou from 'common/image/向下箭头.png';
 import qiehuan from 'common/image/切换版本.png';
 import './header.scss';
@@ -29,7 +29,7 @@ class Header extends Component {
             <div className='home-header'>
                 <div className="home-header-content">
                     <div className="home-header-logo" onClick={_ => { this.props.history.push('/home') }}>
-                        <img src={logo} alt="" />
+                        <img src={logo} style={{width:'auto',height:'100%'}} alt="" />
                     </div>
                     <div className="home-header-operate">
                         <Yunfuwu />
@@ -42,7 +42,7 @@ class Header extends Component {
                         <div className="home-header-login">
                             <Panel
                                 style={{ height: '90px' }}
-                                title={<Version title='可视化版' />}
+                                title={<Version title='平台版本' />}
                             >
                                 <div className='zhichi' style={{ paddingRight: '20px', textAlign: 'right' }}>
                                     <div>可视化版本</div>

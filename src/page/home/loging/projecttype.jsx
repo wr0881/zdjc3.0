@@ -61,9 +61,9 @@ class ProjectType extends Component {
                         <div className='line'></div>
                     </div>
                     <div className="projecttype-content">
-                        <div><TypeItem isClick={false} /></div>
-                        <div><TypeItem isClick={false} /></div>
-                        <div><TypeItem isClick={false} /></div>
+                        <div><TypeItem isClick={false} data={{itemName:'幕墙'}}/></div>
+                        <div><TypeItem isClick={false} data={{itemName:'水泥'}}/></div>
+                        <div><TypeItem isClick={false} data={{itemName:'材料'}}/></div>
                     </div>
                 </div>
             </div>
