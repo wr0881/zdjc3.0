@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Status from 'component/Status/status';
 
 class Bim extends Component {
     constructor(props) {
@@ -7,8 +8,8 @@ class Bim extends Component {
     }
     render() {
         return (
-            <div style={{ width: '100%', height: '100%' ,overflow:'hidden'}}>
-                {/* <iframe title='bim' src="http://www.thingjs.com/demos/menu.html?name=silohouse" frameborder="0" width='100%' height='100%'/> */}
+            <div style={{ width: '100%', height: '400px' ,overflow:'hidden'}}>
+                <Status text='正在开发中.....'/>
             </div>
         );
     }

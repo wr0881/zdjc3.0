@@ -1,45 +1,5 @@
-.alarmdetail-operate {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    height: 90px;
-}
-
-.alarmdetail-search-name>span,
-.alarmdetail-search-type>span {
-    margin-left: 65px;
-    margin-right: 16px;
-    font-size: 16px;
-    color: #3C4463;
-}
-
-.alarmdetail-search-name>input,
-.alarmdetail-search-type>input {
-    padding: 10px;
-    outline: none;
-    font-size: 16px;
-    color: #8E92A3;
-    border: 1px solid #DFDDEC;
-    border-radius: 4px;
-}
-
-.alarmdetail-search-name>input:focus,
-.alarmdetail-search-type>input:focus {
-    color: #3C4463;
-}
-
-.alarmdetail-search-btn {
-    margin-left: 80px;
-    padding: 8px 48px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #5D3AB3;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.alarmdetail-search-btn:hover {
-    opacity: .8;
+.alarmdetail-seach{
+    padding: 24px;
 }
 
 .alarmdetail-content {

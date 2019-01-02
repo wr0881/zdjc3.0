@@ -56,18 +56,13 @@ class Manage extends Component {
 
         const columns = [
             {
-                title: 'ID/项目名',
+                title: '工程名称',
                 dataIndex: 'projectName',
             },
             {
-                title: 'K段',
+                title: '项目名称',
                 dataIndex: 'sectorName',
                 render: renderKContent
-            },
-            {
-                title: '类型',
-                dataIndex: 'itemName',
-                render: renderContent
             },
             {
                 title: '监控',

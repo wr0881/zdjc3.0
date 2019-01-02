@@ -126,6 +126,7 @@
       "react-app"
     ],
     "plugins": [
+      "react-hot-loader/babel",
       [
         "@babel/plugin-proposal-decorators",
         {
@@ -139,5 +140,10 @@
         }
       ]
     ]
+  },
+  "devDependencies": {
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "react-hot-loader": "^4.5.3"
   }
 }

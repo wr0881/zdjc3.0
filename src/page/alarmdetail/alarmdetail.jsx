@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table ,message} from 'antd';
+import { Table, Form, message, Input, Select, Button } from 'antd';
 import { Post } from 'common/js/util.js';
 import pagedata from 'store/page.js';
 import './alarmdetail.scss';
@@ -81,16 +81,74 @@ class DeviveInformation extends Component {
                     return text.alarmStatus === '已确认' ?
                         <div className='alarmdetail-table-confirmed'>已确认</div>
                         :
-                        <div className='alarmdetail-table-unconfirmed' onClick={this.confirmAlarm.bind(this,text.alarmId)}>未确认</div>
+                        <div className='alarmdetail-table-unconfirmed' onClick={this.confirmAlarm.bind(this, text.alarmId)}>未确认</div>
                 }
             },
         ]
+        const { getFieldDecorator } = this.props.form;
         return (
             <div className="alarmdetail">
-                <div className="alarmdetail-operate">
+                <div className="alarmdetail-seach">
+                    <Form
+                        key={Math.random()}
+                        layout="inline"
+                        onSubmit={e => {
+                            e.preventDefault();
+                            const { current, pageSize } = this.state.pagination;
+                            this.props.form.validateFieldsAndScroll((err, values) => {
+                                if (!err) {
+                                    this.setState({ ...values }, this.getAlarmDetail.bind(this, current, pageSize));
+                                }
+                            });
+                        }}>
+                        <Form.Item
+                            label="测点名称"
+                        >
+                            {getFieldDecorator('monitorPointNumber', { initialValue: '' })(<Input placeholder='全部'/>)}
+                        </Form.Item>
+                        <Form.Item
+                            label="告警状态"
+                        >
+                            {getFieldDecorator('alarmStatus', { initialValue: '' })(
+                                <Select style={{ width: '174px' }}>
+                                    <Select.Option value="">全部</Select.Option>
+                                    <Select.Option value="未确认">未确认</Select.Option>
+                                    <Select.Option value="已确认">已确认</Select.Option>
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item
+                            label="告警类型"
+                        >
+                            {getFieldDecorator('alarmType', { initialValue: '' })(
+                                <Select style={{ width: '174px' }}>
+                                    <Select.Option value="">全部</Select.Option>
+                                    <Select.Option value="设备类告警">设备类告警</Select.Option>
+                                    <Select.Option value="数据类告警">数据类告警</Select.Option>
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item
+                            label="告警等级"
+                        >
+                            {getFieldDecorator('alarmLevel', { initialValue: '' })(
+                                <Select style={{ width: '174px' }}>
+                                    <Select.Option value="">全部</Select.Option>
+                                    <Select.Option value="一">等级一</Select.Option>
+                                    <Select.Option value="二">等级二</Select.Option>
+                                    <Select.Option value="三">等级三</Select.Option>
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">搜索</Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+                {/* <div className="alarmdetail-operate">
                     <div className="alarmdetail-search-name">
                         <span>测点名称</span>
-                        <input type="text" onChange={e => {
+                        <Input type="text" onChange={e => {
                             this.setState({ monitorPointNumber: e.target.value });
                         }} />
                     </div>
@@ -113,7 +171,7 @@ class DeviveInformation extends Component {
                         }} />
                     </div>
                     <div className="alarmdetail-search-btn" onClick={this.searchBtnClick.bind(this)}>搜索</div>
-                </div>
+                </div> */}
                 <div className="alarmdetail-content">
                     <Table
                         columns={columns}
@@ -190,4 +248,4 @@ class DeviveInformation extends Component {
     }
 }
 
-export default DeviveInformation;
+export default Form.create()(DeviveInformation);
