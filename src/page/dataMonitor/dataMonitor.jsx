@@ -92,8 +92,8 @@ class DataMonitor extends Component {
                                     <span>{pointDetailData.monitorTypeName}</span>
                                 </div>
                                 <div className="point-detail-table1-item">
-                                    <span>传感器编号</span>
-                                    <span>{pointDetailData.sensorNumber}</span>
+                                    <span>采集器编号</span>
+                                    <span>{pointDetailData.terminalNumber}</span>
                                 </div>
                                 <div className="point-detail-table1-item">
                                     <span>传感器型号</span>

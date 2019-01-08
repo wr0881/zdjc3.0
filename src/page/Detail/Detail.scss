@@ -1,13 +1,12 @@
-.breadcrumb {
-    padding: 24px 0px;
-    font-size: 14px;
-    color: #3C4463;
+.detail{
+    padding-top: 24px;
 }
 
 .detail-content-title{
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-start;
+    min-width: 1400px;
     height: 62px;
     background-color: #FAFBFF;
     box-shadow:0px 1px 0px 0px #ECEAF3;

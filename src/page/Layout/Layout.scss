@@ -41,9 +41,10 @@
 
 .nav-item-icon {
     float: left;
-    margin-top: 22px;
+    display: flex;
+    align-items: center;
     width: 24px;
-    height: 24px;
+    height: 100%;
 }
 
 .nav-item-title {

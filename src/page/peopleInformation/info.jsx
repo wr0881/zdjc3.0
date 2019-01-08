@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { Table ,message} from 'antd';
+import { Table, message, Radio } from 'antd';
 import axios from 'axios';
 import pagedata from 'store/page.js';
 import './info.scss';
 
 const columns = [
     {
-        title: '姓名',
+        title: '单位名称',
+        dataIndex: 'memberCompany'
+    },
+    {
+        title: '联系人',
         dataIndex: 'memberName'
     },
     {
-        title: '联系电话',
+        title: '电话',
         dataIndex: 'memberPhone'
     },
     {
@@ -18,12 +22,8 @@ const columns = [
         dataIndex: 'memberEmail'
     },
     {
-        title: '岗位',
+        title: '职位',
         dataIndex: 'sectorRole'
-    },
-    {
-        title: '备注',
-        dataIndex: 'memberCompany'
     },
 ];
 
@@ -31,31 +31,29 @@ class PeopleInformation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            companyA: '',
-            companyB: '',
-            principalA: '',
-            principalB: '',
-            membersA: [],
-            membersB: [],
+            unitInfo: null,
+            unit: '建设单位'
         }
     }
     render() {
-        const state = { ...this.state };
+        const { unitInfo, unit } = this.state;
+        const members = unitInfo && unitInfo[unit] && unitInfo[unit].members.map(v => { return { ...v, key: Math.random() } });
         return (
             <div className="peopleInformation">
-                <div className="peopleInformation-wrapper">
-                    <div className="peopleInformation-company">甲方:{state.companyA}</div>
-                    <div className="peopleInformation-name">负责人：{state.principalA}</div>
-                    <div className="peopleInformation-content">
-                        <Table columns={columns} dataSource={state.membersA} pagination={false} />
-                    </div>
+                <div className="peopleInformation-table-wrapper">
+                    <Radio.Group
+                        defaultValue={unit}
+                        buttonStyle="solid"
+                        onChange={e => { this.setState({ unit: e.target.value }) }}
+                    >
+                        <Radio.Button value="建设单位">建设单位</Radio.Button>
+                        <Radio.Button value="施工单位">施工单位</Radio.Button>
+                        <Radio.Button value="监测单位">监测单位</Radio.Button>
+                        <Radio.Button value="监理单位">监理单位</Radio.Button>
+                    </Radio.Group>
                 </div>
-                <div className="peopleInformation-wrapper">
-                    <div className="peopleInformation-company">乙方:{state.companyB}</div>
-                    <div className="peopleInformation-name">负责人：{state.principalB}</div>
-                    <div className="peopleInformation-content">
-                        <Table columns={columns} dataSource={state.membersB} pagination={false} />
-                    </div>
+                <div className="peopleInformation-table-wrapper">
+                    <Table columns={columns} dataSource={members} pagination={false} />
                 </div>
             </div>
         );
@@ -70,17 +68,9 @@ class PeopleInformation extends Component {
             }
         }).then(res => {
             const { code, msg, data } = res.data;
-            if (code === 0||code===2) {
-                this.setState({ companyA: data.partyA.company, principalA: data.partyA.principal });
-                this.setState({ companyB: data.partyB.company, principalB: data.partyB.principal });
-                const membersA = data.partyA.members.map(v => {
-                    return { ...v, key: Math.random() };
-                });
-                const membersB = data.partyB.members.map(v => {
-                    return { ...v, key: Math.random() };
-                });
-                this.setState({ membersA, membersB });
-                if(code===2){
+            if (code === 0 || code === 2) {
+                this.setState({ unitInfo: data });
+                if (code === 2) {
                     message.error(msg);
                 }
             } else {

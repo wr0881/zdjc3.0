@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
+import BScroll from 'better-scroll';
 import Card from 'component/Card/Card';
 import BasicInformation from 'page/basicInformation/info';
 import PeopleInformation from 'page/peopleInformation/info';
@@ -110,48 +111,54 @@ class Detail extends Component {
         const activeUrl = this.props.location.pathname;
         return (
             <div className="detail">
-                <div className="breadcrumb">
-                    <span style={{ cursor: 'pointer' }}
-                        onClick={_ => { this.props.history.push('/project/manage') }}
-                    >项目管理</span>
-                    &nbsp;/
-                    {`${pagedata.sector.sectorName}`}
-                </div>
                 <Card
                     icon={<div style={{ width: '24px', height: '24px' }}><img src={manage} alt="" /></div>}
                     text={`${pagedata.sector.sectorName}`}
                 >
                     <div className="detail-content-wrapper">
-                        <div className="detail-content-title">
-                            {title.map(v => {
-                                return (
-                                    <NavLink
-                                        key={Math.random()}
-                                        to={`${curUrl}/${v.enTitle}`}
-                                        activeClassName='detail-content-title-item-active'
-                                    >
-                                        <div
-                                            className='detail-content-title-item'
+                        <div ref='scroll'>
+                            <div className="detail-content-title">
+                                {title.map(v => {
+                                    return (
+                                        <NavLink
+                                            key={Math.random()}
+                                            to={`${curUrl}/${v.enTitle}`}
+                                            activeClassName='detail-content-title-item-active'
                                         >
-                                            <div><img src={`${curUrl}/${v.enTitle}` === activeUrl ? `${v.icon_url_active}` : `${v.icon_url}`} alt='' /></div>
-                                            <div>{v.title}</div>
-                                        </div>
-                                    </NavLink>
-                                )
-                            })}
+                                            <div
+                                                className='detail-content-title-item'
+                                            >
+                                                <div><img src={`${curUrl}/${v.enTitle}` === activeUrl ? `${v.icon_url_active}` : `${v.icon_url}`} alt='' /></div>
+                                                <div>{v.title}</div>
+                                            </div>
+                                        </NavLink>
+                                    )
+                                })}
+                            </div>
                         </div>
+
                         <div className="detail-content">
                             <Switch>
                                 {title.map(v => {
                                     return <Route key={Math.random()} exact path={`${curUrl}/${v.enTitle}`} component={v.component} />
                                 })}
-                                <Redirect to={`${curUrl}/BasicInformation`} />
+                                <Redirect to={`${curUrl}/DataMonitor`} />
                             </Switch>
                         </div>
                     </div>
                 </Card>
             </div>
         );
+    }
+    componentDidMount() {
+        this.initScroll();
+    }
+    initScroll() {
+        const { scroll } = this.refs;
+        new BScroll(scroll, {
+            scrollX: true,
+            click: true
+        });
     }
 }
 

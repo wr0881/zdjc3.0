@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 import Card from 'component/Card/Card';
 import Chart from './chart';
@@ -8,6 +9,7 @@ import pageStore from 'store/page'
 import iconRinghtImg from 'common/image/向右箭头2.png';
 import './overview.scss';
 
+@withRouter
 class overview extends Component {
     constructor(props) {
         super(props);
@@ -100,7 +102,7 @@ class overview extends Component {
                                         icon={<div style={{ width: '8px', height: '8px', backgroundColor: '#32D184', borderRadius: '50%' }}></div>}
                                         operate={
                                             <div className="overview-project-item-operate" onClick={_ => {
-                                                console.log(v);
+                                                this.props.history.push({pathname:'/project/manage',query:{projectId:v.projectId}});
                                             }}>
                                                 <div className="">查看详情</div>
                                                 <div style={{ marginTop: '7px', marginLeft: '7px' }}><img src={iconRinghtImg} alt="" /></div>

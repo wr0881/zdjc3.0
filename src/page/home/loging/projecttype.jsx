@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Avatar } from 'antd';
+import Status from 'component/Status/status';
 import TypeItem from './typeitem/typeitem';
 import imgTitle from 'common/image/icon_主页_监测项目.png';
+// import { isMoment } from 'moment';
 
 class ProjectType extends Component {
     constructor(props) {
@@ -61,9 +63,9 @@ class ProjectType extends Component {
                         <div className='line'></div>
                     </div>
                     <div className="projecttype-content">
-                        <div><TypeItem isClick={false} data={{itemName:'幕墙'}}/></div>
-                        <div><TypeItem isClick={false} data={{itemName:'水泥'}}/></div>
-                        <div><TypeItem isClick={false} data={{itemName:'材料'}}/></div>
+                        <div style={{ width: '100%', height: '100px' }}>
+                            <Status text='暂无检测项目' />
+                        </div>
                     </div>
                 </div>
             </div>

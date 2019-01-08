@@ -407,6 +407,24 @@ module.exports = {
               'sass-loader'
             ),
           },
+          /* 我的 */
+          {
+            test: /\.less$/,
+            use: [{
+              loader: 'style-loader',
+            }, {
+              loader: 'css-loader', // translates CSS into CommonJS
+            }, {
+              loader: 'less-loader', // compiles Less to CSS
+              options: {
+                modifyVars: {
+                  'primary-color': '#5D3AB3',
+                },
+                javascriptEnabled: true,
+              },
+            }],
+            // ...other rules
+          },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
           // This loader doesn't use a "test" so it will catch all modules

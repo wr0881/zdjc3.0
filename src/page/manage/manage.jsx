@@ -1,22 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table } from 'antd';
+import { Table, Button, Input } from 'antd';
 import Card from 'component/Card/Card';
-import Button from 'component/Button/Button';
-import Input from 'component/Input/Input';
 import pagedata from 'store/page.js';
 import manage from 'common/image/manage.png';
 import './manage.scss';
-
-const rowSelection = {
-    // onChange: (selectedRowKeys, selectedRows) => {
-    //     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-    // },
-    // getCheckboxProps: record => ({
-    //     disabled: record.test1[0] === '地铁6号线运行监测', // Column configuration not to be checked
-    //     name: record.name,
-    // }),
-};
 
 class Manage extends Component {
     constructor(props) {
@@ -119,21 +107,28 @@ class Manage extends Component {
                 >
                     <div className='manage-content'>
                         <div className="manage-operate-wrapper">
-                            <div className="manage-export-btn">
-                                <Button>导出</Button>
-                            </div>
-                            <div className="manage-search-input">
-                                <Input
-                                    placeholder='ID/项目名称'
-                                    onOk={value => {
-                                        this.setState({ projectTag: value }, this.getManage.bind(this));
-                                    }}
-                                // onChange={value => { console.log(value) }}
-                                />
-                            </div>
+                            <Input.Search
+                                style={{ width: 300 }}
+                                placeholder="工程名称/ID"
+                                enterButton="搜索"
+                                onSearch={value => {
+                                    console.log(value);
+                                    this.setState({ projectTag: value }, this.getManage.bind(this));
+                                }}
+                            />
+                            <Button
+                                type='primary'
+                                style={{
+                                    marginLeft: '20px',
+                                    display: this.state.projectTag === '' ? 'none' : 'inline-block'
+                                }}
+                                onClick={_ => {
+                                    console.log('ok')
+                                    this.setState({ projectTag: '' }, this.getManage.bind(this));
+                                }}
+                            >查看全部</Button>
                         </div>
                         <Table
-                            rowSelection={rowSelection}
                             columns={columns}
                             dataSource={this.state.manageData}
                             size='middle'
@@ -146,7 +141,14 @@ class Manage extends Component {
         );
     }
     componentDidMount() {
-        this.getManage();
+        const query = this.props.location.query;
+        console.log(query);
+        if (query) {
+            const projectTag = query.projectId ? query.projectId : '';
+            this.setState({ projectTag }, this.getManage.bind(this));
+        } else {
+            this.getManage();
+        };
     }
     getManage() {
         const { projectTag } = this.state;
@@ -159,7 +161,6 @@ class Manage extends Component {
             const { code, msg, data } = res.data;
             if (code === 0) {
                 this.setState({ manageData: this.formatData(data) });
-                // this.setState({ pagination: { ...this.state.pagination, total: data.totalPage } });
             } else {
                 this.setState({ manageData: [] });
                 console.log('/project/queryProjects code: ', code, msg);
