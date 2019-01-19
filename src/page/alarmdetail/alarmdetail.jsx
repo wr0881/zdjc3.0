@@ -215,7 +215,7 @@ class DeviveInformation extends Component {
                 this.setState({ alarmDetalData: [] });
                 console.log('/alarm/querySearchAlarmInfo code:', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
     searchBtnClick() {
         const { initcurrent, initpageSize } = this.state;
@@ -244,7 +244,7 @@ class DeviveInformation extends Component {
                 message.error('告警确认失败');
                 console.log('/alarm/queryDeviceInfo code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
 }
 

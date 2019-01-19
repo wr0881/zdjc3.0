@@ -76,7 +76,7 @@ class BasicInformation extends Component {
                                     ref='basicInformationMap'
                                     style={{ height: '100%' }}
                                     center={{ lng: basicInformation.sectorLongitude, lat: basicInformation.sectorLatitude }}
-                                    zoom="11"
+                                    zoom="17"
                                 >
                                     <Marker position={{ lng: basicInformation.sectorLongitude, lat: basicInformation.sectorLatitude }} />
                                     <NavigationControl />
@@ -110,7 +110,7 @@ class BasicInformation extends Component {
                 message.error(msg);
                 console.log('/project/querySector: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
 }
 

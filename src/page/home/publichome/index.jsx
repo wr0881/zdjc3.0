@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import Header from 'component/header/header';
+// import axios from 'axios';
+import Header from './header/header';
 import ProjectType from './projecttype';
 import ProjectAlarm from './projectalarm';
 import ProjectNew from './projectnew';
+// import user from 'store/user';
 import './index.scss';
 
 class Loging extends Component {

@@ -113,7 +113,7 @@ class AlarmSimple extends Component {
             } else {
                 console.log('/alarm/queryAlarmCount code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
     getTableFormat(ary) {
         return ary.map(v => {

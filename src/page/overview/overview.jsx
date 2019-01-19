@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import Card from 'component/Card/Card';
 import Chart from './chart';
@@ -102,7 +102,7 @@ class overview extends Component {
                                         icon={<div style={{ width: '8px', height: '8px', backgroundColor: '#32D184', borderRadius: '50%' }}></div>}
                                         operate={
                                             <div className="overview-project-item-operate" onClick={_ => {
-                                                this.props.history.push({pathname:'/project/manage',query:{projectId:v.projectId}});
+                                                this.props.history.push({ pathname: '/project/manage', query: { projectId: v.projectId } });
                                             }}>
                                                 <div className="">查看详情</div>
                                                 <div style={{ marginTop: '7px', marginLeft: '7px' }}><img src={iconRinghtImg} alt="" /></div>
@@ -152,7 +152,7 @@ class overview extends Component {
                 this.setState({ resourceData: {} });
                 console.log('/project/queryProjectStatusCount code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
     getProjectAlarm() {
         axios.get('/alarm/queryAlarmProject', {
@@ -167,7 +167,7 @@ class overview extends Component {
                 this.setState({ projectAlarmData: [] });
                 console.log('/alarm/queryAlarmProject code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
     getProjectWill() {
         axios.get('/project/queryWillProject', {
@@ -182,7 +182,7 @@ class overview extends Component {
                 this.setState({ projectWillData: [] });
                 console.log('/project/queryWillProject code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
     getProjectList() {
         axios.get('/project/queryMonitorView', {
@@ -197,7 +197,7 @@ class overview extends Component {
                 this.setState({ projectListData: [] });
                 console.log('/project/queryMonitorView code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
 }
 

@@ -11,14 +11,15 @@ class Auth extends React.Component {
     }
     componentDidMount() {
         //不需要登陆验证的页面;
-        const publicList = ['/login'];
+        const publicList = ['/login', '/publichome'];
         const pathname = this.props.location.pathname;
         if (publicList.indexOf(pathname) > -1) {
             return null;
         }
         //需要登陆验证的页面;
         if (!user.isLogin) {
-            this.props.history.push('/login');
+            this.props.history.push('/publichome');
+            // this.props.history.push('/login');
         }
     }
 }

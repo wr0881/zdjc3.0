@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Avatar } from 'antd';
+import { Avatar, Card, message } from 'antd';
 import Status from 'component/Status/status';
 import TypeItem from './typeitem/typeitem';
 import imgTitle from 'common/image/icon_主页_监测项目.png';
-// import { isMoment } from 'moment';
 
 class ProjectType extends Component {
     constructor(props) {
@@ -50,23 +49,32 @@ class ProjectType extends Component {
                         <span>监测项目</span>
                         <div className='line'></div>
                     </div>
-                    <div className="projecttype-content">
-                        {loading ?
-                            <div>加载中...</div> :
-                            projectType.map(v => {
+                    <Card
+                        loading={loading}
+                        bordered={false}
+                        bodyStyle={{ width: '100%', padding: '0px' }}
+                    >
+                        <div className="projecttype-content">
+                            {projectType.map(v => {
                                 return <TypeItem key={Math.random()} data={v} />
-                            })
-                        }
-                    </div>
+                            })}
+                        </div>
+                    </Card>
                     <div className="projecttype-content-title">
                         <span>检测项目</span>
                         <div className='line'></div>
                     </div>
-                    <div className="projecttype-content">
-                        <div style={{ width: '100%', height: '100px' }}>
-                            <Status text='暂无检测项目' />
+                    <Card
+                        loading={loading}
+                        bordered={false}
+                        bodyStyle={{ width: '100%', padding: '0px' }}
+                    >
+                        <div className="projecttype-content">
+                            <div style={{ width: '100%', height: '100px' }}>
+                                <Status text='暂无检测项目' />
+                            </div>
                         </div>
-                    </div>
+                    </Card>
                 </div>
             </div>
         );
@@ -76,16 +84,20 @@ class ProjectType extends Component {
     }
     getProjectType() {
         const { monitorStatus } = this.state;
-        this.setState({ loading: true });
-        axios.get('/project/queryProjectType', { params: { type: monitorStatus } }).then(res => {
-            const code = res.data.code;
-            const data = res.data.data;
+        const time = setTimeout(_ => { this.setState({ loading: true }); }, 200);
+        axios.get('/project/queryProjectType', {
+            params: { type: monitorStatus }
+        }).then(res => {
+            const { code, msg, data } = res.data;
             if (code === 0) {
-                this.setState({ projectType: data }, _ => {
-                    this.setState({ loading: false });
-                });
+                this.setState({ projectType: data });
+                this.setState({ loading: false }, _ => { clearTimeout(time); });
+            } else {
+                message.error(msg);
             }
-        })
+        }).catch(err => {
+            this.setState({ loading: false }, _ => { clearTimeout(time); });
+        });
     }
 }
 

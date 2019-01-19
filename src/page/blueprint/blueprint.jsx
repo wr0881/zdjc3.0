@@ -66,7 +66,7 @@ class BluePrint extends Component {
                 this.setState({ imageData: [] });
                 console.log('/sector/queryImageNames code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
     getSelectImgInfo(key_id) {
         this.setState({ key_id });
@@ -83,7 +83,7 @@ class BluePrint extends Component {
                 this.setState({ imgInfo: {} });
                 console.log('/sector/queryImage code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
 }
 

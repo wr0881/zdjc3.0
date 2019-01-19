@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Auth from 'component/Auth/Auth';
 import Header from 'component/header/header';
 import Nav from './Nav';
 import Overview from 'page/overview/overview';
@@ -18,7 +17,6 @@ class Layout extends Component {
         const curUrl = this.props.match.url;
         return (
             <div className="layout">
-                <Auth />
                 <Header />
                 <Nav className='nav' />
                 <div className="layout-content">

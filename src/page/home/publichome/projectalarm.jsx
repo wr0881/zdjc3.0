@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
 import iconRinghtImg from 'common/image/向右箭头2.png';
 import iconAlarm from 'common/image/icon_主页_告警.png';
 
@@ -10,12 +9,12 @@ class ProjectAlarm extends Component {
         super(props);
         this.state = {
             alarm: {
-                sensorErrorCount: '--',
-                terminalErrorCount: '--',
-                projectAlarmCount: '--',
-                levelOneCount: '--',
-                levelTwoCount: '--',
-                levelThreeCount: '--'
+                sensorErrorCount: '0',
+                terminalErrorCount: '0',
+                projectAlarmCount: '0',
+                levelOneCount: '0',
+                levelTwoCount: '0',
+                levelThreeCount: '0'
             }
         }
     }
@@ -30,7 +29,7 @@ class ProjectAlarm extends Component {
                         </div>
                         <div className="projecttype-title-text">告警事项</div>
                     </div>
-                    <div className="projectalarm-title-type" onClick={_ => { this.props.history.push('/alarmsimple') }}>
+                    <div className="projectalarm-title-type" onClick={_ => { this.props.history.push('/login') }}>
                         <div className="projectalarm-more">查看详情</div>
                         <div className="projectalarm-more-icon"><img src={iconRinghtImg} alt="" /></div>
                     </div>
@@ -47,19 +46,6 @@ class ProjectAlarm extends Component {
                 </div>
             </div >
         );
-    }
-    componentDidMount() {
-        setTimeout(() => {
-            this.getAlarm();
-        }, 16);
-    }
-    getAlarm() {
-        axios.get('/alarm/queryAlarmErrorCounts').then(res => {
-            const { code, data } = res.data;
-            if (code === 0) {
-                this.setState({ alarm: data });
-            }
-        })
     }
 }
 

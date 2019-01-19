@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
-import { Modal } from 'antd';
-import { Post } from 'common/js/util.js';
-import user from 'store/user.js';
 import logo from 'common/image/logo.png';
-import avatar from 'common/image/favicon.png';
-import jiantou from 'common/image/向下箭头.png';
 import qiehuan from 'common/image/切换版本.png';
 import './header.scss';
 
@@ -23,7 +17,6 @@ class Header extends Component {
     }
     render() {
         const { islogin } = this.props;
-        const { userInfo } = this.state;
         return (
             <div className='home-header'>
                 <div className="home-header-content">
@@ -141,125 +134,15 @@ class Header extends Component {
                             >
                                 <div className="home-header-nav-text">
                                     <div className="home-user">
-                                        <div className="home-user-content">
-                                            <div className="user-avatar"><img src={avatar} alt="" /></div>
-                                            <div className="user-info">
-                                                <div className="user-name">{userInfo.realName}</div>
-                                                <div className="user-type">超级管理员</div>
-                                            </div>
-                                            <div className="user-icon"><img src={jiantou} style={{ width: '8px', height: '8px' }} alt="" /></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="home-header-nav-panel">
-                                    <div className="user-content">
-                                        <div>欢迎登陆</div>
-                                        <div className="user-content-item">
-                                            <div onClick={_ => { this.setState({ isShowUserInfo: true }) }}>个人资料</div>
-                                            <div onClick={_ => { this.setState({ isShowChangePwsd: true }) }}>修改密码</div>
-                                        </div>
-                                        <div onClick={this.loginOut.bind(this)}>安全退出</div>
+                                        <div onClick={_=>{this.props.history.push('/login')}}>登录</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
-                <Modal
-                    key='userinfo'
-                    title={<div className='user-info-title'>我的资料</div>}
-                    visible={this.state.isShowUserInfo}
-                    footer={null}
-                    width='341px'
-                    onCancel={_ => { this.setState({ isShowUserInfo: false }) }}
-                >
-                    <div className='user-info-item'>
-                        <span>用户名: </span>
-                        <span>{userInfo.userName}</span>
-                    </div>
-                    <div className='user-info-item'>
-                        <span>姓名: </span>
-                        <span>{userInfo.realName}</span>
-                    </div>
-                    <div className='user-info-item'>
-                        <span>电话: </span>
-                        <span>{userInfo.phone}</span>
-                    </div>
-                    <div className='user-info-item'>
-                        <span>邮箱: </span>
-                        <span>{userInfo.email}</span>
-                    </div>
-                    <div className='user-info-item'>
-                        <span>公司: </span>
-                        <span>{userInfo.company}</span>
-                    </div>
-                </Modal>
-                <Modal
-                    key='changepwd'
-                    title={<div className='user-change-pwd'>修改密码</div>}
-                    visible={this.state.isShowChangePwsd}
-                    footer={null}
-                    width='341px'
-                    bodyStyle={{ paddingTop: '0px' }}
-                    // onOk={this.handleOk}
-                    onCancel={_ => { this.setState({ isShowChangePwsd: false }) }}
-                >
-                    <div className="user-change-pwd-item">
-                        <input type="password" placeholder='请输入旧的密码' onChange={e => { this.setState({ oldPwd: e.target.value }) }} />
-                    </div>
-                    <div className="user-change-pwd-item">
-                        <input type="password" placeholder='请输入新的密码' onChange={e => { this.setState({ newPwd: e.target.value }) }} />
-                    </div>
-                    <div className="user-change-pwd-item">
-                        <input type="password" placeholder='确认新的密码' onChange={e => { this.setState({ confirmPwd: e.target.value }) }} />
-                    </div>
-                    <div className="user-change-pwd-msg">{this.state.msg}</div>
-                    <div className="user-change-pwd-btn" onClick={this.changePwd.bind(this)}>确认修改</div>
-                </Modal>
             </div>
         )
-    }
-    componentDidMount() {
-        //刷新，赋token后执行
-        setTimeout(() => {
-            this.getUserInfo();
-        }, 16);
-    }
-    getUserInfo() {
-        axios.get('/user/queryUserInfo').then(res => {
-            const code = res.data.code;
-            const data = res.data.data;
-            if (code === 0) {
-                this.setState({ userInfo: data });
-            }
-        })
-    }
-    changePwd() {
-        const { oldPwd, newPwd, confirmPwd } = this.state;
-        this.setState({ msg: '' });
-        if (!(oldPwd && newPwd && confirmPwd)) {
-            this.setState({ msg: '密码不能为空!' });
-            return null;
-        };
-        if (newPwd !== confirmPwd) {
-            this.setState({ msg: '两次密码不一致!' });
-            return null;
-        };
-        axios.post('/user/updatePassword', Post({ oldPassword: oldPwd, newPassword: newPwd })).then(res => {
-            const code = res.data.code;
-            if (code === 0) {
-                this.loginOut();
-            } else {
-                this.setState({ msg: res.data.msg });
-            }
-        });
-    }
-    loginOut() {
-        axios.delete('/token/logout').then(res => {
-            user.islogin = false;
-            window.localStorage.setItem('token', null);
-            this.props.history.push('/publichome');
-        })
     }
 }
 

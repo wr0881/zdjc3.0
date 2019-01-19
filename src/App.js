@@ -1,11 +1,7 @@
-import React, { Component, Fragment } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import 'common/js/config.js';
-import Login from 'page/Login/Login';
-import Home from './page/home/loging/index';
-import AlarmSimple from './page/alarmsimple/alarmsimple';
-import Layout from './page/Layout/Layout';
-import Auth from 'component/Auth/Auth';
+import Root from 'page/index.jsx';
 // 由于 antd 组件的默认文案是英文，所以需要修改为中文
 import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
@@ -14,23 +10,15 @@ import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
 class App extends Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <LocaleProvider locale={zhCN}>
-          <Fragment>
-            <Auth />
-            <Switch>
-              <Route path='/login' component={Login} />
-              <Route path='/home' component={Home} />
-              <Route path='/alarmsimple' component={AlarmSimple} />
-              <Route path='/project' component={Layout} />
-            </Switch>
-          </Fragment>
-        </LocaleProvider>
-      </BrowserRouter>
-    );
-  }
+    render() {
+        return (
+            <BrowserRouter>
+                <LocaleProvider locale={zhCN}>
+                    <Root />
+                </LocaleProvider>
+            </BrowserRouter>
+        );
+    }
 }
 
 export default App;

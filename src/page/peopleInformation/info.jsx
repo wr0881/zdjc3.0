@@ -76,7 +76,7 @@ class PeopleInformation extends Component {
             } else {
                 console.log('/sector/querySectorMember: ', code, msg);
             };
-        }).catch(err => { alert(err) });
+        })
     }
 }
 

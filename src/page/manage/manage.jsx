@@ -165,7 +165,7 @@ class Manage extends Component {
                 this.setState({ manageData: [] });
                 console.log('/project/queryProjects code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
     formatData(ary) {
         let formatData = [];

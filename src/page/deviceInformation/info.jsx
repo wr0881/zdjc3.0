@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table, Modal } from 'antd';
+import { Table, Modal ,message} from 'antd';
 import Terminal from './terminal';
 import pagedata from 'store/page.js';
 import './info.scss';
@@ -135,7 +135,7 @@ class DeviveInformation extends Component {
                 this.setState({ terminalData: [] });
                 console.log('/alarm/queryDeviceInfo code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
     searchBtnClick() {
         const { initcurrent, initpageSize } = this.state;
@@ -166,10 +166,10 @@ class DeviveInformation extends Component {
                 this.setState({ sensorData, isShow: true });
             } else {
                 this.setState({ sensorData: [] });
-                alert('暂无传感器数据');
+                message.error('暂无传感器数据');
                 console.log('/device/querySensorInfos code: ', code, msg);
             }
-        }).catch(err => { alert(err) });
+        })
     }
 }
 

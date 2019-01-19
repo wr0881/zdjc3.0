@@ -1,3 +1,4 @@
+@import 'common/css/variable.scss';
 .layout {
     position: relative;
     width: 100vw;
@@ -7,22 +8,18 @@
     background: #F4F7FC;
 }
 
-.layout-test {
-    height: 2000px;
-}
-
 .nav {
     float: left;
-    width: 300px;
-    height: calc(100vh - 90px);
+    width: $sider-width;
+    height: calc(100vh - #{$header-height});
     background: #fff;
     border: 1px solid #ECEAF3;
 }
 
 .nav-title {
-    padding-left: 40px;
     height: 79px;
     line-height: 79px;
+    text-align: center;
     font-size: 22px;
     font-weight: 400;
     color: rgba(18, 21, 33, 1);
@@ -56,9 +53,9 @@
 }
 
 .layout-content {
-    margin-left: 300px;
+    margin-left: $sider-width;
     padding: 0px 16px;
-    width: calc(100% - 300px);
-    height: calc(100vh - 90px);
+    width: calc(100% - #{$sider-width});
+    height: calc(100vh - #{$header-height});
     overflow: auto;
 }

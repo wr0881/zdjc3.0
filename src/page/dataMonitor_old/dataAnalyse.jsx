@@ -122,18 +122,6 @@ class DataAnalyse extends Component {
                     }
                 }
             },
-            dataZoom: [
-                {
-                    type: 'slider',
-                    realtime: true,
-                    height: 15,
-                    start: 70,
-                    end: 100
-                },
-                {
-                    type: 'inside',
-                }
-            ],
             grid: {
                 top: '50',
                 bottom: '0',
@@ -145,7 +133,7 @@ class DataAnalyse extends Component {
                 data: []
             },
             xAxis: {
-                type: 'time',
+                type: 'category',
                 boundaryGap: false,
                 axisLine: {
                     lineStyle: {
@@ -248,7 +236,6 @@ class DataAnalyse extends Component {
                     name: v.monitorPointNumber,
                     type: 'line',
                     smooth: true,
-                    symbol: "none",
                     data: v[dataType]
                 });
             });
@@ -258,6 +245,7 @@ class DataAnalyse extends Component {
                 },
                 series: dataAry
             });
+            console.log(dataAry)
             chart.resize();
         }
     }
