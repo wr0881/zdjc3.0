@@ -2,8 +2,8 @@ import axios from 'axios';
 import { message } from 'antd';
 import user from 'store/user';
 
-// axios.defaults.baseURL = 'http://10.88.89.101:8180';
-axios.defaults.baseURL = 'http://123.207.88.210:8180';
+axios.defaults.baseURL = 'http://10.88.89.148:8180';
+// axios.defaults.baseURL = 'http://123.207.88.210:8180';
 // axios.defaults.baseURL = 'http://10.88.89.170:8080';
 axios.defaults.timeout = 6000;
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table, Form, message, Input, Select, Button } from 'antd';
+import { Table, Form, Modal, message, Input, Select, Button } from 'antd';
 import { Post } from 'common/js/util.js';
 import pagedata from 'store/page.js';
 import './alarmdetail.scss';
@@ -90,7 +90,6 @@ class DeviveInformation extends Component {
             <div className="alarmdetail">
                 <div className="alarmdetail-seach">
                     <Form
-                        key={Math.random()}
                         layout="inline"
                         onSubmit={e => {
                             e.preventDefault();
@@ -104,7 +103,7 @@ class DeviveInformation extends Component {
                         <Form.Item
                             label="测点名称"
                         >
-                            {getFieldDecorator('monitorPointNumber', { initialValue: '' })(<Input placeholder='全部'/>)}
+                            {getFieldDecorator('monitorPointNumber', { initialValue: '' })(<Input placeholder='全部' />)}
                         </Form.Item>
                         <Form.Item
                             label="告警状态"
@@ -145,39 +144,17 @@ class DeviveInformation extends Component {
                         </Form.Item>
                     </Form>
                 </div>
-                {/* <div className="alarmdetail-operate">
-                    <div className="alarmdetail-search-name">
-                        <span>测点名称</span>
-                        <Input type="text" onChange={e => {
-                            this.setState({ monitorPointNumber: e.target.value });
-                        }} />
-                    </div>
-                    <div className="alarmdetail-search-type">
-                        <span>告警状态</span>
-                        <input type="text" onChange={e => {
-                            this.setState({ alarmStatus: e.target.value });
-                        }} />
-                    </div>
-                    <div className="alarmdetail-search-type">
-                        <span>告警类型</span>
-                        <input type="text" onChange={e => {
-                            this.setState({ alarmType: e.target.value });
-                        }} />
-                    </div>
-                    <div className="alarmdetail-search-type">
-                        <span>告警等级</span>
-                        <input type="text" onChange={e => {
-                            this.setState({ alarmLevel: e.target.value });
-                        }} />
-                    </div>
-                    <div className="alarmdetail-search-btn" onClick={this.searchBtnClick.bind(this)}>搜索</div>
-                </div> */}
                 <div className="alarmdetail-content">
                     <Table
                         columns={columns}
                         dataSource={this.state.alarmDetalData}
                         pagination={this.state.pagination}
                         onChange={this.handleTableChange.bind(this)}
+                        onRow={record => {
+                            return {
+                                onClick: e => { this.alarmMessage(record) }
+                            };
+                        }}
                     />
                 </div>
             </div>
@@ -245,6 +222,36 @@ class DeviveInformation extends Component {
                 console.log('/alarm/queryDeviceInfo code: ', code, msg);
             }
         })
+    }
+    alarmMessage(v) {
+        // {
+        //     alarmContext: "jk;"
+        //     alarmId: 7
+        //     alarmLevel: "等级一"
+        //     alarmStatus: "已确认"
+        //     alarmType: "设备类告警"
+        //     createTime: "2018-12-06 16:00:03"
+        //     key: 0.8447834068288782
+        //     monitorPointNumber: "CD20181129001"
+        //     projectName: "首个项目"
+        //     sectorName: "首个项目-区间1"
+        //     sensorNumber: "CGQ20181129001"
+        //     terminalNumber: "20181129001"
+        // }
+        Modal.info({
+            title: '告警通知',
+            content: (
+                <div>
+                    <div>【中大检测】尊敬的客户：</div>
+                    <div style={{ textIndent: '2em' }}>{`您的项目于${v.createTime}监测到水平位移数据超过阈值，`}</div>
+                    <div style={{ textIndent: '2em' }}>{`项目名称：${v.projectName}，`}</div>
+                    <div style={{ textIndent: '2em' }}>{`采集终端：${v.terminalNumber}，`}</div>
+                    <div style={{ textIndent: '2em' }}>{`传感器编号： ${v.sensorNumber}，`}</div>
+                    <div style={{ textIndent: '2em' }}>{`告警等级：${v.alarmLevel}。`}</div>
+                    <div style={{ textIndent: '2em' }}>详情请登陆中大检测在线监测平台查看。谢谢 ！</div>
+                </div>
+            )
+        });
     }
 }
 

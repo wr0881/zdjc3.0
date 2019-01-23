@@ -7,7 +7,9 @@ import PeopleInformation from 'page/peopleInformation/info';
 import DeviceInformation from 'page/deviceInformation/info';
 import BluePrint from 'page/blueprint/blueprint';
 import DataMonitor from 'page/dataMonitor/dataMonitor';
+import SourceRisk from 'page/risk/risk';
 import AlarmDetail from 'page/alarmdetail/alarmdetail';
+import Library from 'page/library/library';
 import pagedata from 'store/page.js';
 import manage from 'common/image/manage.png';
 import './Detail.scss';
@@ -69,7 +71,7 @@ const title = [
         enTitle: 'SourceRisk',
         icon_url: require('common/image/危险源.png'),
         icon_url_active: require('common/image/危险源2.png'),
-        component: ProductComponent,
+        component: SourceRisk,
     },
     {
         title: '项目告警',
@@ -83,7 +85,7 @@ const title = [
         enTitle: 'ProjectLib',
         icon_url: require('common/image/项目文库.png'),
         icon_url_active: require('common/image/项目文库2.png'),
-        component: ProductComponent,
+        component: Library,
     },
     {
         title: '操作日志',

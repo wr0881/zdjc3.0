@@ -47,7 +47,6 @@ class DataMonitor extends Component {
                                             imgInfo={v}
                                             dataSource={v.monitorPoints}
                                         />
-                                        {console.log(v)}
                                     </div>
                                 )
                             })}

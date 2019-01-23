@@ -1,50 +1,44 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Tree } from 'antd';
-import Zmage from 'react-zmage';
+import { Tabs } from 'antd';
+import Viewer from 'viewerjs';
 import pagedata from 'store/page.js';
 import './blueprint.scss';
-
-const TreeNode = Tree.TreeNode;
+import 'viewerjs/dist/viewer.css';
 
 class BluePrint extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            imageData: [],
-            imgInfo: {},
-            key_id: []
+            imageData: []
         }
     }
     render() {
-        const { imageData, imgInfo } = this.state;
-        const loop = data => data.map(value => {
-            if (value.images && value.images.length !== 0) {
-                return <TreeNode key={value.imageType} title={value.imageType} disabled>{loop(value.images)}</TreeNode>
-            } else if (value.children && value.children.length === 0) {
-                return <TreeNode key={value.imageType} title={value.imageType} disabled />
-            } else {
-                return <TreeNode key={value.imageListId} title={value.imageName} id={value.imageListId} />
-            }
-        });
+        const { imageData } = this.state;
         return (
             <div className="blueprint">
-                <div className="blueprint-operate">
-                    <Tree
-                        key={Math.random()}
-                        defaultExpandAll
-                        selectedKeys={this.state.key_id}
-                        onSelect={key_id => {
-                            this.getSelectImgInfo(key_id);
-                        }}
-                    >
-                        {loop(imageData)}
-                    </Tree>
-                </div>
-                <div className="blueprint-img">
-                    {/* <img src={`${window.Psq_ImgUrl}${imgInfo.imageUrl}`} alt="" /> */}
-                    <Zmage src={`${window.Psq_ImgUrl}${imgInfo.imageUrl}`} alt="" />
-                </div>
+                <Tabs defaultActiveKey="1">
+                    {imageData.map(v => {
+                        return (
+                            <Tabs.TabPane tab={v.imageType} key={v.imageType}>
+                                <div className="blueprint-img-wrapper"
+                                    onMouseEnter={e => {
+                                        this.viewerInit && this.viewerInit.destroy();
+                                        this.viewerInit = new Viewer(e.currentTarget);
+                                    }}
+                                >
+                                    {v.images.map(v1 => {
+                                        return (
+                                            <div className='blueprint-img' key={v1.imageUrl}>
+                                                <img src={`${window.Psq_ImgUrl}${v1.imageUrl}`} style={{ width: '100%', height: '100%' }} alt="" />
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </Tabs.TabPane>
+                        )
+                    })}
+                </Tabs>
             </div>
         );
     }
@@ -52,36 +46,18 @@ class BluePrint extends Component {
         this.getImageData();
     }
     getImageData() {
-        axios.get('/sector/queryImageNames', {
+        axios.get('/sector/queryImageNamesAndorid', {
             params: {
-                sectorId: pagedata.sector.sectorId
-            }
-        }).then(res => {
-            const { code, msg, data } = res.data;
-            if (code === 0) {
-                // console.log(data[0].images[0].imageListId)
-                this.setState({ imageData: data });
-                this.getSelectImgInfo([`${data[0].images[0].imageListId}`]);
-            } else {
-                this.setState({ imageData: [] });
-                console.log('/sector/queryImageNames code: ', code, msg);
-            }
-        })
-    }
-    getSelectImgInfo(key_id) {
-        this.setState({ key_id });
-        axios.get('/sector/queryImage', {
-            params: {
-                imageListId: key_id[0],
+                sectorId: pagedata.sector.sectorId,
                 imageType: 3
             }
         }).then(res => {
             const { code, msg, data } = res.data;
             if (code === 0) {
-                this.setState({ imgInfo: data });
+                this.setState({ imageData: data });
             } else {
-                this.setState({ imgInfo: {} });
-                console.log('/sector/queryImage code: ', code, msg);
+                this.setState({ imageData: [] });
+                console.log('/sector/queryImageType code: ', code, msg);
             }
         })
     }
