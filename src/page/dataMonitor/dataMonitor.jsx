@@ -97,26 +97,26 @@ class DataMonitor extends Component {
                                     <span>{pointDetailData.terminalNumber}</span>
                                 </div>
                                 <div className="point-detail-table1-item">
-                                    <span>传感器型号</span>
-                                    <span>{pointDetailData.sensorModel}</span>
+                                    <span>一级告警</span>
+                                    <span>{pointDetailData.oneMinValue}</span>
+                                </div>
+                                <div className="point-detail-table1-item">
+                                    <span>二级告警</span>
+                                    <span>{pointDetailData.twoMinValue}</span>
+                                </div>
+                                <div className="point-detail-table1-item">
+                                    <span>三级告警</span>
+                                    <span>{pointDetailData.threeMinValue}</span>
                                 </div>
                             </div>
                             <div className="point-detail-table2">
                                 <div className="point-detail-table2-item">
-                                    <span>实时值</span>
-                                    <span>{pointDetailData.measuredData}</span>
+                                    <span>初始时间</span>
+                                    <span>{pointDetailData.firstTime}</span>
                                 </div>
                                 <div className="point-detail-table2-item">
-                                    <span>测量时间</span>
-                                    <span>{pointDetailData.createDate}</span>
-                                </div>
-                                <div className="point-detail-table2-item">
-                                    <span>累计变化量</span>
-                                    <span>{pointDetailData.totalChange}</span>
-                                </div>
-                                <div className="point-detail-table2-item">
-                                    <span>变化速率</span>
-                                    <span>{pointDetailData.speedChange}</span>
+                                    <span>初始值</span>
+                                    <span>{pointDetailData.firstData}</span>
                                 </div>
                             </div>
                         </div>
@@ -363,6 +363,7 @@ class DataMonitor extends Component {
         }).then(res => {
             const { code, msg, data } = res.data;
             if (code === 0 || code === 2) {
+                console.log(data);
                 this.setState({ pointDetailData: data });
             } else {
                 this.setState({ pointDetailData: {} });

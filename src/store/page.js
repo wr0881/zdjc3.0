@@ -5,7 +5,7 @@ class Page {
     @observable sector = { sectorId: '', sectorName: '' }
 }
 
-const page = new Page();
+const page = new Page();    
 
 // autorun(_ => {
 //     const { projectType } = page;

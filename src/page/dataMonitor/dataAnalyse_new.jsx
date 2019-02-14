@@ -18,14 +18,14 @@ class DataAnalyse extends Component {
             pointTypeData: [],
             pointNameData: [],
             echartData: [],
-            selectPointTypeValue: '',
+            selectPointTypeValue: [],
             selectPointValue: [],
             pointdataType: 'totalChange',
             timeType: 'week',
         }
     }
     render() {
-        const { selectPointValue, timeType, pointdataType, echartData } = this.state;
+        const { selectPointValue, selectPointTypeValue, timeType, pointdataType, echartData } = this.state;
         return (
             <div className="dataAnalyse-wrapper">
                 <div className="dataAnalyse-chart-wrapper">
@@ -63,7 +63,7 @@ class DataAnalyse extends Component {
                 <div className="dataAnalyse-operate-wrapper">
                     <div className="dataAnalyse-operate-title">选择指标:</div>
                     <div className="dataAnalyse-operate-content">
-                        <RadioGroup
+                        {/* <RadioGroup
                             key={Math.random()}
                             onChange={e => { this.setState({ selectPointTypeValue: e.target.value }) }}
                             value={this.state.selectPointTypeValue}
@@ -71,7 +71,17 @@ class DataAnalyse extends Component {
                             {this.state.pointTypeData.map(v => {
                                 return <Radio key={v.monitorType} value={v.monitorType}>{v.monitorTypeName}</Radio>;
                             })}
-                        </RadioGroup>
+                        </RadioGroup> */}
+
+                        <CheckboxGroup
+                            key={Math.random()}
+                            defaultValue={selectPointTypeValue}
+                            onChange={v => { this.setState({ selectPointTypeValue: v }) }}
+                        >
+                            {this.state.pointTypeData.map(v => {
+                                return <Checkbox key={v.monitorType} value={v.monitorType}>{v.monitorTypeName}</Checkbox>;
+                            })}
+                        </CheckboxGroup>
                     </div>
                     <div className="dataAnalyse-operate-title">选择测点:</div>
                     <div className="dataAnalyse-operate-select">
@@ -99,7 +109,7 @@ class DataAnalyse extends Component {
         this.getPointType();
     }
     componentWillUpdate(nextProps, nextState) {
-        if (nextState.selectPointTypeValue !== this.state.selectPointTypeValue) {
+        if (nextState.selectPointTypeValue.length !== this.state.selectPointTypeValue.length) {
             this.getPointName(nextState.selectPointTypeValue);
         };
     }
@@ -122,6 +132,18 @@ class DataAnalyse extends Component {
                     }
                 }
             },
+            dataZoom: [
+                {
+                    type: 'slider',
+                    realtime: true,
+                    height: 15,
+                    start: 70,
+                    end: 100
+                },
+                {
+                    type: 'inside',
+                }
+            ],
             grid: {
                 top: '50',
                 bottom: '0',
@@ -133,7 +155,7 @@ class DataAnalyse extends Component {
                 data: []
             },
             xAxis: {
-                type: 'category',
+                type: 'time',
                 boundaryGap: false,
                 axisLine: {
                     lineStyle: {
@@ -187,21 +209,23 @@ class DataAnalyse extends Component {
         })
     }
     getPointName(value) {
-        axios.get('/point/queryMonitorPointName', {
-            params: {
-                sectorId: pageData.sector.sectorId,
-                monitorType: value
-            }
-        }).then(res => {
-            const { code, msg, data } = res.data;
-            if (code === 0) {
-                console.log(data);
-                this.setState({ pointNameData: data });
-            } else {
-                // this.setState({ pointNameData: [] });
-                console.log('/point/queryMonitorPointName code: ', code, msg);
-            }
-        })
+        this.setState({ pointNameData: [] });
+        value.forEach(v => {
+            axios.get('/point/queryMonitorPointName', {
+                params: {
+                    sectorId: pageData.sector.sectorId,
+                    monitorType: v
+                }
+            }).then(res => {
+                const { code, msg, data } = res.data;
+                if (code === 0) {
+                    this.setState({ pointNameData: [...this.state.pointNameData, ...data] });
+                } else {
+                    // this.setState({ pointNameData: [] });
+                    console.log('/point/queryMonitorPointName code: ', code, msg);
+                }
+            });
+        });
     }
     getEchartData() {
         const { selectPointTypeValue, selectPointValue, pointdataType, timeType } = this.state;
@@ -236,6 +260,7 @@ class DataAnalyse extends Component {
                     name: v.monitorPointNumber,
                     type: 'line',
                     smooth: true,
+                    symbol: "none",
                     data: v[dataType]
                 });
             });
@@ -245,7 +270,6 @@ class DataAnalyse extends Component {
                 },
                 series: dataAry
             });
-            console.log(dataAry)
             chart.resize();
         }
     }

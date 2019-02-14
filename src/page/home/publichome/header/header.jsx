@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import logo from 'common/image/logo.png';
 import qiehuan from 'common/image/切换版本.png';
+import andriod from 'common/image/andriod.png';
 import './header.scss';
 
 @withRouter
@@ -104,6 +105,17 @@ class Header extends Component {
                                 </div>
                             </div>
                         </div>
+                        {/* 下载 */}
+                        <div
+                            className="home-header-nav"
+                        >
+                            <div className="home-header-nav-text"><span><a style={{ color: '#121521' }} href="http://123.207.88.210/monitor/andriod_apk/zdjcyun.apk">安卓app</a></span></div>
+                            <div className="home-header-nav-panel">
+                                <div className='zhichi'>
+                                    <img src={andriod} alt="" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     {islogin ?
                         <div className="home-header-login">已登陆</div>
@@ -134,7 +146,7 @@ class Header extends Component {
                             >
                                 <div className="home-header-nav-text">
                                     <div className="home-user">
-                                        <div onClick={_=>{this.props.history.push('/login')}}>登录</div>
+                                        <div onClick={_ => { this.props.history.push('/login') }}>登录</div>
                                     </div>
                                 </div>
                             </div>

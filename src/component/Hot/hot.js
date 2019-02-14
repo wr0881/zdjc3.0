@@ -54,11 +54,13 @@ class Hot extends Component {
         return { scaleWidth, scaleHeight };
     }
     renderPointXY() {
-        const { dataSource ,imgInfo} = this.props;
+        const { dataSource, imgInfo } = this.props;
         const { scaleWidth, scaleHeight } = this.computedImgWH();
         const ary = dataSource.map((v, i) => {
+            const dotColor = v.status ? 'red' : 'green';
             return {
                 ...v,
+                dotColor,
                 picX: (parseInt(v.picX) * scaleWidth) / imgInfo.imageWidth,
                 picY: (parseInt(v.picY) * scaleHeight) / imgInfo.imageHeight,
             };
