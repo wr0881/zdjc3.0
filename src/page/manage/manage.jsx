@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Table, Button, Input } from 'antd';
 import Card from 'component/Card/Card';
 import pagedata from 'store/page.js';
-import manage from 'common/image/manage.png';
+import returnkey from 'common/image/returnkey.png';
 import './manage.scss';
 
 class Manage extends Component {
@@ -102,7 +102,11 @@ class Manage extends Component {
         return (
             <div className="manage">
                 <Card
-                    icon={<div style={{ width: '24px', height: '24px' }}><img src={manage} alt="" /></div>}
+                    icon={<div style={{ width: '24px', height: '24px' }}
+                    onClick={_ => {
+                        this.props.history.push('/project/overview');
+                    }}>
+                    <img src={returnkey} alt="" /></div>}
                     text={`${pagedata.projectType.projectTypeName}自动监测项目`}
                 >
                     <div className='manage-content'>
@@ -142,7 +146,7 @@ class Manage extends Component {
     }
     componentDidMount() {
         const query = this.props.location.query;
-        console.log(query);
+        //console.log(query);
         if (query) {
             const projectTag = query.projectId ? query.projectId : '';
             this.setState({ projectTag }, this.getManage.bind(this));

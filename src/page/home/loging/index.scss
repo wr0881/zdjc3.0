@@ -1,12 +1,13 @@
+$title-height:48px;
 .loging-wrapper {
-    min-height: calc(100vh - 90px);
+    height: calc(100vh - 60px);
     background-color: #F4F7FC;
     box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.08);
 }
 
 .loging-content {
     margin: 0 auto;
-    padding: 24px 0 0;
+    padding: 12px 0 0;
     width: 1200px;
     overflow: hidden;
 }
@@ -24,7 +25,6 @@
 
 .loging-content-item3 {
     float: right;
-    margin-top: 16px;
     width: 470px;
     height: 270px;
 }
@@ -37,29 +37,34 @@
 
 .projecttype-title-wrapper {
     position: relative;
-    padding: 19px 24px;
-    height: 68px;
+    padding: 0 24px;
+    height: $title-height;
     background: #FAFBFF;
     border-bottom: 1px solid #ECEAF3;
+    border-top-left-radius:8px;
+    border-top-right-radius:8px;
 }
 
-.projecttype-title{
+.projecttype-title {
+    float: left;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    height: $title-height;
 }
 
 .projecttype-title-text {
     padding-left: 16px;
-    font-size: 22px;
+    font-size: 18px;
     color: rgba(18, 21, 33, 1);
 }
 
 .projecttype-title-operate {
-    position: absolute;
-    top: 19px;
-    right: 24px;
-    height: 30px;
+    float: right;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: $title-height;
     border-radius: 4px;
     font-size: 12px;
     color: rgba(60, 68, 99, 1);
@@ -72,7 +77,7 @@
 
 .projecttype-title-operate>div {
     width: 80px;
-    height: 100%;
+    height: 30px;
     float: left;
     line-height: 30px;
     border: 1px solid #D9D8E0;
@@ -81,17 +86,20 @@
 }
 
 .projecttype-title-operate>div:nth-child(1) {
-    border-radius: 8px 0px 0px 8px;
+    border-radius: 4px 0px 0px 4px;
 }
 
 .projecttype-title-operate>div:nth-child(2) {
-    border-radius: 0px 8px 8px 0px;
+    border-radius: 0px 4px 4px 0px;
 }
 
 .projecttype-content-wrapper {
     padding: 0px 24px 24px;
+    //padding-left:24px;
     background-color: #FFF;
     overflow: hidden;
+    border-bottom-left-radius:8px;
+    border-bottom-right-radius:8px;
 }
 
 .projecttype-content-title {
@@ -127,10 +135,11 @@
 }
 
 .projectalarm-title-type {
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    height: 30px;
+    float: right;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: $title-height;
     overflow: hidden;
     cursor: pointer;
 }
@@ -145,7 +154,6 @@
 
 .projectalarm-more-icon {
     float: left;
-    margin-top: 7px;
     margin-left: 8px;
     width: 16px;
     height: 16px;

@@ -11,6 +11,12 @@ img {
     vertical-align: top !important;
 }
 
+input:-webkit-autofill {
+    -webkit-text-fill-color: #fff !important;
+    -webkit-text-fill-color: #fff;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
 // @font-face{
 //     font-family: 'PingFangSC-Regular';
 //     src: url('./PingFang.ttc');

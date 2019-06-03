@@ -1,4 +1,6 @@
+import { toJS } from 'mobx';
 import moment from 'moment';
+import unit from 'store/unit.js';
 
 //处理post传参后台不能解析
 export const Post = (obj) => {
@@ -51,4 +53,27 @@ export function getTime(time) {
         case 'year': return get1Year();
         default: return null;
     }
+}
+
+//时间戳转时间
+export function getShowTime(unix) {
+    const date = new Date(unix);
+
+    function addZero(num) {
+        let value = num > 9 ? num : `0${num}`;
+        return value;
+    }
+
+    return `${date.getFullYear()}-${addZero(date.getMonth() + 1)}-${addZero(date.getDate())} ${addZero(date.getHours())}:${addZero(date.getMinutes())}:${addZero(date.getSeconds())}`;
+}
+
+//得到单位
+export function getUnit(type) {
+    const unitAry = toJS(unit.unit);
+    for (let item in unitAry) {
+        if (unitAry[item].monitorTypeName === type || unitAry[item].monitorType === type) {
+            return unitAry[item];
+        }
+    }
+    return {};
 }

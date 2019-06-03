@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Button, Row, Col } from 'antd';
 import user from 'store/user';
 import { Post } from 'common/js/util.js';
-import loginImg from 'common/image/登陆.png';
+import loginImg from 'common/image/loginyun.png';
 import loginUsernameImg from 'common/image/登陆账号名.png';
 import loginPasswordImg from 'common/image/登陆密码.png';
 import './Login.scss';

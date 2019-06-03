@@ -6,12 +6,15 @@ import BasicInformation from 'page/basicInformation/info';
 import PeopleInformation from 'page/peopleInformation/info';
 import DeviceInformation from 'page/deviceInformation/info';
 import BluePrint from 'page/blueprint/blueprint';
-import DataMonitor from 'page/dataMonitor/dataMonitor';
+import DataInquire from 'page/dataMonitor_new/dataMonitorContainer';
+import DataMonitor from 'page/dataMonitor/datamonitor';
+import ComplexAnalyse from 'page/complexanalyse/complexanalyse';
+import VideoMonitor from 'page/videomonitor/videomonitor';
 import SourceRisk from 'page/risk/risk';
 import AlarmDetail from 'page/alarmdetail/alarmdetail';
 import Library from 'page/library/library';
 import pagedata from 'store/page.js';
-import manage from 'common/image/manage.png';
+import returnkey from 'common/image/returnkey.png';
 import './Detail.scss';
 
 const ProductComponent = _ => {
@@ -53,6 +56,13 @@ const title = [
         component: ProductComponent,
     },
     {
+        title: '数据查询',
+        enTitle: 'DataInquire',
+        icon_url: require('common/image/数据查询.png'),
+        icon_url_active: require('common/image/数据查询2.png'),
+        component: DataInquire,
+    },
+    {
         title: '数据监控',
         enTitle: 'DataMonitor',
         icon_url: require('common/image/数据监控.png'),
@@ -60,11 +70,18 @@ const title = [
         component: DataMonitor,
     },
     {
-        title: '视频监控',
+        title: '综合分析',
+        enTitle: 'ComplexAnalyse',
+        icon_url: require('common/image/综合分析.png'),
+        icon_url_active: require('common/image/综合分析2.png'),
+        component: ComplexAnalyse,
+    },
+    {
+        title: '视频查询',
         enTitle: 'VideoMonitor',
         icon_url: require('common/image/视频监控.png'),
         icon_url_active: require('common/image/视频监控2.png'),
-        component: ProductComponent,
+        component: VideoMonitor,
     },
     {
         title: '危险源',
@@ -114,7 +131,10 @@ class Detail extends Component {
         return (
             <div className="detail">
                 <Card
-                    icon={<div style={{ width: '24px', height: '24px' }}><img src={manage} alt="" /></div>}
+                    icon={<div style={{ width: '24px', height: '24px' }}
+                    onClick={_ => {
+                        this.props.history.push('/project/manage');
+                    }}><img src={returnkey} alt="" /></div>}
                     text={`${pagedata.sector.sectorName}`}
                 >
                     <div className="detail-content-wrapper">
@@ -144,7 +164,7 @@ class Detail extends Component {
                                 {title.map(v => {
                                     return <Route key={Math.random()} exact path={`${curUrl}/${v.enTitle}`} component={v.component} />
                                 })}
-                                <Redirect to={`${curUrl}/DataMonitor`} />
+                                <Redirect to={`${curUrl}/DataInquire`} />
                             </Switch>
                         </div>
                     </div>

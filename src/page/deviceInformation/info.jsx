@@ -54,6 +54,7 @@ class DeviveInformation extends Component {
                 render: (text, record, index) => {
                     return (
                         <div className='alarmdetail-table-unconfirmed'
+                            style={{margin:'auto'}}
                             onClick={_ => {
                                 this.setState({ selectTerminalNumber: record.terminalNumber });
                                 this.getTerminalData(record.terminalNumber);

@@ -30,7 +30,15 @@ class BluePrint extends Component {
                                     {v.images.map(v1 => {
                                         return (
                                             <div className='blueprint-img' key={v1.imageUrl}>
-                                                <img src={`${window.Psq_ImgUrl}${v1.imageUrl}`} style={{ width: '100%', height: '100%' }} alt="" />
+                                                <img src={`${window.Psq_ImgUrl}${v1.imageUrl}`} alt=""
+                                                    onLoad={e => {
+                                                        const target = e.target;
+                                                        if (target.height > 280) {
+                                                            target.style.width = 280 * 480 / target.height + 'px';
+                                                            target.style.height = '280px';
+                                                        }
+                                                    }}
+                                                />
                                             </div>
                                         )
                                     })}

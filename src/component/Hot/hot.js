@@ -38,34 +38,50 @@ class Hot extends Component {
         // };
     }
     computedImgWH() {
-        const { imgInfo } = this.props;
-        const { imageWidth, imageHeight } = imgInfo;
-        const { clientWidth, clientHeight } = this.refs.hot;
-        let scaleWidth, scaleHeight;
-        if (imageHeight / imageWidth < clientHeight / clientWidth) {
-            scaleWidth = clientWidth;
-            scaleHeight = (clientWidth * imageHeight) / imageWidth;
-        } else {
-            scaleHeight = clientHeight;
-            scaleWidth = (clientHeight * imageWidth) / imageHeight;
+        try {
+            const { imgInfo } = this.props;
+            const { imageWidth, imageHeight } = imgInfo;
+            const { clientWidth, clientHeight } = this.refs.hot;
+            let scaleWidth, scaleHeight;
+            if (imageHeight / imageWidth < clientHeight / clientWidth) {
+                scaleWidth = clientWidth;
+                scaleHeight = (clientWidth * imageHeight) / imageWidth;
+            } else {
+                scaleHeight = clientHeight;
+                scaleWidth = (clientHeight * imageWidth) / imageHeight;
+            }
+            this.refs.hotImg.style.width = scaleWidth + 'px';
+            this.refs.hotImg.style.height = scaleHeight + 'px';
+            return { scaleWidth, scaleHeight };
+        } catch{
+
         }
-        this.refs.hotImg.style.width = scaleWidth + 'px';
-        this.refs.hotImg.style.height = scaleHeight + 'px';
-        return { scaleWidth, scaleHeight };
     }
     renderPointXY() {
-        const { dataSource, imgInfo } = this.props;
-        const { scaleWidth, scaleHeight } = this.computedImgWH();
-        const ary = dataSource.map((v, i) => {
-            const dotColor = v.status ? 'red' : 'green';
-            return {
-                ...v,
-                dotColor,
-                picX: (parseInt(v.picX) * scaleWidth) / imgInfo.imageWidth,
-                picY: (parseInt(v.picY) * scaleHeight) / imgInfo.imageHeight,
-            };
-        });
-        this.setState({ handleData: ary });
+        try {
+            const { dataSource, imgInfo } = this.props;
+            const { scaleWidth, scaleHeight } = this.computedImgWH();
+            const ary = dataSource.map((v, i) => {
+                let dotColor;
+                switch (v.status) {
+                    case 0: dotColor = 'green'; break;
+                    case 1: dotColor = 'yellow'; break;
+                    case 2: dotColor = 'orange'; break;
+                    case 3: dotColor = 'red'; break;
+                    case -1: dotColor = 'gray'; break;
+                    default: dotColor = 'green'; break;
+                }
+                return {
+                    ...v,
+                    dotColor,
+                    picX: (parseInt(v.picX) * scaleWidth) / imgInfo.imageWidth,
+                    picY: (parseInt(v.picY) * scaleHeight) / imgInfo.imageHeight,
+                };
+            });
+            this.setState({ handleData: ary });
+        } catch{
+
+        }
     }
 }
 

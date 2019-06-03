@@ -4,6 +4,7 @@ import gailan from 'common/image/侧边栏_概览.png';
 import xiangmuguanli from 'common/image/侧边栏_项目管理.png';
 import shipingjiankong from 'common/image/侧边栏_视频监控.png';
 import bim from 'common/image/侧边栏_bim.png';
+import gis from 'common/image/icon_主页_监测项目.png';
 
 class Nav extends Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class Nav extends Component {
         const { className } = this.props;
         return (
             <div className={className}>
-                <div className="nav-title">地铁自动化监测</div>
+                <div className="nav-title">自动化智能监测</div>
                 <NavLink
                     to='/project/overview'
                     activeClassName='nav-item-active'
@@ -44,6 +45,15 @@ class Nav extends Component {
                     <div className="nav-item">
                         <div className="nav-item-icon"><img src={bim} alt="" /></div>
                         <div className="nav-item-title">BIM</div>
+                    </div>
+                </NavLink>
+                <NavLink
+                    to='/project/gis'
+                    activeClassName='nav-item-active'
+                >
+                    <div className="nav-item">
+                        <div className="nav-item-icon"><img src={gis} alt="" /></div>
+                        <div className="nav-item-title">GIS</div>
                     </div>
                 </NavLink>
             </div>

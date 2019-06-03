@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
 import Header from './header/header';
 import ProjectType from './projecttype';
-import ProjectAlarm from './projectalarm';
-import ProjectNew from './projectnew';
-// import user from 'store/user';
 import './index.scss';
 
 class Loging extends Component {
@@ -14,20 +10,22 @@ class Loging extends Component {
     }
     render() {
         return (
-            <div className="loging">
+            <div className="loging" id='publichome'>
                 <Header />
                 <div className="loging-wrapper">
                     <div className="loging-content">
-                        <div className='loging-content-item1'>
-                            <ProjectType />
-                        </div>
-                        <div className='loging-content-item2'>
-                            <ProjectAlarm />
-                        </div>
-                        <div className='loging-content-item3'>
-                            <ProjectNew />
-                        </div>
+                        <ProjectType />
                     </div>
+                </div>
+                <div style={{
+                    position: 'fixed',
+                    bottom: '0px',
+                    width: '100%',
+                    height: '50px',
+                    lineHeight: '50px',
+                    textAlign: 'center'
+                }}>
+                    <a href="http://www.miitbeian.gov.cn" target="__blank" style={{ color: '#000' }}>湘ICP备18005958号</a>
                 </div>
             </div>
         );
