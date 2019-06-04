@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Avatar } from 'antd';
 import imgTitle from 'common/image/icon_主页_监测项目.png';
+import DataMonitorContainer from './dataMonitor_new/dataMonitorContainer';
 
 import TypeBox from './typebox/typebox';
 
@@ -19,18 +20,18 @@ class allProject extends Component {
                         <div className='allProject-title-logo'>
                             <Avatar src={imgTitle} style={{ width: '24px', height: '24px' }} />
                         </div>
-                        <div className="allProject-title-text">中大检测</div>
+                        <div className="allProject-title-text">长丰路站</div>
                     </div>
-                    <div className="allProject-title-operate">
+                    {/* <div className="allProject-title-operate">
                         <div
                         // className='allProject-title-operate-active'
                         >
                             全部
                         </div>
-                    </div>
+                    </div> */}
                 </div>
-                <div className="allProject-content-wrapper" style={{ height: '300px' }}>
-                    
+                <div className="allProject-content-wrapper" style={{  }}>
+                    {/* <DataMonitorContainer /> */}
                 </div>
             </div>
         );

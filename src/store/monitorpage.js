@@ -63,19 +63,8 @@ class Monitor {
                 if (data) {
                     this.pointDetailData = data;
                 }
-                if(data && selectPoint.monitorType === 80 && this.selectDeep !== ''){
-                    this.getMapEchartDataNBWY();
-                }
-                if(data && selectPoint.monitorType === 26 && this.selectDeep !== ''){
-                    this.getMapEchartDataNBWY();
-                }
-                if(data && selectPoint.monitorType === 66 && this.selectDeep !== ''){
-                    this.getMapEchartDataNBWY();
-                }
             } else {
                 this.pointDetailData = {};
-                this.selectDeep = '';
-                this.isShowMapChartNBWY = false;
                 this.isShowMapChart = false;
                 console.log('/sector/queryTerminalAndSensor code: ', code, msg);
             }
@@ -112,35 +101,35 @@ class Monitor {
         })
     }
     //内部位移echarts图表数据
-    @action getMapEchartDataNBWY() {
-        const selectPoint = this.selectPoint;
-        const selsectTime = this.selsectTime;
-        if(selectPoint.monitorType === 66 || 26){
-        axios.get('/data/queryDeepData', {
-            params: {
-                sectorId: pageData.sector.sectorId,
-                monitorType: selectPoint.monitorType,
-                monitorPointNumber: selectPoint.monitorPointNumber,
-                sensorNumber: this.selectDeep,
-                beginTime: selsectTime[0].format('YYYY-MM-DD HH:mm:ss'),
-                endTime: selsectTime[1].format('YYYY-MM-DD HH:mm:ss'),
-            }
+    // @action getMapEchartDataNBWY() {
+    //     const selectPoint = this.selectPoint;
+    //     const selsectTime = this.selsectTime;
+    //     if(selectPoint.monitorType === 66 || 26){
+    //     axios.get('/data/queryDeepData', {
+    //         params: {
+    //             sectorId: pageData.sector.sectorId,
+    //             monitorType: selectPoint.monitorType,
+    //             monitorPointNumber: selectPoint.monitorPointNumber,
+    //             sensorNumber: this.selectDeep,
+    //             beginTime: selsectTime[0].format('YYYY-MM-DD HH:mm:ss'),
+    //             endTime: selsectTime[1].format('YYYY-MM-DD HH:mm:ss'),
+    //         }
 
-        }).then(res => {
-            const { code, msg, data } = res.data;
-            if (code === 0) {
-                this.mapEchartDataNBWY = data;
-                //console.log(data);
-                this.isShowMapChartNBWY = true;
-                this.timeselectLoading = false;
-            } else {
-                this.isShowMapChartNBWY = false;
-                this.timeselectLoading = false;
-                message.info(msg);
-            }
-        })
-        }
-    }
+    //     }).then(res => {
+    //         const { code, msg, data } = res.data;
+    //         if (code === 0) {
+    //             this.mapEchartDataNBWY = data;
+    //             //console.log(data);
+    //             this.isShowMapChartNBWY = true;
+    //             this.timeselectLoading = false;
+    //         } else {
+    //             this.isShowMapChartNBWY = false;
+    //             this.timeselectLoading = false;
+    //             message.info(msg);
+    //         }
+    //     })
+    //     }
+    // }
 
     //数据对比监测指标
     @action getMonitorTypeData() {
