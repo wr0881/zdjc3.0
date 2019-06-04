@@ -53,7 +53,7 @@ class Monitor {
         const selectPoint = this.selectPoint;
         axios.get('/sector/queryTerminalAndSensor', {
             params: {
-                sectorId: pageData.sector.sectorId,
+                sectorId: 9,
                 monitorType: selectPoint.monitorType,
                 monitorPointNumber: selectPoint.monitorPointNumber
             }
@@ -76,7 +76,7 @@ class Monitor {
         const selsectTime = this.selsectTime;
         axios.get('/sector/querySensorData', {
             params: {
-                sectorId: pageData.sector.sectorId,
+                sectorId: 9,
                 monitorType: selectPoint.monitorType,
                 monitorPointNumber: selectPoint.monitorPointNumber,
                 beginTime: selsectTime[0].format('YYYY-MM-DD HH:mm:ss'),
@@ -135,7 +135,7 @@ class Monitor {
     @action getMonitorTypeData() {
         axios.get('/common/queryMonitorTypeName', {
             params: {
-                sectorId: pageData.sector.sectorId
+                sectorId: 9
             }
         }).then(res => {
             const { code, msg, data } = res.data;
@@ -151,7 +151,7 @@ class Monitor {
     @action getPointName() {
         axios.get('/point/queryMonitorPointName', {
             params: {
-                sectorId: pageData.sector.sectorId,
+                sectorId: 9,
                 monitorType: this.monitorTypeName
             }
         }).then(res => {
@@ -171,7 +171,7 @@ class Monitor {
         endTime = getTime(this.timeType)[1];
         axios.get('/sector/queryComparisonData', {
             params: {
-                sectorId: pageData.sector.sectorId,
+                sectorId: 9,
                 monitorType: this.monitorTypeName,
                 pointNames: JSON.stringify(this.selectPointName),
                 beginTime: beginTime,

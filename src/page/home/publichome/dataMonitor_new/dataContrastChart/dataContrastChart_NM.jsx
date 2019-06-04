@@ -22,7 +22,7 @@ class DataContrastChart extends Component {
         return (
             <div className="dataAnalyse-chart-wrapper">
                 <div className="dataAnalyse-type-wrapper">
-                    <div className="dataAnalyse-type-name">{pageData.sector.sectorName}</div>
+                    <div className="dataAnalyse-type-name">长丰路站</div>
                     <div className="dataAnalyse-type-btnGrounp">
                         <RadioGroup key={Math.random()} defaultValue={monitorpage.pointdataType}
                             onChange={e => {

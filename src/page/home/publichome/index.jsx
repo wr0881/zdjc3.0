@@ -10,7 +10,7 @@ class Loging extends Component {
     }
     render() {
         return (
-            <div className="loging" id='publichome'>
+            <div className="loging" id='index'>
                 <Header />
                 <div className="loging-wrapper">
                     <div className="loging-content">

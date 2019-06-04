@@ -29,6 +29,7 @@ class DataMonitorContainer extends Component {
                     </span>
                 </div>
                 <PointMap />
+                {/* <PointMap /> */}
                 <PointDetail_NM />
                 <Modal
                     key='dataAnalyse'

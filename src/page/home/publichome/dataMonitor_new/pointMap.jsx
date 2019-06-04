@@ -21,7 +21,7 @@ class PointMap extends Component {
         return (
             <div className="point-map-wrapper">
                 <div className="swiper-container">
-                    <div className="swiper-wrapper" style={{ width: '800px', height: '300px' }}>
+                    <div className="swiper-wrapper" style={{ width: '100%', height: '300px' }}>
                         {monitorpage.blueprintData.map(v => {
                             return (
                                 <div key={Math.random()} className="swiper-slide">
@@ -50,7 +50,7 @@ class PointMap extends Component {
     }
     componentDidMount() {
         this.initBanner();
-        this.getBlueprintData();
+        //this.getBlueprintData();
     }
     initBanner() {
         new Swiper('.swiper-container', {
@@ -68,7 +68,7 @@ class PointMap extends Component {
     getBlueprintData() {
         axios.get('/sector/queryImagesMonitorPoint', {
             params: {
-                sectorId: pagedata.sector.sectorId,
+                sectorId: 9,
                 imageType: 3
             }
         }).then(res => {

@@ -31,7 +31,7 @@ class allProject extends Component {
                     </div> */}
                 </div>
                 <div className="allProject-content-wrapper" style={{  }}>
-                    {/* <DataMonitorContainer /> */}
+                    <DataMonitorContainer />
                 </div>
             </div>
         );
