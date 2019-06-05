@@ -51,7 +51,9 @@ class Monitor {
     //布点图测点详细信息
     @action getPointDetailData() {
         const selectPoint = this.selectPoint;
+
         axios.get('/sector/queryTerminalAndSensor', {
+            headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
                 sectorId: 9,
                 monitorType: selectPoint.monitorType,
@@ -75,6 +77,7 @@ class Monitor {
         const selectPoint = this.selectPoint;
         const selsectTime = this.selsectTime;
         axios.get('/sector/querySensorData', {
+            headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
                 sectorId: 9,
                 monitorType: selectPoint.monitorType,
@@ -134,6 +137,7 @@ class Monitor {
     //数据对比监测指标
     @action getMonitorTypeData() {
         axios.get('/common/queryMonitorTypeName', {
+            headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
                 sectorId: 9
             }
@@ -150,6 +154,7 @@ class Monitor {
     //数据对比监测测点
     @action getPointName() {
         axios.get('/point/queryMonitorPointName', {
+            headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
                 sectorId: 9,
                 monitorType: this.monitorTypeName
@@ -170,6 +175,7 @@ class Monitor {
         beginTime = getTime(this.timeType)[0];
         endTime = getTime(this.timeType)[1];
         axios.get('/sector/queryComparisonData', {
+            headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
                 sectorId: 9,
                 monitorType: this.monitorTypeName,

@@ -3,8 +3,8 @@ import axios from 'axios';
 import { observer } from 'mobx-react';
 import { message } from 'antd';
 import Hot from 'component/Hot/hot';
-import pagedata from 'store/page.js';
 import monitorpage from 'store/monitorpage.js';
+import cflimgUrl from 'common/image/cfl.png';
 //banner图
 import Swiper from 'swiper/dist/js/swiper.js'
 import 'swiper/dist/css/swiper.min.css'
@@ -22,6 +22,7 @@ class PointMap extends Component {
             <div className="point-map-wrapper">
                 <div className="swiper-container">
                     <div className="swiper-wrapper" style={{ width: '100%', height: '300px' }}>
+                        {/* <img src={cflimgUrl} alt="热点图" ref='hot' style={{ width:'auto',height:'auto',maxWidth:'100%',maxHeight:'60%',marginTop:'7%' }} /> */}
                         {monitorpage.blueprintData.map(v => {
                             return (
                                 <div key={Math.random()} className="swiper-slide">
@@ -33,6 +34,7 @@ class PointMap extends Component {
                                             if (v.monitorPointNumber !== monitorpage.selectPoint.monitorPointNumber) {
                                                 monitorpage.selectPoint = v;
                                             }
+                                            console.log("点击测点！！！");
                                         }}
                                         imgInfo={v}
                                         dataSource={v.monitorPoints}
@@ -50,7 +52,7 @@ class PointMap extends Component {
     }
     componentDidMount() {
         this.initBanner();
-        //this.getBlueprintData();
+        this.getBlueprintData();
     }
     initBanner() {
         new Swiper('.swiper-container', {
@@ -66,8 +68,11 @@ class PointMap extends Component {
         });
     }
     getBlueprintData() {
-        axios.get('/sector/queryImagesMonitorPoint', {
+        const token = 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I';
+        axios.get('http://123.207.88.210:8180/sector/queryImagesMonitorPoint', {
+            //headers: {'Authorization': token},
             params: {
+                Authorization:token,
                 sectorId: 9,
                 imageType: 3
             }
@@ -75,9 +80,9 @@ class PointMap extends Component {
             const { code, msg, data } = res.data;
             if (code === 0 || code === 2) {
                 monitorpage.blueprintData=data;
+
             } else {
                 monitorpage.blueprintData=[];
-                message.info(msg);
                 console.log('/sector/queryImagesMonitorPoint code: ', code, msg);
             }
         })
