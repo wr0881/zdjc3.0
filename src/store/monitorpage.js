@@ -55,7 +55,7 @@ class Monitor {
         axios.get('/sector/queryTerminalAndSensor', {
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
-                sectorId: 9,
+                sectorId: 21,
                 monitorType: selectPoint.monitorType,
                 monitorPointNumber: selectPoint.monitorPointNumber
             }
@@ -79,7 +79,7 @@ class Monitor {
         axios.get('/sector/querySensorData', {
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
-                sectorId: 9,
+                sectorId: 21,
                 monitorType: selectPoint.monitorType,
                 monitorPointNumber: selectPoint.monitorPointNumber,
                 beginTime: selsectTime[0].format('YYYY-MM-DD HH:mm:ss'),
@@ -139,7 +139,7 @@ class Monitor {
         axios.get('/common/queryMonitorTypeName', {
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
-                sectorId: 9
+                sectorId: 21
             }
         }).then(res => {
             const { code, msg, data } = res.data;
@@ -156,7 +156,7 @@ class Monitor {
         axios.get('/point/queryMonitorPointName', {
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
-                sectorId: 9,
+                sectorId: 21,
                 monitorType: this.monitorTypeName
             }
         }).then(res => {
@@ -177,7 +177,7 @@ class Monitor {
         axios.get('/sector/queryComparisonData', {
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
-                sectorId: 9,
+                sectorId: 21,
                 monitorType: this.monitorTypeName,
                 pointNames: JSON.stringify(this.selectPointName),
                 beginTime: beginTime,

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { autorun, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { Checkbox, Radio, Button } from 'antd';
-import DataContrastChart_NM from './dataContrastChart/dataContrastChart_NM';
+import DataContrastChart_NM from './dataContrastChart_NM';
 import monitorpage from 'store/monitorpage.js';
 
 const CheckboxGroup = Checkbox.Group;

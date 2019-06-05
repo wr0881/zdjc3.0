@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Badge, Icon } from 'antd';
 import { observer } from 'mobx-react';
-import PointMap from './pointMap';
-import PointDetail_NM from './pointDetail/pointDetail_NM';
+import PointDetail_NM from './pointDetail_NM';
 import DataContrast from './dataContrast';
 import monitorpage from 'store/monitorpage.js';
 import './monitor.scss';
@@ -17,18 +16,7 @@ class DataMonitorContainer extends Component {
     render() {
         return (
             <div className='dataMonitor-wrapper'>
-                <div className='pointmap-explain'>
-                    <Badge color="green" text="正常" />
-                    <Badge color="yellow" text="一级告警" />
-                    <Badge color="orange" text="二级告警" />
-                    <Badge color="red" text="三级告警" />
-                    <Badge color="gray" text="监测完毕" />
-                    <span style={{ color: '#faad14' }}>
-                        <Icon type="exclamation-circle" />
-                        <span style={{ marginLeft: '8px', color: 'rgba(0, 0, 0, 0.65)' }}>点击下图圆点查看测点数据信息!</span>
-                    </span>
-                </div>
-                <PointMap />
+                
                 {/* <PointMap /> */}
                 <PointDetail_NM />
                 <Modal

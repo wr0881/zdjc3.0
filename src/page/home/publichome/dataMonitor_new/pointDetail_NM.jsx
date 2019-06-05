@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { autorun, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import echarts from 'echarts';
-import { DatePicker, Select, Button } from 'antd';
+import axios from 'axios';
+import Hot from 'component/Hot/hot';
+import { DatePicker, Checkbox, Button, Badge, Icon, Modal, Select } from 'antd';
+//import PointMap from './pointMap';
 import monitorpage from 'store/monitorpage.js';
-import { getUnit } from 'common/js/util.js';
+
+import Swiper from 'swiper/dist/js/swiper.js';
+import 'swiper/dist/css/swiper.min.css';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+const CheckboxGroup = Checkbox.Group;
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 
 @observer
@@ -16,11 +22,26 @@ class PointDetail extends Component {
         super(props);
         this.state = {
             selsectTime: [],
+            sectorPoint: [],
             chart: null
         }
     }
+    showModal = () =>{
+        this.setState({
+            dataPointVisible:true
+        })
+    }
+    handleOk = e =>{
+        this.setState({
+            dataPointVisible:false
+        })
+    }
+    handleCancel = e =>{
+        this.setState({
+            dataPointVisible:false
+        })
+    }
     render() {
-        const { pointDetailData } = monitorpage;
         return (
             <div className="point-detail-wrapper">
                 <div className="point-detail-operate">
@@ -28,6 +49,7 @@ class PointDetail extends Component {
                     <RangePicker showTime format={dateFormat} defaultValue={monitorpage.selsectTime}
                         onOk={v => {
                             monitorpage.selsectTime = v;
+                            monitorpage.getMapEchartData();
                         }}
                     />
                     <Button
@@ -38,31 +60,112 @@ class PointDetail extends Component {
                             monitorpage.getMapEchartData();
                         }}
                     >查看</Button>
-                    <Button
+                    {/* <Button
                         type='primary'
                         style={{ marginLeft: '20px' }}
                         onClick={_ => {
                             monitorpage.dataContrastVisible = true;
                         }}
-                    >数据对比</Button>
+                    >数据对比</Button> */}
                     <div style={{
                         flex: '1 1 auto',
                         display: 'flex',
                         justifyContent: 'flex-end',
                         alignItems: 'center'
                     }}>
-                        <div style={{ marginRight: '10px' }}>选择测点: </div>
+                        <div style={{ marginRight: '10px',cursor: 'pointer' }}>选择指标</div>
                         <Select
                             showSearch
                             style={{ width: 200, float: 'right' }}
-                            placeholder="选择测点"
-                            value={monitorpage.selectPoint.monitorPointNumber}
-                            onChange={v => { monitorpage.selectPoint = JSON.parse(v) }}
+                            placeholder="选择指标"
+                            value={monitorpage.monitorTypeName}
+                            onChange={v => { monitorpage.monitorTypeName = JSON.parse(v) }}
                         >
-                            {toJS(monitorpage.selectPointList).map(v => {
-                                return <Option key={v.monitorPointNumber} value={JSON.stringify(v)}>{v.monitorPointNumber}</Option>
+                            {monitorpage.monitorTypeData.map(v => {
+                                return <Option key={v.monitorType} value={v.monitorType}>{v.monitorTypeName}</Option>
                             })}
                         </Select>
+                    </div>
+                    <div style={{
+                        flex: '1 1 auto',
+                        display: 'flex',
+                        marginLeft: '20px',
+                        justifyContent: 'flex-start',
+                        alignItems: 'center'
+                    }}>
+                        <div style={{ marginRight: '10px',cursor: 'pointer' }} onClick={this.showModal}>选择测点</div>
+                    </div>
+                </div>
+                <Modal
+                    visible={this.state.dataPointVisible}
+                    destroyOnClose={true}
+                    keyboard={true}
+                    footer={null}
+                    width='700px'
+                    height='540px'
+                    bodyStyle={{ padding: '0px' }}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                >
+                    <div style={{height:'540px'}}>                    
+                        <div className="dataMonitor-operate-select">
+                            <CheckboxGroup
+                                key={Math.random()}
+                                defaultValue={this.pointName}
+                                onChange={v => { this.pointName = v }}
+                            >
+                                {this.state.sectorPoints}
+                            </CheckboxGroup>
+                        </div>
+                        <div className="dataMonitor-operate-button">
+                            <Button
+                                style={{ width: '80px', height: '24px' }}
+                                type='primary'
+                                onClick={v => {
+                                    monitorpage.selectPoint = v;
+                                    this.initChart();                                   
+                                    this.handleOk();
+                                }}
+                            >确认</Button>
+                        </div>                    
+                    </div>
+                </Modal>
+                <div className='pointmap-explain'>
+                    <Badge color="green" text="正常" />
+                    <Badge color="yellow" text="一级告警" />
+                    <Badge color="orange" text="二级告警" />
+                    <Badge color="red" text="三级告警" />
+                    <Badge color="gray" text="监测完毕" />
+                    <span style={{ color: '#faad14' }}>
+                        <Icon type="exclamation-circle" />
+                        <span style={{ marginLeft: '8px', color: 'rgba(0, 0, 0, 0.65)' }}>点击下图圆点查看测点数据信息!</span>
+                    </span>
+                </div>
+                <div className="point-map-wrapper">
+                    <div className="swiper-container">
+                        <div className="swiper-wrapper" style={{ width: '100%', height: '240px' }}>
+                            {monitorpage.blueprintData.map(v => {
+                                return (
+                                    <div key={Math.random()} className="swiper-slide">
+                                        <Hot
+                                            key={Math.random()}
+                                            style={{ width: '100%', height: '100%' }}
+                                            imgUrl={`${window.Psq_ImgUrl}${v.imageUrl}`}
+                                            onClick={v => {
+                                                // if (v.monitorPointNumber !== monitorpage.selectPoint.monitorPointNumber) {
+                                                //     monitorpage.selectPoint = v;
+                                                // }
+                                                console.log("点击测点！！！");
+                                            }}
+                                            imgInfo={v}
+                                            dataSource={v.monitorPoints}
+                                        />
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-button-next"></div>
                     </div>
                 </div>
                 <div style={{ display: JSON.stringify(toJS(monitorpage.selectPoint)) === '{}' ? 'block' : 'none', height: '400px' }}>
@@ -70,42 +173,8 @@ class PointDetail extends Component {
                     <span style={{ padding: '50px' }}>暂无数据信息，请选择测点!</span>
                 </div>
                 <div className="point-detail-content" style={{
-                    display: JSON.stringify(toJS(monitorpage.selectPoint)) === '{}' ? 'none' : 'flex'
+                    display: JSON.stringify(toJS(monitorpage.selectPoint)) === '{}' ? 'none' : 'flex',height:'420px'
                 }}>
-                    <div className="point-detail-table-wrapper">
-                        <div className="point-detail-table1">
-                            <div className="point-detail-table1-item">
-                                <span>测点名称</span>
-                                <span>{pointDetailData.monitorPointNumber || '暂无数据'}</span>
-                            </div>
-                            <div className="point-detail-table1-item">
-                                <span>检测指标</span>
-                                <span>{pointDetailData.monitorTypeName || '暂无数据'}</span>
-                            </div>
-                            <div className="point-detail-table1-item">
-                                <span>一级告警</span>
-                                <span>{pointDetailData.oneMinValue || '暂无数据'}</span>
-                            </div>
-                            <div className="point-detail-table1-item">
-                                <span>二级告警</span>
-                                <span>{pointDetailData.twoMinValue || '暂无数据'}</span>
-                            </div>
-                            <div className="point-detail-table1-item">
-                                <span>三级告警</span>
-                                <span>{pointDetailData.threeMinValue || '暂无数据'}</span>
-                            </div>
-                        </div>
-                        <div className="point-detail-table2">
-                            <div className="point-detail-table2-item">
-                                <span>初始时间</span>
-                                <span>{pointDetailData.firstTime || '暂无数据'}</span>
-                            </div>
-                            <div className="point-detail-table2-item">
-                                <span>初始值</span>
-                                <span>{pointDetailData.firstData || '暂无数据'}</span>
-                            </div>
-                        </div>
-                    </div>
                     <div className="point-detail-chart-wrapper" style={{
                         display: monitorpage.isShowMapChart ? 'block' : 'none'
                     }}>
@@ -119,7 +188,8 @@ class PointDetail extends Component {
     }
     componentDidMount() {
         this.initChart();
-
+        this.initBanner();
+        this.getBlueprintData();
         let destroyAutorun = autorun(() => {
             const mapEchartData = toJS(monitorpage.mapEchartData);
             if (JSON.stringify(mapEchartData) !== '{}') {
@@ -131,6 +201,42 @@ class PointDetail extends Component {
     componentWillUnmount() {
         this.destroyAutorun && this.destroyAutorun();
     }
+    initBanner() {
+        new Swiper('.swiper-container', {
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            observer: true,
+        });
+    }
+    getBlueprintData() {
+        const token = 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I';
+        axios.get('/sector/queryImagesMonitorPoint', {
+            //headers: {'Authorization': token},
+            params: {
+                Authorization:token,
+                sectorId: 21,
+                imageType: 3
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0 || code === 2) {
+                monitorpage.blueprintData=data;
+                console.log(monitorpage.selectPointList);
+                const sectorPoints = monitorpage.selectPointList.map(v=>{return <Checkbox key={v.monitorPointNumber} value={v.monitorPointNumber}>{v.monitorPointNumber}</Checkbox>});
+                this.setState({sectorPoints});
+            } else {
+                monitorpage.blueprintData=[];
+                console.log('/sector/queryImagesMonitorPoint code: ', code, msg);
+            }
+        })
+    }
+    
     initChart() {
         const chart = echarts.init(this.refs.chart);
 
@@ -254,11 +360,6 @@ class PointDetail extends Component {
     }
     setEchartLine(data) {
         const chart = this.chart;
-        const monitorTypeName = monitorpage.selectPoint.monitorTypeName;
-
-        const totalChangeUnit = getUnit(monitorTypeName).unitA;
-        const singleChangeUnit = getUnit(monitorTypeName).unitB;
-        const speedChangeUnit = getUnit(monitorTypeName).unitC;
 
         let time = [], singleChange = [], totalChange = [], speedChange = [];
         data.commonDataVOs && data.commonDataVOs.forEach(v => {
@@ -269,30 +370,20 @@ class PointDetail extends Component {
         });
         chart && chart.setOption({
             legend: {
-                data: ['累计变化量' + totalChangeUnit, '单次变化量' + singleChangeUnit, '变化速率' + speedChangeUnit],
+                data: ['累计变化量' + 'mm'],
                 selectedMode: 'single'
             },
             xAxis: {
                 data: time
             },
             yAxis: {
-                name: `单位: ${singleChangeUnit}`
+                name: `单位: mm`
             },
             series: [
                 {
-                    name: '累计变化量' + totalChangeUnit,
+                    name: '累计变化量' + 'mm',
                     type: 'line',
                     data: totalChange
-                },
-                {
-                    name: '单次变化量' + singleChangeUnit,
-                    type: 'line',
-                    data: singleChange
-                },
-                {
-                    name: '变化速率' + speedChangeUnit,
-                    type: 'line',
-                    data: speedChange
                 }
             ]
         })
