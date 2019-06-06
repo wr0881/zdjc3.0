@@ -20,6 +20,7 @@ const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 class PointDetail extends Component {
     constructor(props) {
         super(props);
+        this.getEchartDataLoading = false;
         this.state = {
             selsectTime: [],
             sectorPoint: [],
@@ -49,15 +50,15 @@ class PointDetail extends Component {
                     <RangePicker showTime format={dateFormat} defaultValue={monitorpage.selsectTime}
                         onOk={v => {
                             monitorpage.selsectTime = v;
-                            monitorpage.getMapEchartData();
+                            console.log(v);
                         }}
                     />
                     <Button
                         type='primary'
-                        loading={monitorpage.timeselectLoading}
+                        loading={this.getEchartDataLoading}
                         onClick={() => {
-                            monitorpage.timeselectLoading = true;
-                            monitorpage.getMapEchartData();
+                            this.getEchartDataLoading = true;
+                            this.getEchartData();
                         }}
                     >查看</Button>
                     {/* <Button
@@ -107,14 +108,17 @@ class PointDetail extends Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                 >
-                    <div style={{height:'540px'}}>                    
+                    <div style={{height:'540px'}}> 
+                  
                         <div className="dataMonitor-operate-select">
                             <CheckboxGroup
                                 key={Math.random()}
-                                defaultValue={this.pointName}
-                                onChange={v => { this.pointName = v }}
+                                defaultValue={ this.selectPointName }
+                                onChange={v => { this.selectPointName = v }}
                             >
-                                {this.state.sectorPoints}
+                                {monitorpage.pointNameData.map(v=>{
+                                    return <Checkbox key={v} value={v}>{v}</Checkbox>
+                                })}
                             </CheckboxGroup>
                         </div>
                         <div className="dataMonitor-operate-button">
@@ -122,8 +126,9 @@ class PointDetail extends Component {
                                 style={{ width: '80px', height: '24px' }}
                                 type='primary'
                                 onClick={v => {
-                                    monitorpage.selectPoint = v;
-                                    this.initChart();                                   
+                                    //monitorpage.selectPointName = v;
+                                    this.initChart();
+                                    this.getEchartData();
                                     this.handleOk();
                                 }}
                             >确认</Button>
@@ -152,10 +157,6 @@ class PointDetail extends Component {
                                             style={{ width: '100%', height: '100%' }}
                                             imgUrl={`${window.Psq_ImgUrl}${v.imageUrl}`}
                                             onClick={v => {
-                                                // if (v.monitorPointNumber !== monitorpage.selectPoint.monitorPointNumber) {
-                                                //     monitorpage.selectPoint = v;
-                                                // }
-                                                console.log("点击测点！！！");
                                             }}
                                             imgInfo={v}
                                             dataSource={v.monitorPoints}
@@ -168,35 +169,31 @@ class PointDetail extends Component {
                         <div className="swiper-button-next"></div>
                     </div>
                 </div>
-                <div style={{ display: JSON.stringify(toJS(monitorpage.selectPoint)) === '{}' ? 'block' : 'none', height: '400px' }}>
-                    <div style={{ height: '50px' }}></div>
-                    <span style={{ padding: '50px' }}>暂无数据信息，请选择测点!</span>
+                <div style={{ display:monitorpage.monitorTypeName ? 'block' : 'none' }}>
+                    <div className='dataAnalyse-chart' ref='chart'></div>
                 </div>
-                <div className="point-detail-content" style={{
-                    display: JSON.stringify(toJS(monitorpage.selectPoint)) === '{}' ? 'none' : 'flex',height:'420px'
-                }}>
-                    <div className="point-detail-chart-wrapper" style={{
-                        display: monitorpage.isShowMapChart ? 'block' : 'none'
-                    }}>
-                        <div>
-                            <div className="point-detail-chart" ref='chart'></div>
-                        </div>
-                    </div>
+                <div style={{ display:monitorpage.monitorTypeName ? 'none' : 'block', height: '400px' }}>
+                    <span style={{ margin: '50px', lineHeight: '100px' }}>暂无数据信息，请选择指标和测点!</span>
                 </div>
             </div>
         );
     }
     componentDidMount() {
-        this.initChart();
         this.initBanner();
         this.getBlueprintData();
-        let destroyAutorun = autorun(() => {
-            const mapEchartData = toJS(monitorpage.mapEchartData);
-            if (JSON.stringify(mapEchartData) !== '{}') {
-                this.setEchartLine(mapEchartData);
+        monitorpage.getMonitorTypeData();
+        autorun(() => {
+            if (monitorpage.monitorTypeName) {
+                monitorpage.getPointName();
             }
-        });
-        this.destroyAutorun = destroyAutorun;
+        })
+        // let destroyAutorun = autorun(() => {
+        //     const mapEchartData = toJS(monitorpage.mapEchartData);
+        //     if (JSON.stringify(mapEchartData) !== '{}') {
+        //         this.setEchartLine(mapEchartData);
+        //     }
+        // });
+        // this.destroyAutorun = destroyAutorun;
     }
     componentWillUnmount() {
         this.destroyAutorun && this.destroyAutorun();
@@ -227,21 +224,42 @@ class PointDetail extends Component {
             const { code, msg, data } = res.data;
             if (code === 0 || code === 2) {
                 monitorpage.blueprintData=data;
-                console.log(monitorpage.selectPointList);
-                const sectorPoints = monitorpage.selectPointList.map(v=>{return <Checkbox key={v.monitorPointNumber} value={v.monitorPointNumber}>{v.monitorPointNumber}</Checkbox>});
-                this.setState({sectorPoints});
             } else {
                 monitorpage.blueprintData=[];
                 console.log('/sector/queryImagesMonitorPoint code: ', code, msg);
             }
         })
     }
-    
+    getEchartData() {
+        const selsectTime = monitorpage.selsectTime;
+
+        axios.get('/sector/queryComparisonData', {
+            headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
+            params: {
+                sectorId: 21,
+                monitorType: monitorpage.monitorTypeName,
+                pointNames: JSON.stringify(this.selectPointName),
+                beginTime: selsectTime[0].format('YYYY-MM-DD HH:mm:ss'),
+                endTime: selsectTime[1].format('YYYY-MM-DD HH:mm:ss'),
+                dateType: 1
+            }
+        }).then(res => {
+            const { code, msg, data } = res.data;
+            if (code === 0 || code === 2) {
+                this.contrastChartData = data.comparisonVO;
+                this.setEchartLine();
+                this.getEchartDataLoading = false;
+            } else {
+                this.contrastChartData = [];
+                this.getEchartDataLoading = false;
+                console.log('/sector/queryComparisonData code: ', code, msg);
+            }
+        })
+    }
     initChart() {
         const chart = echarts.init(this.refs.chart);
-
         const option = {
-            color: ['#32D184', '#E4B669', '#1890FF'],
+            color: ['#AA68F9', '#FCCB7C', '#EE757C', '#A0C1FE', '#32D184', '#E4B669', '#1890FF', '#EA4C48', '#5D3AB3', '#7AAFD5'],
             tooltip: {
                 trigger: 'axis',
                 backgroundColor: 'rgba(0,0,0,0.82)',
@@ -257,22 +275,19 @@ class PointDetail extends Component {
                 }
             },
             grid: {
-                top: '30',
-                bottom: '10',
-                left: '0',
-                right: '30',
+                top: '50',
+                bottom: '20',
+                left: '30',
+                right: '50',
                 containLabel: true
             },
             legend: {
-                data: [],
-                selectedMode: 'single'
+                data:[],
+                padding:[10,60],
             },
             toolbox: {
-                show: true,
+                right:'20px',
                 feature: {
-                    dataZoom: {
-                        yAxisIndex: 'none'
-                    },
                     dataView: { 
                         show: true,
                         title: '数据视图',
@@ -280,50 +295,44 @@ class PointDetail extends Component {
                         textareaBorderColor: '#DFDDEC',
                         buttonColor: '#5D3AB3',
                         readOnly: true,
-                        lang:['数据视图','关闭','刷新'],
+                        lang:['数据视图','关闭',''],
                         optionToContent: function (opt) {
-                            let axisData = opt.xAxis[0].data; //坐标数据
-                            console.log(opt.xAxis[0]);
+                            let axisData = opt.series[0].data; //坐标数据
+                            //console.log(axisData);
                             let series = opt.series; //折线图数据
-                            let tdHeads = '<td  style="padding: 0 10px">测试时间</td>'; //表头
+                            let tdHeads = '<td  style="padding: 0 10px;background:#fafafa;height:30px">测试时间</td>'; //表头
                             let tdBodys = ''; //数据
                             series.forEach(function (item) {
                                 //组装表头
-                                tdHeads += `<td style="padding: 0 10px">${item.name}</td>`;
+                                tdHeads += `<td style="padding: 0 10px;background:#fafafa;height:30px">${item.name}</td>`;
                             });
-                            let table = `<table border="1" style="width:100%;border-collapse:collapse;font-size:14px;text-align:center;border-color:#DFDDEC"><tbody><tr>${tdHeads} </tr>`;
-                            console.log(axisData.length);
+                            let table = `<table border="1" style="width:100%;border-collapse:collapse;font-size:14px;text-align:center;border:1px solid #e8e8e8"><tbody><tr>${tdHeads} </tr>`;
                             for (let i = 0, l = axisData.length; i < l; i++) {
                                 for (let j = 0; j < series.length; j++) {
                                     //组装表数据
-                                    tdBodys += `<td>${ series[j].data[i]}</td>`;
+                                    tdBodys += `<td style="height:30px">${ series[j].data[i][1]}</td>`;
                                 }
-                                table += `<tr><td style="padding: 0 10px">${axisData[i]}</td>${tdBodys}</tr>`;
+                                table += `<tr style="height:24px"><td style="padding: 0 10px;height:30px">${axisData[i][0]}</td>${tdBodys}</tr>`;
                                 tdBodys = '';
                             }
                             table += '</tbody></table>';
                             return table;
                         }
                     },
-                    magicType: { type: ['line', 'bar'] },
-                    restore: {},
                     saveAsImage: {}
                 }
             },
             xAxis: {
-                type: 'category',
+                type: 'time',
                 boundaryGap: false,
                 axisLine: {
-                    symbol: ['none', 'arrow'],
-                    onZero: false,
                     lineStyle: {
                         color: '#BFBFBF'
                     }
                 },
                 axisLabel: {
                     color: '#545454'
-                },
-                data: []
+                }
             },
             yAxis: {
                 type: 'value',
@@ -335,59 +344,44 @@ class PointDetail extends Component {
                     }
                 },
                 axisLabel: {
-                    showMaxLabel: false,
                     color: '#545454'
                 },
                 axisLine: {
-                    symbol: ['none', 'arrow'],
                     lineStyle: {
                         color: '#BFBFBF'
                     }
                 }
             },
-            series: [
-
-            ]
+            series:[]
         };
-
-        chart.setOption(option);
-
+        chart.showLoading({color:'#5D3AB3',text:'图表正在加载！！！'});
+        chart.clear();
+        chart.setOption(option,true);
         this.chart = chart;
-
-        window.addEventListener('resize', _ => {
-            chart.resize();
-        });
     }
-    setEchartLine(data) {
+    setEchartLine() {
         const chart = this.chart;
-
-        let time = [], singleChange = [], totalChange = [], speedChange = [];
-        data.commonDataVOs && data.commonDataVOs.forEach(v => {
-            time.push(v.createDate);
-            singleChange.push(v.singleChange);
-            totalChange.push(v.totalChange);
-            speedChange.push(v.speedChange);
+        let legend = [], dataAry = [];
+        const contrastChartData = toJS(this.contrastChartData);
+        const pointdataType = 'totalChange';
+        contrastChartData.forEach(v => {
+            legend.push(v.monitorPointNumber+'(mm)');
+            dataAry.push({
+                name: v.monitorPointNumber+'(mm)',
+                type: 'line',
+                smooth: true,
+                symbol: "none",
+                data: v[pointdataType]
+            });
         });
-        chart && chart.setOption({
+        chart.hideLoading(); 
+        chart.setOption({
             legend: {
-                data: ['累计变化量' + 'mm'],
-                selectedMode: 'single'
+                data: legend
             },
-            xAxis: {
-                data: time
-            },
-            yAxis: {
-                name: `单位: mm`
-            },
-            series: [
-                {
-                    name: '累计变化量' + 'mm',
-                    type: 'line',
-                    data: totalChange
-                }
-            ]
-        })
-        setTimeout(() => { chart.resize && chart.resize() }, 16);
+            series: dataAry
+        });
+        console.log('生成图表！！！')
     }
 }
 

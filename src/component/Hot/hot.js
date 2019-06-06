@@ -11,7 +11,6 @@ class Hot extends Component {
     render() {
         const { style, imgUrl, onClick } = this.props;
         const { handleData } = this.state;
-        console.log(handleData);
         return (
             <div style={{ ...style }} className="hot-wrapper" ref='hot'>
                 <div className="hot-content">
