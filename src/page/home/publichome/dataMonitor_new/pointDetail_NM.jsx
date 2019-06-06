@@ -187,13 +187,6 @@ class PointDetail extends Component {
                 monitorpage.getPointName();
             }
         })
-        // let destroyAutorun = autorun(() => {
-        //     const mapEchartData = toJS(monitorpage.mapEchartData);
-        //     if (JSON.stringify(mapEchartData) !== '{}') {
-        //         this.setEchartLine(mapEchartData);
-        //     }
-        // });
-        // this.destroyAutorun = destroyAutorun;
     }
     componentWillUnmount() {
         this.destroyAutorun && this.destroyAutorun();

@@ -20,7 +20,7 @@ class allProject extends Component {
                         <div className='allProject-title-logo'>
                             <Avatar src={imgTitle} style={{ width: '24px', height: '24px' }} />
                         </div>
-                        <div className="allProject-title-text">培元桥区间(上行线)</div>
+                        <div className="allProject-title-text">长丰路站</div>
                     </div>
                     {/* <div className="allProject-title-operate">
                         <div

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from './header/header';
 import ProjectType from './projecttype';
+import Overview from './overview';
 import './index.scss';
 
 class Loging extends Component {
@@ -13,8 +14,9 @@ class Loging extends Component {
             <div className="loging" id='index'>
                 <Header />
                 <div className="loging-wrapper">
-                    <div className="loging-content">
+                    <div className="loging-content" style={{width:'1600px'}}>
                         <ProjectType />
+                        <Overview />
                     </div>
                 </div>
                 

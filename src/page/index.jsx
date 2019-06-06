@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import Home from 'page/home/loging/index';
+import Login from 'page/Login/Login';
 import PublicHome from 'page/home/publichome/index';
 
 @withRouter
@@ -11,6 +12,7 @@ class Root extends Component {
         return (
             <Fragment>
                 <Switch>
+                    <Route path='/login' component={Login} />
                     <Route path='' component={PublicHome} />
                     <Route path='/home' component={Home} />
                     
