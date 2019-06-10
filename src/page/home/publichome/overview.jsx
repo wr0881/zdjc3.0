@@ -25,7 +25,7 @@ class overview extends Component {
                             icon={<div style={{ width: '8px', height: '8px', backgroundColor: '#32D184', borderRadius: '50%' }}></div>}
                             operate={
                                 <div className="overview-project-item-operate" >
-                                    <div style={{ marginTop: '7px', marginLeft: '7px' }}><img src={iconRinghtImg} alt="" /></div>
+                                    
                                 </div>
                             }
                             text='长丰路站'
