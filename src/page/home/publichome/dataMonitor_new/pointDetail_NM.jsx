@@ -210,7 +210,7 @@ class PointDetail extends Component {
             //headers: {'Authorization': token},
             params: {
                 Authorization:token,
-                sectorId: 21,
+                sectorId: 9,
                 imageType: 3
             }
         }).then(res => {
@@ -229,7 +229,7 @@ class PointDetail extends Component {
         axios.get('/sector/queryComparisonData', {
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
-                sectorId: 21,
+                sectorId: 9,
                 monitorType: monitorpage.monitorTypeName,
                 pointNames: JSON.stringify(this.selectPointName),
                 beginTime: selsectTime[0].format('YYYY-MM-DD HH:mm:ss'),

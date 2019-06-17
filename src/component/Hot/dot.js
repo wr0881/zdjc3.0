@@ -14,7 +14,7 @@ class Dot extends Component {
             <div>
                 <div>监测指标 : {monitorTypeName ? monitorTypeName : '无'}</div>
                 <div>终端编号 : {terminalNumber ? terminalNumber : '无'}</div>
-                <div>三级告警 : {terminalNumber ? terminalNumber : '无'}</div>
+                {/* <div>三级告警 : {terminalNumber ? terminalNumber : '无'}</div> */}
             </div>
         );
         return (

@@ -3,8 +3,6 @@ import { Avatar } from 'antd';
 import imgTitle from 'common/image/icon_主页_监测项目.png';
 import DataMonitorContainer from './dataMonitor_new/dataMonitorContainer';
 
-import TypeBox from './typebox/typebox';
-
 class allProject extends Component {
     constructor(props) {
         super(props);

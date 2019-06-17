@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import Card from 'component/Card/Card';
 import Chart from './chart';
-import iconRinghtImg from 'common/image/向右箭头2.png';
 import './overview.scss';
 
 @withRouter
@@ -52,26 +51,26 @@ class overview extends Component {
         );
     }
     componentDidMount() {
-        this.getProjectList();
+        // this.getProjectList();
     }
     
-    getProjectList() {
-        axios.get('/project/queryMonitorView', {
-            headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
-            params: {
-                scId: 9
-            }
-        }).then(res => {
-            const { code, msg, data } = res.data;
-            if (code === 0) {
-                this.setState({ projectListData: data });
-                console.log(this.state.projectListData);
-            } else {
-                this.setState({ projectListData: [] });
-                console.log('/project/queryMonitorView code: ', code, msg);
-            }
-        })
-    }
+    // getProjectList() {
+    //     axios.get('/project/queryMonitorView', {
+    //         headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
+    //         params: {
+    //             scId: 9
+    //         }
+    //     }).then(res => {
+    //         const { code, msg, data } = res.data;
+    //         if (code === 0) {
+    //             this.setState({ projectListData: data });
+    //             console.log(this.state.projectListData);
+    //         } else {
+    //             this.setState({ projectListData: [] });
+    //             console.log('/project/queryMonitorView code: ', code, msg);
+    //         }
+    //     })
+    // }
 }
 
 export default overview;
