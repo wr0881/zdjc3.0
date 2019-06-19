@@ -46,21 +46,15 @@ class PointDetail extends Component {
         return (
             <div className="point-detail-wrapper">
                 <div className="point-detail-operate">
-                    <span>时间区间</span>
+                    <span style={{ marginRight:'6px' }}>时间区间</span>
                     <RangePicker showTime format={dateFormat} defaultValue={monitorpage.selsectTime}
+                        style={{ width: 312 }}
                         onOk={v => {
                             monitorpage.selsectTime = v;
                             console.log(v);
                         }}
                     />
-                    <Button
-                        type='primary'
-                        loading={this.getEchartDataLoading}
-                        onClick={() => {
-                            this.getEchartDataLoading = true;
-                            this.getEchartData();
-                        }}
-                    >查看</Button>
+                    
                     {/* <Button
                         type='primary'
                         style={{ marginLeft: '20px' }}
@@ -74,12 +68,12 @@ class PointDetail extends Component {
                         justifyContent: 'flex-end',
                         alignItems: 'center'
                     }}>
-                        <div style={{ marginRight: '10px',cursor: 'pointer' }}>选择指标</div>
+                        <div style={{ marginRight: '6px',cursor: 'pointer' }}>选择指标</div>
                         <Select
                             showSearch
-                            style={{ width: 200, float: 'right' }}
-                            placeholder="选择指标"
-                            value={monitorpage.monitorTypeName}
+                            style={{ width: 114, float: 'right' }}
+                            placeholder="选择指标..."
+                            // value={monitorpage.monitorTypeName}
                             onChange={v => { monitorpage.monitorTypeName = JSON.parse(v) }}
                         >
                             {monitorpage.monitorTypeData.map(v => {
@@ -90,14 +84,45 @@ class PointDetail extends Component {
                     <div style={{
                         flex: '1 1 auto',
                         display: 'flex',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center'
+                    }}>
+                        <div style={{ marginRight: '6px',cursor: 'pointer' }}>选择测点</div>
+                        <Select
+                            mode="multiple"
+                            style={{ width: 246, float: 'right' }}
+                            placeholder="选择测点..."
+                            // defaultValue={monitorpage.monitorTypeName}
+                            onChange={v => { this.selectPointName = v }}
+                            maxTagCount={2}
+                            maxTagTextLength={6}
+                        >
+                            {monitorpage.pointNameData.map(v=>{
+                                return <Option key={v} value={v}>{v}</Option>
+                            })}
+                        </Select>
+                    </div>
+                    <Button
+                        type='primary'
+                        loading={this.getEchartDataLoading}
+                        style={{ marginLeft:'10px' }}
+                        onClick={() => {
+                            this.getEchartDataLoading = true;
+                            this.initChart();
+                            this.getEchartData();
+                        }}
+                    >查看</Button>
+                    {/* <div style={{
+                        flex: '1 1 auto',
+                        display: 'flex',
                         marginLeft: '20px',
                         justifyContent: 'flex-start',
                         alignItems: 'center'
                     }}>
                         <div style={{ marginRight: '10px',cursor: 'pointer' }} onClick={this.showModal}>选择测点</div>
-                    </div>
+                    </div> */}
                 </div>
-                <Modal
+                {/* <Modal
                     visible={this.state.dataPointVisible}
                     destroyOnClose={true}
                     keyboard={true}
@@ -134,7 +159,7 @@ class PointDetail extends Component {
                             >确认</Button>
                         </div>                    
                     </div>
-                </Modal>
+                </Modal> */}
                 <div className='pointmap-explain'>
                     <Badge color="green" text="正常" />
                     <Badge color="yellow" text="一级告警" />
@@ -225,7 +250,7 @@ class PointDetail extends Component {
     }
     getEchartData() {
         const selsectTime = monitorpage.selsectTime;
-
+        const chart = this.chart;
         axios.get('/sector/queryComparisonData', {
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
@@ -245,6 +270,8 @@ class PointDetail extends Component {
             } else {
                 this.contrastChartData = [];
                 this.getEchartDataLoading = false;
+                chart.hideLoading();
+                chart.showLoading({color:'#fff',text:msg,textStyle:{fontSize:20}});
                 console.log('/sector/queryComparisonData code: ', code, msg);
             }
         })
