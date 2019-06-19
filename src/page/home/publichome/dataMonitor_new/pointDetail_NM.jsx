@@ -24,6 +24,7 @@ class PointDetail extends Component {
         this.state = {
             selsectTime: [],
             sectorPoint: [],
+            selectPointName: [],
             chart: null
         }
     }
@@ -53,8 +54,7 @@ class PointDetail extends Component {
                             monitorpage.selsectTime = v;
                             console.log(v);
                         }}
-                    />
-                    
+                    />                   
                     {/* <Button
                         type='primary'
                         style={{ marginLeft: '20px' }}
@@ -73,7 +73,7 @@ class PointDetail extends Component {
                             showSearch
                             style={{ width: 114, float: 'right' }}
                             placeholder="选择指标..."
-                            // value={monitorpage.monitorTypeName}
+                            //value=""
                             onChange={v => { monitorpage.monitorTypeName = JSON.parse(v) }}
                         >
                             {monitorpage.monitorTypeData.map(v => {
@@ -92,7 +92,7 @@ class PointDetail extends Component {
                             mode="multiple"
                             style={{ width: 246, float: 'right' }}
                             placeholder="选择测点..."
-                            // defaultValue={monitorpage.monitorTypeName}
+                            //defaultValue=""
                             onChange={v => { this.selectPointName = v }}
                             maxTagCount={2}
                             maxTagTextLength={6}
@@ -182,6 +182,16 @@ class PointDetail extends Component {
                                             style={{ width: '100%', height: '100%' }}
                                             imgUrl={`${window.Psq_ImgUrl}${v.imageUrl}`}
                                             onClick={v => {
+                                                // if (v.monitorPointNumber !== monitorpage.selectPoint.monitorPointNumber) {
+                                                //     monitorpage.selectPoint = v;
+                                                // }
+                                                
+                                                this.selectPointName = v.monitorPointNumber.split();
+                                                monitorpage.monitorTypeName = v.monitorType;
+                                                console.log("点击测点！！！", v);
+                                                this.chart.resize();
+                                                this.initChart();
+                                                this.getEchartData();                                                
                                             }}
                                             imgInfo={v}
                                             dataSource={v.monitorPoints}
@@ -194,7 +204,7 @@ class PointDetail extends Component {
                         <div className="swiper-button-next"></div>
                     </div>
                 </div>
-                <div style={{ display:monitorpage.monitorTypeName ? 'block' : 'none' }}>
+                <div style={{ display:monitorpage.monitorTypeName ? 'block' : 'none', width:'100%' }}>
                     <div className='dataAnalyse-chart' ref='chart'></div>
                 </div>
                 <div style={{ display:monitorpage.monitorTypeName ? 'none' : 'block', height: '400px' }}>
@@ -204,6 +214,7 @@ class PointDetail extends Component {
         );
     }
     componentDidMount() {
+        this.initChart();
         this.initBanner();
         this.getBlueprintData();
         monitorpage.getMonitorTypeData();
@@ -251,6 +262,8 @@ class PointDetail extends Component {
     getEchartData() {
         const selsectTime = monitorpage.selsectTime;
         const chart = this.chart;
+        console.log(this.selectPointName);
+        console.log(JSON.stringify(this.selectPointName));
         axios.get('/sector/queryComparisonData', {
             headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInppcCI6IkRFRiJ9.eNqqVspMLFGyMjQ1NTQ2MjK2tNBRSixNUbJSKk9NUtJRSq0ogEmaGIIkS4tTi_wSc1OBKopLC1KLElNyM_OUagEAAAD__w.TRH7E2NyAL2HhXXIbTUwJOEHtzd3NxyWY2WMlnKt-2I'},
             params: {
@@ -271,7 +284,8 @@ class PointDetail extends Component {
                 this.contrastChartData = [];
                 this.getEchartDataLoading = false;
                 chart.hideLoading();
-                chart.showLoading({color:'#fff',text:msg,textStyle:{fontSize:20}});
+                this.chart.resize();
+                chart.showLoading({color:'#fff',text:'测点没有数据！',textStyle:{fontSize:20}});
                 console.log('/sector/queryComparisonData code: ', code, msg);
             }
         })
@@ -376,8 +390,9 @@ class PointDetail extends Component {
         };
         chart.showLoading({color:'#5D3AB3',text:'图表正在加载！！！'});
         chart.clear();
-        chart.setOption(option,true);
-        this.chart = chart;
+        chart.setOption(option,true);        
+        this.chart = chart; 
+        chart.resize();       
     }
     setEchartLine() {
         const chart = this.chart;
@@ -385,9 +400,9 @@ class PointDetail extends Component {
         const contrastChartData = toJS(this.contrastChartData);
         const pointdataType = 'totalChange';
         contrastChartData.forEach(v => {
-            legend.push(v.monitorPointNumber+'(mm)');
+            legend.push(v.monitorPointNumber+'(KN)');
             dataAry.push({
-                name: v.monitorPointNumber+'(mm)',
+                name: v.monitorPointNumber+'(KN)',
                 type: 'line',
                 smooth: true,
                 symbol: "none",
@@ -401,7 +416,8 @@ class PointDetail extends Component {
             },
             series: dataAry
         });
-        console.log('生成图表！！！')
+        console.log('生成图表！！！');
+        chart.resize();
     }
 }
 
