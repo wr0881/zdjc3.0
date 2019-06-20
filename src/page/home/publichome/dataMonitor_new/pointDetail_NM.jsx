@@ -4,16 +4,16 @@ import { observer } from 'mobx-react';
 import echarts from 'echarts';
 import axios from 'axios';
 import Hot from 'component/Hot/hot';
-import { DatePicker, Checkbox, Button, Badge, Icon, Modal, Select } from 'antd';
+import { DatePicker, Form, Button, Badge, Icon, Modal, Select } from 'antd';
 //import PointMap from './pointMap';
 import monitorpage from 'store/monitorpage.js';
 
 import Swiper from 'swiper/dist/js/swiper.js';
 import 'swiper/dist/css/swiper.min.css';
+import FormItem from 'antd/lib/form/FormItem';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
-const CheckboxGroup = Checkbox.Group;
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 
 @observer
@@ -46,82 +46,76 @@ class PointDetail extends Component {
     render() {
         return (
             <div className="point-detail-wrapper">
-                <div className="point-detail-operate">
-                    <span style={{ marginRight:'6px' }}>时间区间</span>
-                    <RangePicker showTime format={dateFormat} defaultValue={monitorpage.selsectTime}
-                        style={{ width: 312 }}
-                        onOk={v => {
-                            monitorpage.selsectTime = v;
-                            console.log(v);
-                        }}
-                    />                   
-                    {/* <Button
-                        type='primary'
-                        style={{ marginLeft: '20px' }}
-                        onClick={_ => {
-                            monitorpage.dataContrastVisible = true;
-                        }}
-                    >数据对比</Button> */}
-                    <div style={{
-                        flex: '1 1 auto',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        alignItems: 'center'
-                    }}>
-                        <div style={{ marginRight: '6px',cursor: 'pointer' }}>选择指标</div>
-                        <Select
-                            showSearch
-                            style={{ width: 114, float: 'right' }}
-                            placeholder="选择指标..."
-                            //value=""
-                            onChange={v => { monitorpage.monitorTypeName = JSON.parse(v) }}
-                        >
-                            {monitorpage.monitorTypeData.map(v => {
-                                return <Option key={v.monitorType} value={v.monitorType}>{v.monitorTypeName}</Option>
-                            })}
-                        </Select>
+                <Form>
+                    <div className="point-detail-operate">
+                        <FormItem></FormItem>
+                        <span style={{ marginRight:'6px' }}>时间区间</span>
+                        <RangePicker showTime format={dateFormat} defaultValue={monitorpage.selsectTime}
+                            style={{ width: 312 }}
+                            onOk={v => {
+                                monitorpage.selsectTime = v;
+                                console.log(v);
+                            }}
+                        />                   
+                        {/* <Button
+                            type='primary'
+                            style={{ marginLeft: '20px' }}
+                            onClick={_ => {
+                                monitorpage.dataContrastVisible = true;
+                            }}
+                        >数据对比</Button> */}
+                        <div style={{
+                            flex: '1 1 auto',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center'
+                        }}>
+                            <div style={{ marginRight: '6px',cursor: 'pointer' }}>选择指标</div>
+                            <Select
+                                showSearch
+                                style={{ width: 114, float: 'right' }}
+                                placeholder="选择指标..."
+                                //value=""
+                                onChange={v => { monitorpage.monitorTypeName = JSON.parse(v) }}
+                            >
+                                {monitorpage.monitorTypeData.map(v => {
+                                    return <Option key={v.monitorType} value={v.monitorType}>{v.monitorTypeName}</Option>
+                                })}
+                            </Select>
+                        </div>
+                        <div style={{
+                            flex: '1 1 auto',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center'
+                        }}>
+                            <div style={{ marginRight: '6px',cursor: 'pointer' }}>选择测点</div>
+                            <Select
+                                mode="multiple"
+                                style={{ width: 250, float: 'right' }}
+                                placeholder="选择测点..."
+                                //defaultValue=""
+                                onChange={v => { this.selectPointName = v }}
+                                maxTagCount={2}
+                                maxTagTextLength={4}
+                            >
+                                {monitorpage.pointNameData.map(v=>{
+                                    return <Option key={v} value={v}>{v}</Option>
+                                })}
+                            </Select>
+                        </div>
+                        <Button
+                            type='primary'
+                            loading={this.getEchartDataLoading}
+                            style={{ marginLeft:'10px' }}
+                            onClick={() => {
+                                this.getEchartDataLoading = true;
+                                this.initChart();
+                                this.getEchartData();
+                            }}
+                        >查看</Button>
                     </div>
-                    <div style={{
-                        flex: '1 1 auto',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        alignItems: 'center'
-                    }}>
-                        <div style={{ marginRight: '6px',cursor: 'pointer' }}>选择测点</div>
-                        <Select
-                            mode="multiple"
-                            style={{ width: 246, float: 'right' }}
-                            placeholder="选择测点..."
-                            //defaultValue=""
-                            onChange={v => { this.selectPointName = v }}
-                            maxTagCount={2}
-                            maxTagTextLength={6}
-                        >
-                            {monitorpage.pointNameData.map(v=>{
-                                return <Option key={v} value={v}>{v}</Option>
-                            })}
-                        </Select>
-                    </div>
-                    <Button
-                        type='primary'
-                        loading={this.getEchartDataLoading}
-                        style={{ marginLeft:'10px' }}
-                        onClick={() => {
-                            this.getEchartDataLoading = true;
-                            this.initChart();
-                            this.getEchartData();
-                        }}
-                    >查看</Button>
-                    {/* <div style={{
-                        flex: '1 1 auto',
-                        display: 'flex',
-                        marginLeft: '20px',
-                        justifyContent: 'flex-start',
-                        alignItems: 'center'
-                    }}>
-                        <div style={{ marginRight: '10px',cursor: 'pointer' }} onClick={this.showModal}>选择测点</div>
-                    </div> */}
-                </div>
+                </Form>
                 {/* <Modal
                     visible={this.state.dataPointVisible}
                     destroyOnClose={true}
