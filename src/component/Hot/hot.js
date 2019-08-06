@@ -74,8 +74,8 @@ class Hot extends Component {
                 return {
                     ...v,
                     dotColor,
-                    picX: (parseInt(v.picX) * scaleWidth) / imgInfo.imageWidth,
-                    picY: (parseInt(v.picY) * scaleHeight) / imgInfo.imageHeight,
+                    picX: (parseInt(v.picXaxis) * scaleWidth) / imgInfo.imageWidth,
+                    picY: (parseInt(v.picYaxis) * scaleHeight) / imgInfo.imageHeight,
                 };
             });
             this.setState({ handleData: ary });
