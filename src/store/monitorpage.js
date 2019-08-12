@@ -9,7 +9,7 @@ class Monitor {
     /* DataMonitor */
     /* 用户选择数据 */
     @observable selectPoint = {};
-    @observable selsectTime = [moment(getTime('day')[0]), moment(getTime('day')[1])];
+    @observable selsectTime = [moment(getTime('day3')[0]), moment(getTime('day3')[1])];
     //@observable selsectTimeNBWY = [moment(getTime('month')[0]), moment(getTime('month')[1])];
     @observable selectDeep = '';
     /* 接口数据 */

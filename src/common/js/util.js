@@ -25,6 +25,13 @@ export function getTime(time) {
         date.push(TODAY);
         return date;
     }
+    //三天的时间段
+    function get3Days() {
+        let date = [];
+        date.push(moment().subtract('days', 2).format(YMD) + ' ' + ZERO);
+        date.push(TODAY);
+        return date;
+    }
     //七天的时间段
     function get7Days() {
         let date = [];
@@ -48,6 +55,7 @@ export function getTime(time) {
     }
     switch (time) {
         case 'day': return get1Days();
+        case 'day3': return get3Days();
         case 'week': return get7Days();
         case 'month': return get1Month();
         case 'year': return get1Year();
